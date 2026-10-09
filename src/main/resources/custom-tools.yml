@@ -1,0 +1,150 @@
+# ============================================================================
+#  UltimateCombat - custom-tools.yml
+#  Custom combat tools: weapons that trigger extra effects when they hit
+#  (potion effects, fire, extra damage, lifesteal, knockback, a lightning
+#  effect, commands ...).
+#
+#  Module switch: features.yml -> modules.custom-tools
+#  Commands: /uc customtools list
+#            /uc customtools give <player> <tool> [amount]
+#            (ultimatecombat.customtools.admin)
+#
+#  Protection plugins are respected: damage changes only happen if the hit
+#  was not cancelled before, and side effects (potions, fire, lightning,
+#  commands) only run if no plugin cancelled the hit at all.
+#  Messages: custom-tools.* in the language file.
+# ============================================================================
+
+config-version: 1
+
+# Tool definitions. Each key is the tool id (letters, digits, dashes).
+# Replace or extend the example; delete it if you do not want it.
+# @user-map
+tools:
+  frost-blade:
+    # Switch this tool off without deleting it.
+    # Default: true
+    enabled: true
+
+    # How an item is recognised as this tool.
+    match:
+      # Item materials (wildcards allowed, e.g. "*_SWORD"). Required unless
+      # custom-id is set.
+      materials:
+        - DIAMOND_SWORD
+      # Only items whose name contains this text (case-insensitive, colours
+      # ignored). Empty = any name.
+      # Default: ""
+      name-contains: "Frost Blade"
+      # Only items with this custom model data (0 = ignore).
+      # Default: 0
+      custom-model-data: 0
+      # Match ONLY items created by /uc customtools give with this id
+      # (stored invisibly on the item, cannot be faked by renaming). When
+      # set, materials/name/model data are ignored.
+      # Default: ""
+      custom-id: ""
+
+    # Permission the attacker needs ("" = everyone).
+    # Default: ""
+    permission: ""
+
+    # What triggers the tool.
+    #   melee      - hitting with the tool in the main hand
+    #   projectile - arrows/tridents shot with the tool (bows, crossbows,
+    #                tridents; main or off hand)
+    #   both       - both of the above
+    # Default: melee
+    trigger: melee
+
+    # Who can be affected: players | mobs | all
+    # Default: all
+    targets: all
+
+    # Chance per hit in percent.
+    # Allowed: 0-100
+    # Default: 100
+    chance: 25
+
+    # Cooldown between two triggers per player (number = seconds, or 10s,
+    # 1m ...). 0 = no cooldown. Display rules: cooldowns.yml.
+    # Default: 0
+    cooldown: 10s
+
+    on-hit:
+      # Effects for the victim: "EFFECT seconds level".
+      # Default: []
+      victim-effects:
+        - "SLOWNESS 3 2"
+      # Effects for the attacker.
+      # Default: []
+      attacker-effects: []
+      # Flat extra damage (half hearts).
+      # Allowed: 0-1000
+      # Default: 0
+      extra-damage: 0
+      # Damage multiplier (1.0 = unchanged). Applied before extra-damage.
+      # Allowed: 0-100
+      # Default: 1.0
+      damage-multiplier: 1.0
+      # Set the victim on fire for this many ticks (0 = off).
+      # Allowed: 0-2400
+      # Default: 0
+      ignite-ticks: 0
+      # Visual lightning strike at the victim (no damage, no fire).
+      # Default: false
+      lightning-effect: false
+      # Extra knockback strength (0 = none).
+      # Allowed: 0-10
+      # Default: 0
+      knockback: 0
+      # Heal the attacker by this percentage of the damage dealt.
+      # Allowed: 0-100
+      # Default: 0
+      lifesteal-percent: 0
+      # Actions (see rewards.yml for all action types). Placeholders:
+      # {player}/{attacker}, {victim}, {tool}
+      # Default: []
+      actions: []
+
+    # Sound/particle presets (sounds.yml / particles.yml), "none" = off.
+    # Default: custom-tool
+    sound: custom-tool
+    # Default: custom-tool
+    particle: custom-tool
+
+    notify:
+      # Send custom-tools.triggered to the attacker.
+      # Default: true
+      attacker: true
+      # Send custom-tools.hit-by to a victim player.
+      # Default: false
+      victim: false
+
+    # Item created by /uc customtools give.
+    item:
+      # Default: the single match material, otherwise IRON_SWORD
+      material: DIAMOND_SWORD
+      # Default: "" (vanilla name)
+      name: "&bFrost Blade"
+      # Default: []
+      lore:
+        - "&7Slows enemies on hit."
+      # Default: 0
+      custom-model-data: 0
+      # "ENCHANTMENT level"
+      # Default: []
+      enchantments:
+        - "SHARPNESS 3"
+      # Default: false
+      unbreakable: false
+      # Hide enchantments/attributes/unbreakable from the tooltip.
+      # Default: false
+      hide-flags: false
+
+# Worlds where custom tools work.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

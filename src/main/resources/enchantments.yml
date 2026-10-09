@@ -1,0 +1,57 @@
+# ============================================================================
+#  UltimateCombat - enchantments.yml
+#  Enchantment restrictions for vanilla enchantments, enchantments that other
+#  plugins add to the server's enchantment registry (written with their
+#  namespace, e.g. "someplugin:lifesteal") and AdvancedEnchantments custom
+#  enchantments (written as custom:<name>, see integrations.yml).
+#
+#  Module switch: features.yml -> modules.enchantments
+#  Command: /uc enchantment (lists the active rules,
+#           ultimatecombat.enchantment.admin)
+#  Bypass: ultimatecombat.bypass.enchantments
+# ============================================================================
+
+config-version: 1
+
+# When the rules are enforced on items in use.
+# always:    whenever a weapon is held or armour is hit.
+# in-combat: only while the player is combat tagged.
+# Accepted values: always, in-combat
+# Default: always
+when: always
+
+# What happens with an item that breaks the rules.
+# downgrade: blocked enchantments are removed and too high levels are
+#            lowered to the maximum (automatic, permanent).
+# block-use: the item cannot be used to attack (armour stays untouched).
+# Accepted values: downgrade, block-use
+# Default: downgrade
+on-violation: downgrade
+
+# Enchantments that are not allowed at all. Vanilla names (sharpness,
+# fire_aspect, mending ...) or custom enchantments written as custom:<id>.
+# Example: [fire_aspect, custom:lifesteal]
+# Default: []
+blocked: []
+
+# Highest allowed level per enchantment (0 = remove it).
+# Example:
+#   max-levels:
+#     sharpness: 4
+#     protection: 3
+#     custom:lifesteal: 2
+# Default: {}
+# @user-map
+max-levels: {}
+
+# Also stop enchanting tables and anvils from creating forbidden
+# enchantments or levels.
+# Default: true
+restrict-enchanting: true
+
+# Worlds where the rules apply.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

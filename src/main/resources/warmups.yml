@@ -1,0 +1,68 @@
+# ============================================================================
+#  UltimateCombat - warmups.yml
+#  Command warmups: selected commands only run after standing still for a
+#  few seconds, and can have a cooldown.
+#
+#  Module switch: features.yml -> modules.command-warmups
+#  Bypass: ultimatecombat.bypass.warmups
+#  Commands blocked during combat (restrictions.yml) are blocked before any
+#  warmup starts.
+# ============================================================================
+
+config-version: 1
+
+# Commands with a warmup. The key is the command without "/"; aliases of the
+# same command are detected automatically.
+#   warmup-seconds:   wait before the command runs (0 = no warmup, cooldown only)
+#   cooldown-seconds: time before the command can be used again (0 = none)
+#   cancel-on-move:   moving cancels the warmup
+#   cancel-on-damage: taking damage cancels the warmup
+#   cancel-on-combat: being combat tagged cancels the warmup
+#
+# Default: spawn and home with 5 seconds
+# @user-map
+commands:
+  spawn:
+    warmup-seconds: 5
+    cooldown-seconds: 0
+    cancel-on-move: true
+    cancel-on-damage: true
+    cancel-on-combat: true
+  home:
+    warmup-seconds: 5
+    cooldown-seconds: 0
+    cancel-on-move: true
+    cancel-on-damage: true
+    cancel-on-combat: true
+
+display:
+  # Show the countdown in the action bar (warmups.actionbar).
+  # Default: true
+  actionbar: true
+
+  # Show the countdown as a boss bar (warmups.bossbar).
+  # Default: false
+  bossbar: false
+
+  # Boss bar colour: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  # Default: BLUE
+  bossbar-color: BLUE
+
+# How far (in blocks) a player may move before the warmup is cancelled.
+# Allowed: 0-10
+# Default: 0.5
+move-tolerance: 0.5
+
+sounds:
+  # Sound presets ("none" = silent).
+  # Default: warmup-tick / warmup-cancelled / warmup-done
+  tick: warmup-tick
+  cancelled: warmup-cancelled
+  done: warmup-done
+
+# Worlds where warmups apply.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

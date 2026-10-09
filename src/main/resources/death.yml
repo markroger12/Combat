@@ -1,0 +1,80 @@
+# ============================================================================
+#  UltimateCombat - death.yml
+#  What happens around a player's death.
+#
+#  Module switch: features.yml -> modules.death
+#  Command: /deathback (ultimatecombat.deathback)
+#  Bypass /deathback combat block and cooldown: ultimatecombat.bypass.deathback
+# ============================================================================
+
+config-version: 1
+
+auto-respawn:
+  # Skip the death screen: players respawn automatically.
+  #
+  # true:  respawn after delay-ticks.
+  # false: players click "Respawn" themselves.
+  #
+  # Default: false
+  enabled: false
+
+  # Delay before respawning (20 ticks = 1 second).
+  # Allowed: 1-1200
+  # Default: 1
+  delay-ticks: 1
+
+# Drop death items exactly where the player died instead of scattering them.
+#
+# true:  items drop without spreading (easier to collect).
+# false: vanilla item spread.
+#
+# Default: false
+disable-item-spread: false
+
+void-rescue:
+  # Save players who fall into the void: they are teleported to a spawn
+  # point (spawnpoints.yml) or the world spawn instead of dying.
+  #
+  # true:  void deaths are prevented.
+  # false: vanilla void death.
+  #
+  # Default: false
+  enabled: false
+
+  # Do not rescue players who are in combat (they would otherwise escape).
+  # Default: true
+  only-out-of-combat: true
+
+# Tell players where they died (death.location).
+# Default: true
+death-location-message: true
+
+deathback:
+  # Allow /deathback to return to the last death location.
+  # Default: true
+  enabled: true
+
+  # Seconds between two uses.
+  # Allowed: 0-86400
+  # Default: 60
+  cooldown-seconds: 60
+
+  # The death location is forgotten after this many minutes (0 = never).
+  # Allowed: 0-10080
+  # Default: 10
+  expire-minutes: 10
+
+  # Block /deathback while in combat.
+  # Default: true
+  block-in-combat: true
+
+  # Only remember deaths caused by players.
+  # Default: false
+  only-pvp-deaths: false
+
+# Worlds where these features work.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

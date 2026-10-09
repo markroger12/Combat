@@ -1,0 +1,460 @@
+name: UltimateCombat
+version: '${version}'
+main: dev.ultimatecombat.UltimateCombatPlugin
+description: '${description}'
+api-version: '1.21'
+folia-supported: true
+authors: [UltimateCombat contributors]
+# Optional plugins UltimateCombat integrates with (integrations.yml). Listed so
+# they load first; none of them is required.
+softdepend: [PlaceholderAPI, Vault, WorldGuard, Towny, Factions, Parties, SuperiorSkyblock2, Essentials, LibsDisguises, Citizens, MythicMobs, MMOItems, AdvancedEnchantments, ProtocolLib, Multiverse-Core]
+libraries:
+${libraries}
+commands:
+  ultimatecombat:
+    description: UltimateCombat main command
+    aliases: [uc]
+    permission: ultimatecombat.command
+# Stand-alone commands (/togglepvp, /pvptop, /bounty ...) are registered at
+# runtime from commands.yml so they never replace other plugins' commands.
+permissions:
+  ultimatecombat.*:
+    description: Every UltimateCombat permission except the bypass permissions
+    default: op
+    children:
+      ultimatecombat.admin: true
+      ultimatecombat.user: true
+  ultimatecombat.user:
+    description: Normal player features
+    default: true
+    children:
+      ultimatecombat.command: true
+      ultimatecombat.stats: true
+      ultimatecombat.points: true
+      ultimatecombat.leaderboard: true
+      ultimatecombat.togglepvp: true
+      ultimatecombat.grace: true
+      ultimatecombat.bounty: true
+      ultimatecombat.bounty.set: true
+      ultimatecombat.bounty.track: true
+      ultimatecombat.deathback: true
+      ultimatecombat.killrecaps: true
+      ultimatecombat.deathmessages.toggle: true
+      ultimatecombat.combat.status: true
+      ultimatecombat.interval: true
+      ultimatecombat.sellhead: true
+      ultimatecombat.stattrak: true
+      ultimatecombat.stattrak.register: true
+      ultimatecombat.oldpvp.toggle: true
+      ultimatecombat.potionstack: true
+  ultimatecombat.admin:
+    description: Every administrator permission (bypass permissions are NOT included)
+    default: op
+    children:
+      ultimatecombat.user: true
+      ultimatecombat.reload: true
+      ultimatecombat.validate: true
+      ultimatecombat.config: true
+      ultimatecombat.config.set: true
+      ultimatecombat.migrate: true
+      ultimatecombat.backup: true
+      ultimatecombat.status: true
+      ultimatecombat.debug: true
+      ultimatecombat.integrations: true
+      ultimatecombat.admin.editor: true
+      ultimatecombat.tag: true
+      ultimatecombat.untag: true
+      ultimatecombat.combat.status.others: true
+      ultimatecombat.stats.others: true
+      ultimatecombat.points.others: true
+      ultimatecombat.stats.reset: true
+      ultimatecombat.stats.export: true
+      ultimatecombat.togglepvp.admin: true
+      ultimatecombat.grace.give: true
+      ultimatecombat.grace.remove: true
+      ultimatecombat.grace.check.others: true
+      ultimatecombat.bounty.admin: true
+      ultimatecombat.bounty.anonymous: true
+      ultimatecombat.killrecaps.others: true
+      ultimatecombat.deathmessages.alerts: true
+      ultimatecombat.leaderboard.admin: true
+      ultimatecombat.customtools.admin: true
+      ultimatecombat.corpse.admin: true
+      ultimatecombat.corpse.loot.all: true
+      ultimatecombat.ghosts.admin: true
+      ultimatecombat.combatlog.admin: true
+      ultimatecombat.border.admin: true
+      ultimatecombat.spawnpoint.admin: true
+      ultimatecombat.rewards.admin: true
+      ultimatecombat.apple.admin: true
+      ultimatecombat.enchantment.admin: true
+      ultimatecombat.antiabuse.review: true
+      ultimatecombat.stattrak.admin: true
+      ultimatecombat.stattrak.delete: true
+      ultimatecombat.stattrak.free: true
+  ultimatecombat.command:
+    description: Use /ultimatecombat (/uc) and see its help
+    default: true
+  ultimatecombat.stats:
+    description: View own PvP statistics (/pvpstats)
+    default: true
+  ultimatecombat.points:
+    description: View own PvP points (/pvppoints)
+    default: true
+  ultimatecombat.leaderboard:
+    description: View leaderboards (/pvptop)
+    default: true
+  ultimatecombat.togglepvp:
+    description: Toggle own PvP (/togglepvp)
+    default: true
+  ultimatecombat.grace:
+    description: View and end own grace period (/grace)
+    default: true
+  ultimatecombat.bounty:
+    description: View bounties (/bounty)
+    default: true
+  ultimatecombat.bounty.set:
+    description: Place bounties
+    default: true
+  ultimatecombat.bounty.track:
+    description: Track bounty targets with a compass
+    default: true
+  ultimatecombat.deathback:
+    description: Return to the last death location (/deathback)
+    default: true
+  ultimatecombat.killrecaps:
+    description: View own kill recaps (/killrecaps)
+    default: true
+  ultimatecombat.deathmessages.toggle:
+    description: Hide or show death messages (/deathmessages)
+    default: true
+  ultimatecombat.combat.status:
+    description: View own combat status (/uc combat)
+    default: true
+  ultimatecombat.interval:
+    description: View the PvP interval schedule (/pvp-interval)
+    default: true
+  ultimatecombat.sellhead:
+    description: Sell player heads (/sellhead)
+    default: true
+  ultimatecombat.stattrak:
+    description: Use /stattrak
+    default: true
+  ultimatecombat.stattrak.register:
+    description: Add StatTrak to a weapon
+    default: true
+  ultimatecombat.oldpvp.toggle:
+    description: Switch between classic and modern combat (/oldpvp)
+    default: true
+  ultimatecombat.potionstack:
+    description: Stack potions (/potionstack)
+    default: true
+  ultimatecombat.reload:
+    description: Reload configuration files (/uc reload)
+    default: op
+  ultimatecombat.validate:
+    description: Validate configuration files (/uc validate)
+    default: op
+  ultimatecombat.config:
+    description: Explain and read settings (/uc config explain|get)
+    default: op
+  ultimatecombat.config.set:
+    description: Change settings (/uc config set and the editor)
+    default: op
+  ultimatecombat.migrate:
+    description: Run configuration migrations (/uc migrate)
+    default: op
+  ultimatecombat.backup:
+    description: Back up configuration files (/uc backup)
+    default: op
+  ultimatecombat.status:
+    description: View plugin status (/uc status)
+    default: op
+  ultimatecombat.debug:
+    description: Toggle debug logging (/uc debug)
+    default: op
+  ultimatecombat.integrations:
+    description: View integration status (/uc integrations)
+    default: op
+  ultimatecombat.admin.editor:
+    description: Open the in-game configuration editor (/uc editor)
+    default: op
+  ultimatecombat.tag:
+    description: Combat-tag players (/tag)
+    default: op
+  ultimatecombat.untag:
+    description: Remove combat tags (/uc untag)
+    default: op
+  ultimatecombat.combat.status.others:
+    description: View other players' combat status
+    default: op
+  ultimatecombat.stats.others:
+    description: View other players' statistics
+    default: op
+  ultimatecombat.points.others:
+    description: View other players' points
+    default: op
+  ultimatecombat.stats.reset:
+    description: Reset statistics (/uc resetstats)
+    default: op
+  ultimatecombat.stats.export:
+    description: Export statistics to CSV (/uc exportstats)
+    default: op
+  ultimatecombat.togglepvp.admin:
+    description: Change other players' PvP state
+    default: op
+  ultimatecombat.grace.give:
+    description: Give grace periods
+    default: op
+  ultimatecombat.grace.remove:
+    description: Remove grace periods
+    default: op
+  ultimatecombat.grace.check.others:
+    description: Check other players' grace periods
+    default: op
+  ultimatecombat.bounty.admin:
+    description: Manage all bounties
+    default: op
+  ultimatecombat.bounty.anonymous:
+    description: Place anonymous bounties
+    default: op
+  ultimatecombat.killrecaps.others:
+    description: View other players' kill recaps
+    default: op
+  ultimatecombat.deathmessages.alerts:
+    description: Receive death messages that are hidden from you
+    default: op
+  ultimatecombat.leaderboard.admin:
+    description: Manage leaderboard holograms and signs
+    default: op
+  ultimatecombat.customtools.admin:
+    description: List and give custom tools
+    default: op
+  ultimatecombat.corpse.admin:
+    description: Manage corpses
+    default: op
+  ultimatecombat.corpse.loot.all:
+    description: Loot any corpse
+    default: op
+  ultimatecombat.ghosts.admin:
+    description: Manage ghost players (/uc ghosts)
+    default: op
+  ultimatecombat.combatlog.admin:
+    description: View combat-log history and pending punishments
+    default: op
+  ultimatecombat.border.admin:
+    description: Manage combat border zones (/uc border)
+    default: op
+  ultimatecombat.spawnpoint.admin:
+    description: Manage spawn points (/uc spawnpoint)
+    default: op
+  ultimatecombat.rewards.admin:
+    description: Manage and test rewards (/uc rewards)
+    default: op
+  ultimatecombat.apple.admin:
+    description: Edit golden apple recipes (/uc apple)
+    default: op
+  ultimatecombat.enchantment.admin:
+    description: View enchantment rules (/uc enchantment)
+    default: op
+  ultimatecombat.antiabuse.review:
+    description: Review anti-abuse logs (/uc abuse)
+    default: op
+  ultimatecombat.stattrak.admin:
+    description: Reset or transfer any StatTrak weapon
+    default: op
+  ultimatecombat.stattrak.delete:
+    description: Remove StatTrak from weapons
+    default: op
+  ultimatecombat.stattrak.free:
+    description: Use StatTrak actions without paying
+    default: op
+  ultimatecombat.bypass.*:
+    description: Every bypass permission. Never granted automatically, not even to operators (see permissions.yml)
+    default: false
+    children:
+      ultimatecombat.bypass.anti-abuse: true
+      ultimatecombat.bypass.apples: true
+      ultimatecombat.bypass.bounty: true
+      ultimatecombat.bypass.bounty-cooldown: true
+      ultimatecombat.bypass.combat-borders: true
+      ultimatecombat.bypass.combat-log: true
+      ultimatecombat.bypass.combat-tag: true
+      ultimatecombat.bypass.commands: true
+      ultimatecombat.bypass.deathback: true
+      ultimatecombat.bypass.enchantments: true
+      ultimatecombat.bypass.grace: true
+      ultimatecombat.bypass.headdrop: true
+      ultimatecombat.bypass.loot-protection: true
+      ultimatecombat.bypass.potions: true
+      ultimatecombat.bypass.restrictions: true
+      ultimatecombat.bypass.togglepvp-cooldown: true
+      ultimatecombat.bypass.totems: true
+      ultimatecombat.bypass.warmups: true
+      ultimatecombat.bypass.restriction.*: true
+  ultimatecombat.bypass.anti-abuse:
+    description: Kills are never checked by anti-abuse
+    default: false
+  ultimatecombat.bypass.apples:
+    description: Ignore golden apple cooldowns and limits
+    default: false
+  ultimatecombat.bypass.bounty:
+    description: Cannot receive bounties
+    default: false
+  ultimatecombat.bypass.bounty-cooldown:
+    description: Ignore the bounty placement cooldown
+    default: false
+  ultimatecombat.bypass.combat-borders:
+    description: Pass through combat borders
+    default: false
+  ultimatecombat.bypass.combat-log:
+    description: Never punished for combat logging
+    default: false
+  ultimatecombat.bypass.combat-tag:
+    description: Never combat-tagged
+    default: false
+  ultimatecombat.bypass.commands:
+    description: Use blocked commands in combat
+    default: false
+  ultimatecombat.bypass.deathback:
+    description: Ignore /deathback cooldown and combat block
+    default: false
+  ultimatecombat.bypass.enchantments:
+    description: Ignore enchantment restrictions
+    default: false
+  ultimatecombat.bypass.grace:
+    description: Ignore grace protection rules
+    default: false
+  ultimatecombat.bypass.headdrop:
+    description: Never drop a head on death
+    default: false
+  ultimatecombat.bypass.loot-protection:
+    description: Pick up protected loot
+    default: false
+  ultimatecombat.bypass.potions:
+    description: Ignore potion restrictions
+    default: false
+  ultimatecombat.bypass.restrictions:
+    description: Ignore every combat restriction
+    default: false
+  ultimatecombat.bypass.togglepvp-cooldown:
+    description: Ignore the /togglepvp cooldown
+    default: false
+  ultimatecombat.bypass.totems:
+    description: Ignore totem restrictions
+    default: false
+  ultimatecombat.bypass.warmups:
+    description: Skip command warmups
+    default: false
+  ultimatecombat.bypass.restriction.*:
+    description: Bypass every individual restriction rule (restrictions.yml)
+    default: false
+    children:
+      ultimatecombat.bypass.restriction.flight: true
+      ultimatecombat.bypass.restriction.elytra: true
+      ultimatecombat.bypass.restriction.riptide: true
+      ultimatecombat.bypass.restriction.creative: true
+      ultimatecombat.bypass.restriction.god-mode: true
+      ultimatecombat.bypass.restriction.vanish: true
+      ultimatecombat.bypass.restriction.disguise: true
+      ultimatecombat.bypass.restriction.teleport: true
+      ultimatecombat.bypass.restriction.containers: true
+      ultimatecombat.bypass.restriction.block-break: true
+      ultimatecombat.bypass.restriction.block-place: true
+      ultimatecombat.bypass.restriction.sleeping: true
+      ultimatecombat.bypass.restriction.armor-switching: true
+      ultimatecombat.bypass.restriction.inventory: true
+      ultimatecombat.bypass.restriction.mending: true
+      ultimatecombat.bypass.restriction.enchanting: true
+      ultimatecombat.bypass.restriction.potions: true
+      ultimatecombat.bypass.restriction.ender-pearls: true
+      ultimatecombat.bypass.restriction.chorus-fruit: true
+      ultimatecombat.bypass.restriction.golden-apples: true
+      ultimatecombat.bypass.restriction.enchanted-golden-apples: true
+      ultimatecombat.bypass.restriction.totems: true
+      ultimatecombat.bypass.restriction.shields: true
+      ultimatecombat.bypass.restriction.tnt: true
+      ultimatecombat.bypass.restriction.wind-charges: true
+      ultimatecombat.bypass.restriction.custom-items: true
+      ultimatecombat.bypass.restriction.entity-interactions: true
+  ultimatecombat.bypass.restriction.flight:
+    description: Bypass the 'flight' restriction
+    default: false
+  ultimatecombat.bypass.restriction.elytra:
+    description: Bypass the 'elytra' restriction
+    default: false
+  ultimatecombat.bypass.restriction.riptide:
+    description: Bypass the 'riptide' restriction
+    default: false
+  ultimatecombat.bypass.restriction.creative:
+    description: Bypass the 'creative' restriction
+    default: false
+  ultimatecombat.bypass.restriction.god-mode:
+    description: Bypass the 'god-mode' restriction
+    default: false
+  ultimatecombat.bypass.restriction.vanish:
+    description: Bypass the 'vanish' restriction
+    default: false
+  ultimatecombat.bypass.restriction.disguise:
+    description: Bypass the 'disguise' restriction
+    default: false
+  ultimatecombat.bypass.restriction.teleport:
+    description: Bypass the 'teleport' restriction
+    default: false
+  ultimatecombat.bypass.restriction.containers:
+    description: Bypass the 'containers' restriction
+    default: false
+  ultimatecombat.bypass.restriction.block-break:
+    description: Bypass the 'block-break' restriction
+    default: false
+  ultimatecombat.bypass.restriction.block-place:
+    description: Bypass the 'block-place' restriction
+    default: false
+  ultimatecombat.bypass.restriction.sleeping:
+    description: Bypass the 'sleeping' restriction
+    default: false
+  ultimatecombat.bypass.restriction.armor-switching:
+    description: Bypass the 'armor-switching' restriction
+    default: false
+  ultimatecombat.bypass.restriction.inventory:
+    description: Bypass the 'inventory' restriction
+    default: false
+  ultimatecombat.bypass.restriction.mending:
+    description: Bypass the 'mending' restriction
+    default: false
+  ultimatecombat.bypass.restriction.enchanting:
+    description: Bypass the 'enchanting' restriction
+    default: false
+  ultimatecombat.bypass.restriction.potions:
+    description: Bypass the 'potions' restriction
+    default: false
+  ultimatecombat.bypass.restriction.ender-pearls:
+    description: Bypass the 'ender-pearls' restriction
+    default: false
+  ultimatecombat.bypass.restriction.chorus-fruit:
+    description: Bypass the 'chorus-fruit' restriction
+    default: false
+  ultimatecombat.bypass.restriction.golden-apples:
+    description: Bypass the 'golden-apples' restriction
+    default: false
+  ultimatecombat.bypass.restriction.enchanted-golden-apples:
+    description: Bypass the 'enchanted-golden-apples' restriction
+    default: false
+  ultimatecombat.bypass.restriction.totems:
+    description: Bypass the 'totems' restriction
+    default: false
+  ultimatecombat.bypass.restriction.shields:
+    description: Bypass the 'shields' restriction
+    default: false
+  ultimatecombat.bypass.restriction.tnt:
+    description: Bypass the 'tnt' restriction
+    default: false
+  ultimatecombat.bypass.restriction.wind-charges:
+    description: Bypass the 'wind-charges' restriction
+    default: false
+  ultimatecombat.bypass.restriction.custom-items:
+    description: Bypass the 'custom-items' restriction
+    default: false
+  ultimatecombat.bypass.restriction.entity-interactions:
+    description: Bypass the 'entity-interactions' restriction
+    default: false

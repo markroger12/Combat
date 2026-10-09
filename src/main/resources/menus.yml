@@ -1,0 +1,346 @@
+# ============================================================================
+#  UltimateCombat - menus.yml
+#  Layouts of every menu. Each menu has:
+#    title:          inventory title ({placeholders} listed per menu)
+#    rows:           1-6
+#    filler:         background item (enabled, material, name ...)
+#    content-slots:  where list entries go (numbers, lists or ranges "10-16")
+#    items:          buttons. Item keys the plugin reacts to are listed per
+#                    menu; you can move/restyle them or set enabled: false.
+#                    You may add extra decorative items with any other key.
+#  Item options:
+#    slot / slots, material, name, lore, amount, glow, custom-model-data,
+#    permission (only shown to players with it), sound (sounds.yml preset),
+#    enabled, actions: extra actions when clicked:
+#      [close]  [console] <cmd>  [player] <cmd>  [message] <text>  [sound] <preset>
+#      ({player} = the clicking player)
+#  Slot numbers: 0-8 first row, 9-17 second row ... 45-53 sixth row.
+#  Entry texts (heads, recaps, files ...) are in the language files.
+#  Changes apply on /uc reload menus.yml.
+# ============================================================================
+
+config-version: 1
+
+menus:
+  # /uc spawnpoint menu - keys: close, previous-page, next-page
+  # Left click an entry: teleport. Shift + right click: delete.
+  spawnpoints:
+    title: "&8Spawn points"
+    rows: 6
+    filler:
+      # Background item for empty slots (enabled: false = no background).
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    content-slots: "10-16, 19-25, 28-34, 37-43"
+    items:
+      previous-page:
+        slot: 45
+        material: ARROW
+        name: "&ePrevious page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      next-page:
+        slot: 53
+        material: ARROW
+        name: "&eNext page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      close:
+        slot: 49
+        material: BARRIER
+        name: "&cClose"
+        sound: menu-click
+
+  # /bounty - placeholders: {count} (active bounties)
+  # keys: close, previous-page, next-page, top (runs /bounty top)
+  bounties:
+    title: "&8Bounties &7({count})"
+    rows: 6
+    filler:
+      # Background item for empty slots (enabled: false = no background).
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    content-slots: "10-16, 19-25, 28-34, 37-43"
+    items:
+      previous-page:
+        slot: 45
+        material: ARROW
+        name: "&ePrevious page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      next-page:
+        slot: 53
+        material: ARROW
+        name: "&eNext page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      close:
+        slot: 49
+        material: BARRIER
+        name: "&cClose"
+        sound: menu-click
+      top:
+        slot: 47
+        material: GOLD_INGOT
+        name: "&6Top bounties"
+        lore: ["&7Show the highest bounties in chat"]
+        sound: menu-click
+
+  # /killrecaps - list of recaps. keys: close, previous-page, next-page
+  kill-recaps:
+    title: "&8Kill recaps"
+    rows: 6
+    filler:
+      # Background item for empty slots (enabled: false = no background).
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    content-slots: "10-16, 19-25, 28-34, 37-43"
+    items:
+      previous-page:
+        slot: 45
+        material: ARROW
+        name: "&ePrevious page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      next-page:
+        slot: 53
+        material: ARROW
+        name: "&eNext page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      close:
+        slot: 49
+        material: BARRIER
+        name: "&cClose"
+        sound: menu-click
+
+  # One kill recap. Placeholders in every text: {killer} {victim}
+  # {damage_dealt} {damage_received} {hits_dealt} {hits_received}
+  # {health} {hearts} (killer's remaining health) {assists}
+  # {killer_potions} {victim_potions} {location} {cause} {weapon}
+  # {duration} {date}
+  # keys: close, killer-inventory, victim-inventory; "killer" and "victim"
+  # show the player's head when their material is PLAYER_HEAD.
+  kill-recap:
+    title: "&8{killer} &7killed &8{victim}"
+    rows: 5
+    filler:
+      # Background item for empty slots (enabled: false = no background).
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    items:
+      killer:
+        slot: 11
+        material: PLAYER_HEAD
+        name: "&cKiller: &f{killer}"
+        lore:
+          - "&7Health left: &c{hearts} ❤"
+          - "&7Damage dealt: &f{damage_dealt} &7({hits_dealt} hits)"
+          - "&7Potions: &f{killer_potions}"
+      victim:
+        slot: 15
+        material: PLAYER_HEAD
+        name: "&7Victim: &f{victim}"
+        lore:
+          - "&7Damage dealt: &f{damage_received} &7({hits_received} hits)"
+          - "&7Potions: &f{victim_potions}"
+      fight:
+        slot: 13
+        material: IRON_SWORD
+        name: "&eFight"
+        lore:
+          - "&7Weapon: &f{weapon}"
+          - "&7Cause: &f{cause}"
+          - "&7Duration: &f{duration}"
+          - "&7Assists: &f{assists}"
+          - "&7Location: &f{location}"
+          - "&7Date: &f{date}"
+      killer-inventory:
+        slot: 29
+        material: CHEST
+        name: "&cKiller's inventory"
+        lore: ["&7Inventory at the time of the kill"]
+        sound: menu-click
+      victim-inventory:
+        slot: 33
+        material: CHEST
+        name: "&7Victim's inventory"
+        lore: ["&7Inventory at the time of death"]
+        sound: menu-click
+      close:
+        slot: 40
+        material: BARRIER
+        name: "&cClose"
+        sound: menu-click
+
+  # /pvptop - placeholders: {board} (board name), {position} (own position)
+  # keys: close, previous-page, next-page, board-<id> (switch board; only
+  # boards enabled in leaderboards.yml react). Board ids: kills, deaths, kdr,
+  # points, best-streak, streak, combat-logs, assists, mob-kills,
+  # bounties-claimed, bounty-earnings, damage-dealt
+  leaderboard:
+    title: "&8Top: {board}"
+    rows: 6
+    filler:
+      # Background item for empty slots (enabled: false = no background).
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    content-slots: "10-16, 19-25, 28-34, 37-43"
+    items:
+      previous-page:
+        slot: 45
+        material: ARROW
+        name: "&ePrevious page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      next-page:
+        slot: 53
+        material: ARROW
+        name: "&eNext page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      close:
+        slot: 49
+        material: BARRIER
+        name: "&cClose"
+        sound: menu-click
+      own-position:
+        slot: 4
+        material: NETHER_STAR
+        name: "&eYour position: &f{position}"
+      board-points:
+        slot: 46
+        material: EXPERIENCE_BOTTLE
+        name: "&bPoints"
+        sound: menu-click
+      board-kills:
+        slot: 47
+        material: IRON_SWORD
+        name: "&cKills"
+        sound: menu-click
+      board-kdr:
+        slot: 48
+        material: TARGET
+        name: "&eK/D ratio"
+        sound: menu-click
+      board-best-streak:
+        slot: 50
+        material: BLAZE_POWDER
+        name: "&6Best streak"
+        sound: menu-click
+      board-deaths:
+        slot: 51
+        material: SKELETON_SKULL
+        name: "&7Deaths"
+        sound: menu-click
+      board-bounty-earnings:
+        slot: 52
+        material: GOLD_INGOT
+        name: "&6Bounty earnings"
+        sound: menu-click
+
+  # /uc editor - file list. Placeholders: {files}, {issues}
+  # Click a file: browse it. Shift-click a module file: switch the module
+  # on/off (features.yml).
+  # keys: close, previous-page, next-page, reload, validate
+  editor-files:
+    title: "&8UltimateCombat editor"
+    rows: 6
+    filler:
+      # Background item for empty slots (enabled: false = no background).
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    content-slots: "10-16, 19-25, 28-34, 37-43"
+    items:
+      previous-page:
+        slot: 45
+        material: ARROW
+        name: "&ePrevious page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      next-page:
+        slot: 53
+        material: ARROW
+        name: "&eNext page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      close:
+        slot: 49
+        material: BARRIER
+        name: "&cClose"
+        sound: menu-click
+      info:
+        slot: 4
+        material: KNOWLEDGE_BOOK
+        name: "&eConfiguration editor"
+        lore:
+          - "&7Files: &f{files}"
+          - "&7Validation issues: &f{issues}"
+          - "&7Every change is validated, backed up"
+          - "&7and applied immediately."
+      reload:
+        slot: 47
+        material: CLOCK
+        name: "&aReload everything"
+        sound: menu-click
+      validate:
+        slot: 51
+        material: SPYGLASS
+        name: "&eShow validation issues"
+        sound: menu-click
+
+  # /uc editor - one section of a file. Placeholders: {file}, {path}
+  # keys: close, back, previous-page, next-page
+  editor-section:
+    title: "&8{file} &7» &8{path}"
+    rows: 6
+    filler:
+      # Background item for empty slots (enabled: false = no background).
+      enabled: true
+      material: BLACK_STAINED_GLASS_PANE
+      name: " "
+    content-slots: "10-16, 19-25, 28-34, 37-43"
+    items:
+      previous-page:
+        slot: 45
+        material: ARROW
+        name: "&ePrevious page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      next-page:
+        slot: 53
+        material: ARROW
+        name: "&eNext page"
+        lore: ["&7Page {page} of {pages}"]
+        sound: menu-click
+      close:
+        slot: 49
+        material: BARRIER
+        name: "&cClose"
+        sound: menu-click
+      back:
+        slot: 48
+        material: OAK_DOOR
+        name: "&eBack"
+        sound: menu-click
+
+# Options of the in-game editor (/uc editor).
+editor:
+  # Files not shown in the editor.
+  # Default: [storage.yml]
+  hidden-files:
+    - storage.yml
+  # Documentation lines (from the comments in the files) shown per setting.
+  # Allowed: 0-30
+  # Default: 6
+  documentation-lines: 6
+  # Step for left/right clicks on decimal numbers (whole numbers use 1).
+  # Allowed: 0.0001-1000
+  # Default: 0.1
+  decimal-step: 0.1

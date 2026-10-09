@@ -1,0 +1,91 @@
+# ============================================================================
+#  UltimateCombat - spawnpoints.yml
+#  Named respawn points, respawn rules and respawn protection.
+#
+#  Module switch: features.yml -> modules.spawnpoints
+#  Admin commands (ultimatecombat.spawnpoint.admin):
+#    /uc spawnpoint create <name> [permission]   saves your position here
+#    /uc spawnpoint delete <name> | list | tp <name> | menu
+#  Points are stored in this file, so you can also edit them by hand.
+# ============================================================================
+
+config-version: 1
+
+# Spawn points. Fields: world, x, y, z, yaw, pitch (facing direction) and
+# permission (players need it to respawn here; "" = everyone).
+#
+# Example:
+#   points:
+#     spawn-north:
+#       world: world
+#       x: 10.5
+#       y: 70
+#       z: -200.5
+#       yaw: 180
+#       pitch: 0
+#       permission: ""
+#
+# Default: {} (no points; vanilla respawning)
+# @user-map
+points: {}
+
+respawn:
+  # Use the spawn points above when players respawn.
+  # Default: true
+  enabled: true
+
+  # How a point is chosen.
+  # nearest:            the point closest to the death location.
+  # nearest-accessible: the closest point the player has permission for.
+  # random:             a random accessible point.
+  # first:              the first accessible point in the list.
+  # Accepted values: nearest, nearest-accessible, random, first
+  # Default: nearest-accessible
+  mode: nearest-accessible
+
+  # Only use points in the world where the player died.
+  # Default: true
+  same-world-only: true
+
+  # Players with a bed or respawn anchor respawn there (vanilla).
+  # Default: true
+  respect-beds: true
+
+  # Per-world rules: which points a world may use and what to do if none
+  # fits (vanilla = server default, world-spawn = that world's spawn).
+  #
+  # Example:
+  #   world-rules:
+  #     world_nether:
+  #       points: [spawn-north]
+  #       fallback: world-spawn
+  #
+  # Default: {}
+  # @user-map
+  world-rules: {}
+
+protection:
+  # Make players invulnerable for a moment after respawning.
+  # Default: true
+  enabled: true
+
+  # Seconds of protection.
+  # Allowed: 0-600
+  # Default: 5
+  duration-seconds: 5
+
+  # Protection ends when the player attacks someone.
+  # Default: true
+  ends-on-attack: true
+
+# Sound and particle presets played on respawn ("none" = off).
+# Default: respawn / respawn
+sound: respawn
+particle: respawn
+
+# Worlds where custom respawning works.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

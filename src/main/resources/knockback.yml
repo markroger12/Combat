@@ -1,0 +1,129 @@
+# ============================================================================
+#  UltimateCombat - knockback.yml
+#  Custom knockback for melee hits and projectiles.
+#
+#  Module switch: features.yml -> modules.knockback
+#  The defaults reproduce classic 1.8 knockback.
+# ============================================================================
+
+config-version: 1
+
+melee:
+  # Replace the knockback of hits by players with the values below.
+  #
+  # true:  custom (classic) knockback for player hits.
+  # false: vanilla knockback.
+  #
+  # Default: true
+  enabled: true
+
+  # Only change knockback when a player is hit (mobs keep vanilla knockback).
+  # Default: true
+  only-players: true
+
+  # Base horizontal knockback.
+  # Allowed: 0-5
+  # Default: 0.4
+  horizontal: 0.4
+
+  # Base upward knockback.
+  # Allowed: 0-5
+  # Default: 0.4
+  vertical: 0.4
+
+  # Maximum upward speed after a hit (prevents launching players high).
+  # Allowed: 0-5
+  # Default: 0.4
+  vertical-limit: 0.4
+
+  # Extra horizontal knockback per level of sprinting (1) and the Knockback
+  # enchantment.
+  # Allowed: 0-5
+  # Default: 0.5
+  extra-horizontal: 0.5
+
+  # Extra upward knockback when sprinting or using Knockback.
+  # Allowed: 0-5
+  # Default: 0.1
+  extra-vertical: 0.1
+
+  # How strongly the victim's current movement is slowed before knockback is
+  # added (1.8: divided by 2).
+  # Allowed: 1-10
+  # Default: 2.0
+  friction: 2.0
+
+  # Respect knockback resistance (netherite armour) - modern behaviour.
+  # Default: true
+  knockback-resistance: true
+
+projectiles:
+  # Each projectile: enabled, horizontal, vertical, damage, hurt-effect.
+  #   enabled:     true = hitting a player with it causes knockback.
+  #   horizontal:  push strength (0-5).
+  #   vertical:    upward push (0-5).
+  #   damage:      damage dealt (0 = none, like 1.8 snowballs).
+  #   hurt-effect: play the red hurt animation (Paper/Folia).
+  # Players protected by regions/claims are never pushed.
+  snowball:
+    # Default: true
+    enabled: true
+    # Default: 0.4
+    horizontal: 0.4
+    # Default: 0.3
+    vertical: 0.3
+    # Default: 0.0
+    damage: 0.0
+    # Default: true
+    hurt-effect: true
+  egg:
+    # Default: true
+    enabled: true
+    # Default: 0.4
+    horizontal: 0.4
+    # Default: 0.3
+    vertical: 0.3
+    # Default: 0.0
+    damage: 0.0
+    # Default: true
+    hurt-effect: true
+  ender-pearl:
+    # Knockback when an ender pearl hits another player.
+    # Default: false
+    enabled: false
+    # Default: 0.4
+    horizontal: 0.4
+    # Default: 0.3
+    vertical: 0.3
+    # Default: 0.0
+    damage: 0.0
+    # Default: true
+    hurt-effect: true
+  fishing-rod:
+    # Knockback when a fishing rod hook hits a player (classic rod combo).
+    # Default: true
+    enabled: true
+    # Default: 0.4
+    horizontal: 0.4
+    # Default: 0.3
+    vertical: 0.3
+    # Default: 0.0
+    damage: 0.0
+    # Default: true
+    hurt-effect: true
+
+    # Stop fishing rods from pulling players towards the angler when reeling
+    # in.
+    #
+    # true:  hooked players are not pulled.
+    # false: vanilla pulling.
+    #
+    # Default: false
+    prevent-pulling-players: false
+
+# Worlds where custom knockback works.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

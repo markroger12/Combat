@@ -1,0 +1,115 @@
+# ============================================================================
+#  UltimateCombat - rewards.yml
+#  A rule based reward engine. Every rule reacts to one trigger and runs a
+#  list of actions when its conditions match.
+#
+#  Module switch: features.yml -> modules.rewards
+#  Admin command: /uc rewards trigger <player> <custom-trigger>
+#                 (ultimatecombat.rewards.admin) - fires "custom" rules
+#  Other plugins can fire custom triggers through the UltimateCombat API.
+#
+#  Kill rewards are never given for kills that anti-abuse.yml suppressed
+#  (kill farming, same IP ...) or for combat-log deaths.
+#
+#  ---------------------------------------------------------------------------
+#  RULE SETTINGS
+#    enabled:   true/false          Rule on/off.
+#    trigger:   which event starts the rule:
+#      player-kill        the killer, after killing a player
+#      player-death       the victim, after dying (any cause)
+#      assist             each assistant of a player kill
+#      mob-kill           a player killed any mob
+#      animal-kill        a player killed an animal
+#      monster-kill       a player killed a hostile mob
+#      custom-entity-kill a player killed a custom mob (MythicMobs ...)
+#      killstreak         the killer after every kill (use min/max-killstreak)
+#      combat-start       a player entered combat
+#      combat-end         a player left combat (not by logging out)
+#      combat-log         a player logged out in combat (console actions only)
+#      bounty-claim       a player claimed a bounty
+#      custom             fired by /uc rewards trigger or the API
+#    chance:    0-100               Percentage chance that the rule runs.
+#    cooldown-seconds: 0-2678400    Per player; 0 = no cooldown.
+#    permission: ""                 Required permission ("" = none).
+#    worlds:    {mode, list}        Worlds where the rule runs.
+#    conditions:
+#      min-killstreak / max-killstreak: 0 = no limit
+#      entity-types: []             mob triggers: only these types
+#      custom-mob-ids: []           only these custom mob ids
+#      custom-trigger: ""           id for trigger: custom
+#    actions: list of actions:
+#      [console] <command>          run as console
+#      [player] <command>           run by the player (their permissions)
+#      [message] <text>             chat message to the player
+#      [broadcast] <text>           chat message to everyone
+#      [actionbar] <text>
+#      [title] <title>;<subtitle>;<fade-in>;<stay>;<fade-out>
+#      [subtitle] <text>
+#      [sound] <preset or sound>
+#      [particle] <preset>
+#      [money] <amount>             needs Vault
+#      [points] <amount>            PvP points (negative removes)
+#      [item] <MATERIAL> [amount] [name:<text>]
+#      [effect] <EFFECT> <seconds> [level]
+#    Placeholders: {player} {victim} {killer} {weapon} {streak} {points}
+#      {world} {entity} {entity_type} {opponent} {type} {reason} {bounty}
+#      and PlaceholderAPI placeholders.
+#  ---------------------------------------------------------------------------
+# ============================================================================
+
+config-version: 1
+
+# @user-map - add, change or remove rules freely.
+rules:
+  kill-message:
+    enabled: true
+    trigger: player-kill
+    chance: 100
+    cooldown-seconds: 0
+    permission: ""
+    worlds:
+      mode: blacklist
+      list: []
+    actions:
+      - "[actionbar] &aYou killed &f{victim}&a!"
+      - "[sound] kill"
+      - "[particle] kill"
+
+  kill-heal:
+    enabled: false
+    trigger: player-kill
+    chance: 100
+    cooldown-seconds: 0
+    permission: ""
+    actions:
+      - "[effect] REGENERATION 5 2"
+
+  lucky-diamond:
+    enabled: false
+    trigger: player-kill
+    chance: 10
+    cooldown-seconds: 60
+    permission: ""
+    actions:
+      - "[item] DIAMOND 1"
+      - "[message] &bLucky! You found a diamond on {victim}."
+
+  streak-ten:
+    enabled: false
+    trigger: killstreak
+    chance: 100
+    conditions:
+      min-killstreak: 10
+      max-killstreak: 10
+    actions:
+      - "[broadcast] &6{player} &eis unstoppable with &6{streak} &ekills!"
+      - "[money] 500"
+
+  boss-kill:
+    enabled: false
+    trigger: mob-kill
+    conditions:
+      entity-types: [WITHER, ENDER_DRAGON]
+    actions:
+      - "[broadcast] &5{player} &dslayed the &5{entity}&d!"
+      - "[points] 25"

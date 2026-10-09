@@ -1,0 +1,107 @@
+# ============================================================================
+#  UltimateCombat - leaderboards.yml
+#  Top lists built from the statistics database (stats.yml), refreshed in
+#  the background and shown in chat, a menu, holograms, signs and
+#  (optionally) the tab list.
+#
+#  Module switch: features.yml -> modules.leaderboards
+#  Requires: modules.stats (the data source) and a working storage.yml.
+#  Commands:
+#    /pvptop [board] [page]  (also /uc top)        ultimatecombat.leaderboard
+#    /uc leaderboard refresh                        ultimatecombat.leaderboard.admin
+#    /uc leaderboard hologram create <id> <board> [lines]   (at your position)
+#    /uc leaderboard hologram move <id> | delete <id> | list
+#    /uc leaderboard sign create <board> <position>  (look at a sign)
+#    /uc leaderboard sign remove | list
+#  Texts: leaderboard.* in the language file. Menu layout: menus.yml ->
+#  leaderboard. Placeholders: %ultimatecombat_top_<board>_<n>_name% etc.
+#  (see placeholders.yml).
+# ============================================================================
+
+config-version: 1
+
+# Enabled boards (only these can be viewed or used by holograms/signs).
+# Allowed: kills, deaths, kdr, points, best-streak, streak, combat-logs,
+#          assists, mob-kills, bounties-claimed, bounty-earnings,
+#          damage-dealt
+# Default: [points, kills, kdr, best-streak, deaths, bounty-earnings]
+boards:
+  - points
+  - kills
+  - kdr
+  - best-streak
+  - deaths
+  - bounty-earnings
+
+# Board shown when no board is given (also used for {position} in the tab
+# list). Must be one of "boards".
+# Default: points
+default-board: points
+
+# How often the lists are reloaded from the database (seconds). Reloading
+# runs off the main thread; lower values mean more database queries.
+# Allowed: 5-3600
+# Default: 60
+refresh-interval-seconds: 60
+
+# Entries kept per board. Players further down show position "-".
+# Allowed: 10-1000
+# Default: 100
+cached-entries: 100
+
+# Players need at least this many kills to appear on the KDR board (stops
+# 1 kill / 0 deaths players from topping it).
+# Allowed: 0-1000000
+# Default: 10
+kdr-minimum-kills: 10
+
+# Player names that never appear on any board (staff, test accounts).
+# Case-insensitive. Default: []
+excluded-players: []
+
+chat:
+  # Entries per chat page.
+  # Allowed: 1-50
+  # Default: 10
+  page-size: 10
+
+menu:
+  # Players get the leaderboard menu for /pvptop (chat is still used for
+  # /pvptop <board> <page> and the console).
+  # Default: true
+  enabled: true
+
+tablist:
+  # Change player names in the tab list using leaderboard.tablist
+  # ({player} {rank} {position}). Updated on join and every refresh.
+  # Warning: conflicts with tab list plugins - only enable one of them.
+  # Default: false
+  enabled: false
+
+hologram-settings:
+  # Text size multiplier.
+  # Allowed: 0.1-5
+  # Default: 1.0
+  scale: 1.0
+  # Default: true
+  text-shadow: true
+  # Show the default dark text background.
+  # Default: true
+  background: true
+
+sign-settings:
+  # If a player head sits above the sign (or above the block a wall sign is
+  # attached to), show the head of the player at that position.
+  # Default: true
+  update-heads: true
+
+# Holograms (text displays, never saved in the world, re-created when the
+# chunk loads). Managed with /uc leaderboard hologram ... - you can also
+# edit them here: board, lines (1-50), location "world;x;y;z[;yaw;pitch]".
+# @user-map
+holograms: {}
+
+# Leaderboard signs. Managed with /uc leaderboard sign ... - you can also
+# edit them here: board, position, location "world;x;y;z".
+# @user-map
+signs: {}

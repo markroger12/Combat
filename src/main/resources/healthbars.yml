@@ -1,0 +1,95 @@
+# ============================================================================
+#  UltimateCombat - healthbars.yml
+#  Shows opponent health: below player names, as a boss bar while fighting
+#  and/or in the action bar.
+#
+#  Module switch: features.yml -> modules.healthbars
+#  Texts: language file -> healthbars.below-name, healthbars.bossbar,
+#         healthbars.actionbar  ({name} {health} {max} {hearts} {percent} {bar})
+#  Folia: the scoreboard API does not exist on Folia, so below-name health is
+#  unavailable there (a warning is logged). Boss bar and action bar work.
+# ============================================================================
+
+config-version: 1
+
+below-name:
+  # Show health under every player's name tag.
+  # Default: true
+  enabled: true
+  # hearts = number of hearts (health / 2, rounded up), updated on damage
+  #          and regeneration
+  # health = vanilla health criteria (raw health points, updated by the
+  #          client/server automatically)
+  # Default: hearts
+  mode: hearts
+  # Also add the objective to custom per-player scoreboards created by other
+  # plugins (scoreboard/tab plugins). When false only the main scoreboard is
+  # used, so players with a custom sidebar scoreboard will not see it.
+  # Warning: some scoreboard plugins rebuild their boards and remove it again.
+  # Default: true
+  custom-scoreboards: true
+
+bossbar:
+  # Show the health of the last opponent you hit (or who hit you) in a boss
+  # bar.
+  # Default: true
+  enabled: true
+  # How long the bar stays after the last hit.
+  # Allowed: 0.5s - 10m (number = seconds)
+  # Default: 5
+  duration-seconds: 5
+  # The bar disappears when the opponent is farther away (blocks).
+  # Allowed: 1-256
+  # Default: 32
+  range: 32
+  # Also show bars for mobs you hit / mobs that hit you.
+  # Default: true
+  include-mobs: true
+  # Bar style.
+  # Allowed: SOLID | SEGMENTED_6 | SEGMENTED_10 | SEGMENTED_12 | SEGMENTED_20
+  # Default: SEGMENTED_10
+  style: SEGMENTED_10
+  colors:
+    # Allowed colours: PINK | BLUE | RED | GREEN | YELLOW | PURPLE | WHITE
+    # Default: GREEN
+    high: GREEN
+    # Default: YELLOW
+    medium: YELLOW
+    # Default: RED
+    low: RED
+    # Below this health percentage the "medium" colour is used.
+    # Allowed: 0-100
+    # Default: 60
+    medium-below-percent: 60
+    # Below this health percentage the "low" colour is used.
+    # Allowed: 0-100
+    # Default: 30
+    low-below-percent: 30
+
+actionbar:
+  # Show the opponent's health in the action bar after each hit.
+  # Warning: conflicts with other action bar messages (e.g. the combat timer
+  # in combat.yml); only enable one of them.
+  # Default: false
+  enabled: false
+
+# Symbols used for {bar} (heart bar).
+symbols:
+  # Default: "❤"
+  full: "❤"
+  # Default: "❥"
+  half: "❥"
+  # Default: "♡"
+  empty: "♡"
+  # Number of symbols in the bar.
+  # Allowed: 1-40
+  # Default: 10
+  count: 10
+
+# Worlds where boss bars / action bars are shown (below-name health is
+# scoreboard based and therefore global).
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

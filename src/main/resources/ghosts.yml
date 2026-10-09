@@ -1,0 +1,121 @@
+# ============================================================================
+#  UltimateCombat - ghosts.yml
+#  Ghost players: when a tagged player logs out, a copy of them stays in the
+#  world for a while. Opponents can kill the copy to get the player's loot.
+#
+#  Module switch: features.yml -> modules.ghost-players
+#  Used by: combatlog.yml -> profiles.<pvp|pve>.ghost-player: true
+#  Admin commands: /uc ghosts list | remove <player> | halt | resume
+#
+#  Item safety: the player keeps their real inventory while the ghost exists.
+#  Only when the ghost is killed (and the database confirmed it) are copies
+#  dropped; the real inventory is cleared when the player returns. A crash or
+#  rejoin in between never duplicates or loses items.
+# ============================================================================
+
+config-version: 1
+
+# What the ghost looks like.
+#
+# auto:      Citizens NPC if Citizens is installed, otherwise a player-shaped
+#            mannequin with the player's skin (Paper 1.21.9+), otherwise a
+#            villager.
+# citizens:  Citizens NPC (falls back like auto when Citizens is missing).
+# mannequin: Player-shaped mannequin with the player's skin (Paper 1.21.9+).
+# any other living entity type, e.g. zombie, villager, skeleton.
+#
+# Default: auto
+npc-type: auto
+
+# How long the ghost stays (seconds). When the time is over it disappears and
+# the player keeps everything.
+# Allowed: 1-3600
+# Default: 30
+duration-seconds: 30
+
+# player = the ghost has the player's current health.
+# fixed  = the ghost has fixed-health.
+# Accepted values: player, fixed
+# Default: player
+health: player
+
+# Health used when health is "fixed" (2 = one heart).
+# Allowed: 1-2048
+# Default: 20
+fixed-health: 20
+
+# Allow players to damage and kill the ghost.
+#
+# true:  the ghost can be killed.
+# false: the ghost is invulnerable (a pure visual warning).
+#
+# Default: true
+killable: true
+
+# Let the ghost fight back (Citizens + Sentinel only: the NPC gets Sentinel
+# combat AI). Vanilla ghosts never attack anyone.
+# Default: false
+fight-back: false
+
+# Show the player's armour on the ghost (vanilla ghosts; Citizens ghosts copy
+# the equipment automatically).
+# Default: true
+show-armor: true
+
+# Show the items in the player's hands on the ghost.
+# Default: true
+show-held-item: true
+
+# Make the ghost glow so it is easy to find.
+# Default: true
+glowing: true
+
+# Let vanilla ghosts walk around (true) or stand still (false).
+# Default: false
+ai: false
+
+on-death:
+  # Drop the player's inventory where the ghost died.
+  # Default: true
+  drop-inventory: true
+
+  # Drop the player's experience (7 per level, at most 100).
+  # Default: true
+  drop-experience: true
+
+  # Kill the player when they rejoin (their inventory is always cleared on
+  # rejoin after their ghost died, because the items were dropped).
+  # Default: true
+  kill-owner-on-rejoin: true
+
+  # Count the ghost's death as a death of the player.
+  # Default: true
+  count-as-death: true
+
+  # Count the ghost kill as a kill for the killer (statistics only - kill
+  # rewards are never given for combat-log deaths).
+  # Default: true
+  credit-killer: true
+
+  # Announce the ghost kill (ghosts.killed).
+  # Default: true
+  broadcast: true
+
+# Remove the ghost when its player rejoins (the player keeps everything).
+#
+# true:  rejoining removes the ghost.
+# false: the ghost stays until it expires or dies.
+#
+# Default: true
+remove-on-rejoin: true
+
+# Worlds where ghosts may spawn (otherwise the normal kill-mode applies).
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []
+
+# Regions where ghosts never spawn.
+# Default: []
+excluded-regions: []

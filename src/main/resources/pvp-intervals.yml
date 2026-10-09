@@ -1,0 +1,87 @@
+# ============================================================================
+#  UltimateCombat - pvp-intervals.yml
+#  Scheduled PvP time windows, for example "PvP only in the evening" or "no
+#  PvP at night".
+#
+#  Module switch: features.yml -> modules.pvp-intervals
+#  Command: /pvp-interval (ultimatecombat.interval) shows the state
+#  Placeholder: %ultimatecombat_interval_state%, %ultimatecombat_interval_next%
+# ============================================================================
+
+config-version: 1
+
+# What the intervals below mean.
+# enable-during:  PvP is ONLY possible during the intervals.
+# disable-during: PvP is possible EXCEPT during the intervals.
+# Accepted values: enable-during, disable-during
+# Default: enable-during
+mode: enable-during
+
+# Which clock the times use.
+# real:  the real time in the time zone below.
+# world: the Minecraft time of each world (06:00 = sunrise, 18:00 = sunset).
+#        Countdown warnings only work with the real clock.
+# Accepted values: real, world
+# Default: real
+clock: real
+
+# Time zone of the real clock: "system" or an id such as Europe/Berlin,
+# America/New_York, UTC.
+# Default: system
+time-zone: system
+
+# Worlds controlled by intervals. Empty = every world.
+# Example: [world, world_nether]
+# Default: []
+worlds: []
+
+# Only apply intervals inside these regions (from your protection plugin).
+# Outside of them PvP follows the normal rules. Empty = everywhere.
+# Example: [arena]
+# Default: []
+regions: []
+
+# The intervals. Fields:
+#   start / end: "HH:mm" (24h). If end is before start the interval goes
+#                over midnight, e.g. start "22:00", end "02:00".
+#   days:        days on which the interval STARTS (MONDAY ... SUNDAY).
+#                Empty = every day.
+#   worlds:      worlds this interval applies to (empty = all controlled
+#                worlds).
+#
+# Example:
+#   intervals:
+#     evening:
+#       start: "18:00"
+#       end: "22:00"
+#       days: [FRIDAY, SATURDAY, SUNDAY]
+#       worlds: []
+#
+# Default: one evening interval
+# @user-map
+intervals:
+  evening:
+    start: "18:00"
+    end: "22:00"
+    days: []
+    worlds: []
+
+# End combat for everyone in a world when PvP closes there.
+# Default: true
+untag-when-pvp-closes: true
+
+announcements:
+  # Warn players this many minutes before PvP opens (real clock only).
+  # Default: [10, 5, 1]
+  warn-minutes-before: [10, 5, 1]
+
+  # Show the titles intervals.title-start / intervals.title-end.
+  # Default: true
+  titles: true
+
+  sounds:
+    # Sound presets ("none" = silent).
+    # Default: interval-start / interval-end / interval-warning
+    start: interval-start
+    end: interval-end
+    warning: interval-warning

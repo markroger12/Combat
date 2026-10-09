@@ -1,0 +1,105 @@
+# ============================================================================
+#  UltimateCombat - apples.yml
+#  Golden apple and enchanted golden apple settings. (To block apples during
+#  combat use restrictions.yml -> rules.golden-apples / enchanted-golden-apples.)
+#
+#  Module switch: features.yml -> modules.golden-apples
+#  Recipe editor: /uc apple recipe <golden|enchanted> (ultimatecombat.apple.admin)
+#    Place items in the 3x3 grid and click save - the recipe is written below.
+#  Bypass cooldowns: ultimatecombat.bypass.apples
+#
+#  Both apples accept exactly the same settings; they are documented once in
+#  golden-apple.
+# ============================================================================
+
+config-version: 1
+
+golden-apple:
+  # Apply the settings below to golden apples.
+  #
+  # true:  cooldowns, effects, instant eating and the recipe below apply.
+  # false: golden apples behave like vanilla.
+  #
+  # Default: true
+  enabled: true
+
+  cooldown:
+    # Seconds a player must wait between two apples (0 = no cooldown).
+    # Allowed: 0-86400
+    # Default: 0
+    seconds: 0
+
+    # Only use the cooldown while in combat.
+    # Default: false
+    only-in-combat: false
+
+  effects:
+    # Remove the vanilla effects (regeneration, absorption ...) and only give
+    # the effects listed below.
+    #
+    # true:  only the list below is applied.
+    # false: the list below is added on top of the vanilla effects.
+    #
+    # Default: false
+    replace-vanilla: false
+
+    # Extra effects: "EFFECT seconds level" (level 1 = level I).
+    # Example: ["REGENERATION 5 2", "ABSORPTION 120 1", "SPEED 10 1"]
+    # Default: []
+    list: []
+
+  # Eat instantly on right-click (no eating animation).
+  # Default: false
+  instant-eat: false
+
+  recipe:
+    # Add a custom crafting recipe for this item (in addition to vanilla
+    # recipes). Use the in-game editor or write it here.
+    # Default: false
+    enabled: false
+    # Up to 3 rows of up to 3 characters; a space is an empty slot.
+    # Default: ["GGG", "GAG", "GGG"]
+    shape: ["GGG", "GAG", "GGG"]
+    # Material of every character used in the shape.
+    # @user-map
+    ingredients:
+      G: GOLD_INGOT
+      A: APPLE
+
+  # Worlds where these settings apply.
+  worlds:
+    # Default: blacklist
+    mode: blacklist
+    # Default: []
+    list: []
+
+enchanted-golden-apple:
+  # Default: true
+  enabled: true
+  cooldown:
+    # Default: 0
+    seconds: 0
+    # Default: false
+    only-in-combat: false
+  effects:
+    # Default: false
+    replace-vanilla: false
+    # Default: []
+    list: []
+  # Default: false
+  instant-eat: false
+  recipe:
+    # The classic 1.8 "notch apple" recipe (8 gold blocks + apple).
+    # Default: false
+    enabled: false
+    # Default: ["GGG", "GAG", "GGG"]
+    shape: ["GGG", "GAG", "GGG"]
+    # @user-map
+    ingredients:
+      G: GOLD_BLOCK
+      A: APPLE
+  worlds:
+    # Default: blacklist
+    mode: blacklist
+    # Default: []
+    list: []

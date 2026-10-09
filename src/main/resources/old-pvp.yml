@@ -1,0 +1,206 @@
+# ============================================================================
+#  UltimateCombat - old-pvp.yml
+#  Classic 1.8 style combat on modern servers.
+#
+#  Module switch: features.yml -> modules.old-pvp
+#  Player command: /oldpvp [on|off] (only when player-toggle is enabled,
+#                  permission ultimatecombat.oldpvp.toggle)
+#
+#  Knockback (melee, fishing rods, snowballs, eggs, ender pearls) is set up in
+#  knockback.yml (module "knockback"), so both modern and classic servers can
+#  use custom knockback.
+# ============================================================================
+
+config-version: 1
+
+# When classic combat is active.
+#
+# always:    classic combat for everybody (in the allowed worlds).
+# in-combat: classic combat only while a player is combat tagged; modern
+#            combat outside of fights.
+# never:     modern combat (the module only keeps blocking shield crafting
+#            if configured; effectively off).
+#
+# Accepted values: always, in-combat, never
+# Default: always
+mode: always
+
+# Worlds where classic combat is used.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []
+
+player-toggle:
+  # Let players choose classic or modern combat for themselves with /oldpvp.
+  # The choice is saved in the player's data.
+  #
+  # true:  players can switch with /oldpvp.
+  # false: everyone uses the mode above.
+  #
+  # Default: false
+  enabled: false
+
+  # Mode for players who never used /oldpvp (true = classic, false = modern).
+  # Default: true
+  default: true
+
+attack-speed:
+  # Attack speed while classic combat is active. High values remove the
+  # modern attack cooldown (no more "charging" swings).
+  # Allowed: 0.1-1024
+  # Default: 40
+  legacy: 40
+
+  # Attack speed restored when classic combat is not active (vanilla = 4).
+  # Allowed: 0.1-1024
+  # Default: 4
+  modern: 4
+
+damage:
+  # Use the classic damage values below for the listed weapons.
+  #
+  # true:  listed weapons deal their configured damage.
+  # false: weapon damage stays modern.
+  #
+  # Default: true
+  enabled: true
+
+  # Base damage per weapon (2 = one heart). Weapons not listed keep their
+  # modern damage. Values below are the 1.8 values.
+  # @user-map
+  weapons:
+    WOODEN_SWORD: 5
+    GOLDEN_SWORD: 5
+    STONE_SWORD: 6
+    IRON_SWORD: 7
+    DIAMOND_SWORD: 8
+    NETHERITE_SWORD: 9
+    WOODEN_AXE: 4
+    GOLDEN_AXE: 4
+    STONE_AXE: 5
+    IRON_AXE: 6
+    DIAMOND_AXE: 7
+    NETHERITE_AXE: 8
+
+  # Damage multiplier of critical hits (jump attacks).
+  # Allowed: 1-10
+  # Default: 1.5
+  critical-multiplier: 1.5
+
+  # Sharpness like 1.8: +1.25 damage per level (modern: +0.5 per level +0.5).
+  # Default: true
+  legacy-sharpness: true
+
+  # Strength/weakness like 1.8 (strength: +130% per level, weakness: -0.5
+  # per level) instead of modern (+3 / -4 per level).
+  # Default: false
+  legacy-strength: false
+
+regeneration:
+  # Classic natural regeneration: slow, one heal every interval while the
+  # food level is high enough (modern servers heal much faster with
+  # saturation).
+  #
+  # true:  classic regeneration.
+  # false: modern regeneration.
+  #
+  # Default: true
+  enabled: true
+
+  # Seconds between two heals.
+  # Allowed: 0.05-600
+  # Default: 4
+  interval-seconds: 4
+
+  # Health restored per heal (1 = half a heart).
+  # Allowed: 0-40
+  # Default: 1.0
+  amount: 1.0
+
+  # Exhaustion added per heal (hunger cost). 1.8 used 3.0.
+  # Allowed: 0-40
+  # Default: 3.0
+  exhaustion: 3.0
+
+  # Minimum food level (0-20) needed to regenerate.
+  # Default: 18
+  minimum-food-level: 18
+
+armor:
+  # Classic armour formula: every armour point blocks 4% of the damage,
+  # armour toughness is ignored.
+  #
+  # true:  classic armour reduction.
+  # false: modern armour reduction.
+  #
+  # Default: true
+  legacy-reduction: true
+
+durability:
+  # Multiplier for durability lost by weapons and tools (1 = vanilla,
+  # 0.5 = half as much wear, 0 = unbreakable while classic combat applies).
+  # Allowed: 0-100
+  # Default: 1.0
+  weapon-multiplier: 1.0
+
+  # Multiplier for durability lost by armour.
+  # Allowed: 0-100
+  # Default: 1.0
+  armor-multiplier: 1.0
+
+fire:
+  # Damage per burning tick (vanilla: 1).
+  # Allowed: 0-100
+  # Default: 1.0
+  fire-tick-damage: 1.0
+
+  # Multiplier for how long players burn (1 = vanilla).
+  # Allowed: 0-100
+  # Default: 1.0
+  burn-duration-multiplier: 1.0
+
+offhand:
+  # Disable the offhand slot (swapping with F and placing items there).
+  # Default: true
+  disable: true
+
+  # Move items that are already in the offhand into the inventory (or drop
+  # them if full) when classic combat becomes active.
+  # Default: true
+  move-items-to-inventory: true
+
+shields:
+  # Shields cannot be raised.
+  # Default: true
+  disable: true
+
+  # Shields cannot be crafted (whenever mode is not "never").
+  # Default: true
+  block-crafting: true
+
+# Remove sweep attacks (the area damage of modern swords).
+# Default: true
+disable-sweep-attacks: true
+
+sounds:
+  # Hide modern combat sounds for players using classic combat. Requires
+  # ProtocolLib (see integrations.yml); without it this setting has no
+  # effect. /uc integrations shows whether ProtocolLib is hooked.
+  #
+  # true:  the listed sounds are not sent to classic-combat players.
+  # false: every sound plays normally.
+  #
+  # Default: true
+  enabled: true
+
+  # Sounds to hide (sound keys).
+  # Default: sweep, strong, weak, knockback, crit and no-damage attack sounds
+  blocked:
+    - entity.player.attack.sweep
+    - entity.player.attack.strong
+    - entity.player.attack.weak
+    - entity.player.attack.knockback
+    - entity.player.attack.crit
+    - entity.player.attack.nodamage

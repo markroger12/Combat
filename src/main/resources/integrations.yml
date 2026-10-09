@@ -1,0 +1,133 @@
+# ============================================================================
+#  UltimateCombat - integrations.yml
+#  Optional hooks into other plugins. A hook only activates when the other
+#  plugin is installed AND enabled here. A missing, disabled or failing hook
+#  never breaks UltimateCombat - the related feature simply stays off.
+#  UltimateCombat never downloads or installs other plugins.
+#
+#  /uc integrations shows the status of every hook (active, not installed,
+#  disabled, failed + reason). Changes here apply on /uc reload.
+#
+#  VERIFICATION STATUS: the hooks are written against the public APIs of the
+#  plugins listed below, but they have NOT been tested on a live server with
+#  those plugins in this build. See INTEGRATIONS.md for details and report
+#  problems with the output of /uc integrations.
+#
+#  Plugins without a dedicated hook:
+#  - Protection plugins that cancel damage (Lands, GriefPrevention,
+#    GriefDefender, HuskClaims, ...) are always respected because
+#    UltimateCombat ignores cancelled damage. For features that must ask
+#    BEFORE a hit happens (knockback, border walls) enable
+#    generic-protection-check below.
+#  - LuckPerms and other permission plugins: standard permissions, no hook
+#    needed.
+#  - Multiverse and other world managers: worlds are referenced by name.
+#  - Hologram plugins: leaderboard holograms use built-in text displays.
+# ============================================================================
+
+config-version: 1
+
+generic-protection-check:
+  # Ask every installed plugin whether a player may attack another player by
+  # firing a harmless test damage event (UltimateCombat's own listeners
+  # ignore it). Lets claim/region plugins without a dedicated hook block
+  # pre-hit features such as knockback changes.
+  # Warning: plugins that react to every damage event (logging, skill or
+  # anti-cheat plugins) may see these test events.
+  # Default: false
+  enabled: false
+
+vanish-metadata:
+  # Treat players with the standard "vanished" metadata (set by most vanish
+  # plugins: SuperVanish, PremiumVanish, EssentialsX, ...) as vanished.
+  # Default: true
+  enabled: true
+
+hooks:
+  vault:
+    # Economy (money rewards, bounties, penalties, head selling). Needs
+    # Vault AND an economy plugin (EssentialsX, CMI, ...).
+    # Default: true
+    enabled: true
+
+  placeholderapi:
+    # Other plugins' %placeholders% in UltimateCombat messages and the
+    # UltimateCombat expansion (placeholders.yml).
+    # Default: true
+    enabled: true
+
+  worldguard:
+    # WorldGuard 7: the "pvp" region flag and region ids for region based
+    # settings (combat.yml, grace.yml, borders.yml, pvp-intervals.yml ...).
+    # Default: true
+    enabled: true
+
+  towny:
+    # Towny: town/world PvP status and town/nation allies.
+    # Default: true
+    enabled: true
+
+  factions:
+    # FactionsUUID / SaberFactions (FPlayers API): faction allies.
+    # Default: true
+    enabled: true
+    # Relations that count as allies.
+    # Allowed: MEMBER, ALLY, TRUCE, NEUTRAL, ENEMY
+    # Default: [MEMBER, ALLY]
+    ally-relations:
+      - MEMBER
+      - ALLY
+
+  parties:
+    # Parties (AlessioDP): members of the same party are allies.
+    # Default: true
+    enabled: true
+
+  superiorskyblock2:
+    # SuperiorSkyblock2: members of the same island are allies.
+    # Default: true
+    enabled: true
+
+  essentials:
+    # EssentialsX: god mode and vanish detection (restrictions.yml).
+    # Default: true
+    enabled: true
+
+  libsdisguises:
+    # LibsDisguises: disguise detection/removal (restrictions.yml).
+    # Default: true
+    enabled: true
+
+  citizens:
+    # Citizens: player-shaped ghost NPCs (ghosts.yml, npc-type auto or
+    # citizens). NPCs live in a temporary registry and are never saved.
+    # Ghosts do not fight back with Citizens (no Sentinel integration).
+    # Default: true
+    enabled: true
+
+  mythicmobs:
+    # MythicMobs 5: custom mob ids (internal mob names, lower case) for PvE
+    # tagging, rewards and mob filters.
+    # Default: true
+    enabled: true
+    # MythicMobs mob types (internal names) treated as bosses (combat.yml
+    # boss settings).
+    # Default: []
+    boss-types: []
+
+  mmoitems:
+    # MMOItems: custom item ids "<type>:<id>" (e.g. sword:cutlass) for
+    # restrictions.yml item rules (custom-id).
+    # Default: true
+    enabled: true
+
+  advancedenchantments:
+    # AdvancedEnchantments: custom enchantments for enchantments.yml
+    # (written as custom:<name>).
+    # Default: true
+    enabled: true
+
+  protocollib:
+    # ProtocolLib: hides selected sounds for old-PvP players (old-pvp.yml).
+    # Default: true
+    enabled: true

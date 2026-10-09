@@ -1,0 +1,208 @@
+# ============================================================================
+#  UltimateCombat - storage.yml
+#  Where statistics, PvP toggles, grace time, bounties, pending combat-log
+#  punishments, corpses and kill recaps are saved.
+#
+#  IMPORTANT: every change in this file requires a full server RESTART.
+#  /uc reload will tell you when this file changed since start-up.
+#
+#  Backups: for SQLite, copy plugins/UltimateCombat/data/database.db while the
+#  server is stopped. For MySQL/MariaDB use mysqldump. See INSTALLATION.md.
+# ============================================================================
+
+config-version: 1
+
+# Database type.
+#
+# sqlite:
+#   A single file inside the plugin folder. No setup needed. Use this for a
+#   single server.
+#
+# mysql / mariadb:
+#   An external database server. Required if several servers should share
+#   statistics, bounties and PvP states (network / cross-server statistics).
+#
+# Accepted values: sqlite, mysql, mariadb
+# Default: sqlite
+type: sqlite
+
+# If the MySQL/MariaDB connection fails on start-up, use the local SQLite file
+# instead so the server keeps working.
+#
+# true:
+#   The plugin falls back to SQLite and logs a clear error. Data written in
+#   this state is NOT shared with other servers.
+#
+# false:
+#   Persistent features stay unavailable until the database works.
+#
+# Default: true
+fallback-to-sqlite: true
+
+# Data group name. Servers that use the same database AND the same data group
+# share statistics, bounties and player states. Servers with different groups
+# keep separate data even inside the same database (for example "survival"
+# and "kitpvp").
+#
+# Allowed: 1-64 characters (letters, digits, _ . -)
+# Default: default
+data-group: default
+
+# Prefix for every table name, useful when sharing one database with other
+# plugins.
+#
+# Allowed: letters, digits and _ (max 32 characters, may be empty)
+# Default: uc_
+table-prefix: uc_
+
+sqlite:
+  # Database file, relative to plugins/UltimateCombat/.
+  #
+  # Default: data/database.db
+  file: data/database.db
+
+mysql:
+  # Hostname or IP address of the MySQL/MariaDB server.
+  # Default: localhost
+  host: localhost
+
+  # Port of the database server.
+  # Allowed: 1-65535
+  # Default: 3306
+  port: 3306
+
+  # Database (schema) name. It must already exist.
+  # Default: minecraft
+  database: minecraft
+
+  # Database user.
+  # Default: root
+  username: root
+
+  # Database password. Keep this file private.
+  # Default: "" (empty)
+  password: ""
+
+  # Use an encrypted (TLS) connection.
+  # Default: false
+  use-ssl: false
+
+  # Extra JDBC connection properties, added to the connection URL.
+  #
+  # Example:
+  #   properties:
+  #     serverTimezone: UTC
+  #     allowPublicKeyRetrieval: true
+  #
+  # Default: {} (none)
+  properties: {}
+
+pool:
+  # Maximum number of database connections (MySQL/MariaDB only; SQLite always
+  # uses one connection).
+  # Allowed: 1-100
+  # Default: 8
+  maximum-pool-size: 8
+
+  # Connections kept open while idle.
+  # Allowed: 0-100
+  # Default: 2
+  minimum-idle: 2
+
+  # How long to wait for a free connection before failing, in milliseconds.
+  # Allowed: 250-600000
+  # Default: 10000
+  connection-timeout: 10000
+
+  # Maximum lifetime of a connection in milliseconds. Must be shorter than the
+  # database server's wait_timeout.
+  # Allowed: 30000-86400000
+  # Default: 1800000 (30 minutes)
+  max-lifetime: 1800000
+
+  # Send a keep-alive query every X milliseconds to idle connections.
+  # 0 disables keep-alive.
+  # Allowed: 0-86400000
+  # Default: 0
+  keepalive-time: 0
+
+# Number of background threads used for database work (MySQL/MariaDB).
+# SQLite always uses a single thread to avoid locking errors.
+# Allowed: 1-16
+# Default: 2
+async-threads: 2
+
+# How often changed player data is saved automatically while players are
+# online, in seconds (data is also always saved on logout and shutdown).
+# Allowed: 30-86400
+# Default: 300
+autosave-interval: 300
+
+# How long the server waits on shutdown for pending database writes, in
+# milliseconds.
+# Allowed: 1000-300000
+# Default: 15000
+shutdown-timeout: 15000
+
+# How long a joining player's data may take to load, in milliseconds.
+# Allowed: 500-60000
+# Default: 5000
+login-load-timeout: 5000
+
+# What to do when a joining player's data cannot be loaded in time.
+#
+# true:
+#   The player is refused with the message general.data-load-failed and can
+#   simply reconnect.
+#
+# false:
+#   The player joins with temporary data. Their stored PvP state/grace time is
+#   not overwritten (statistics earned meanwhile are still added safely).
+#
+# Default: false
+deny-login-on-load-failure: false
+
+# Pending actions (rejoin punishments, ghost player results, refunds) that
+# were never applied because the player did not come back are deleted after
+# this many days.
+# Allowed: 1-3650
+# Default: 30
+pending-actions-expire-days: 30
+
+redis:
+  # Optional Redis synchronisation between servers that share a MySQL/MariaDB
+  # database. Pushes statistic, bounty and PvP-toggle changes to the other
+  # servers instantly (without Redis they see changes when data is next
+  # loaded).
+  #
+  # true:  connect to Redis on start-up (the Jedis library is downloaded by
+  #        the server automatically).
+  # false: no Redis connection.
+  #
+  # Default: false
+  enabled: false
+
+  # Redis host.
+  # Default: localhost
+  host: localhost
+
+  # Redis port.
+  # Allowed: 1-65535
+  # Default: 6379
+  port: 6379
+
+  # Redis password, empty for none.
+  # Default: ""
+  password: ""
+
+  # Use TLS.
+  # Default: false
+  ssl: false
+
+  # Pub/sub channel. Must be the same on every server of the network.
+  # Default: ultimatecombat
+  channel: ultimatecombat
+
+  # Unique name of this server inside the network. Empty = random per start.
+  # Default: ""
+  server-id: ""

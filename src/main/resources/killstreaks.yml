@@ -1,0 +1,71 @@
+# ============================================================================
+#  UltimateCombat - killstreaks.yml
+#  Kill streaks: kills in a row without dying.
+#
+#  Module switch: features.yml -> modules.killstreaks
+#  Placeholders: %ultimatecombat_streak%, %ultimatecombat_best_streak%
+#  Streaks are stored in the statistics and survive restarts.
+#  Kills suppressed by anti-abuse.yml do not increase streaks.
+# ============================================================================
+
+config-version: 1
+
+# End the streak when the player dies.
+# Default: true
+reset-on-death: true
+
+# End the streak when the player logs out in combat.
+# Default: true
+reset-on-combat-log: true
+
+# Announce to everyone when a streak of at least this many kills ends
+# (killstreaks.ended). 0 = never announce.
+# Allowed: 0-10000
+# Default: 5
+announce-end-from: 5
+
+# Rewards for reaching an exact streak. Keys are the streak number.
+#   broadcast: announce with killstreaks.reached
+#   title:     show killstreaks.title to the player
+#   sound:     sound preset ("none" = silent)
+#   particle:  particle preset ("none" = off)
+#   actions:   same actions as rewards.yml
+# @user-map
+milestones:
+  "5":
+    broadcast: true
+    title: true
+    sound: killstreak
+    particle: killstreak
+    actions: []
+  "10":
+    broadcast: true
+    title: true
+    sound: killstreak
+    particle: killstreak
+    actions:
+      - "[effect] SPEED 10 1"
+  "25":
+    broadcast: true
+    title: true
+    sound: killstreak
+    particle: killstreak
+    actions: []
+
+# A reward repeated every X kills (for streaks without their own milestone).
+repeating:
+  # Every how many kills (0 = off). Example: 5 -> 15, 20, 30 ... (5, 10 and 25
+  # have their own milestones above).
+  # Allowed: 0-10000
+  # Default: 0
+  every: 0
+  # Default: true
+  broadcast: true
+  # Default: false
+  title: false
+  # Default: killstreak
+  sound: killstreak
+  # Default: killstreak
+  particle: killstreak
+  # Default: []
+  actions: []

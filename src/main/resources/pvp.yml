@@ -1,0 +1,109 @@
+# ============================================================================
+#  UltimateCombat - pvp.yml
+#  Toggle PvP: players decide whether they want to fight other players.
+#  If either side has PvP disabled, the attack is cancelled - including
+#  arrows, potions, tamed animals and player-placed fire/lava/TNT.
+#
+#  Module switch: features.yml -> modules.toggle-pvp
+#  Player command: /togglepvp [on|off|confirm|status] (ultimatecombat.togglepvp)
+#  Admin command:  /uc pvp <player> <on|off|reset|force-on|force-off|unforce|status>
+#                  (ultimatecombat.togglepvp.admin)
+#  Bypass cooldowns: ultimatecombat.bypass.togglepvp-cooldown
+#  Placeholder: %ultimatecombat_pvp_enabled%
+# ============================================================================
+
+config-version: 1
+
+# PvP state of players who never used /togglepvp.
+#
+# true:  PvP is on until the player turns it off.
+# false: PvP is off until the player turns it on.
+#
+# Default: true
+default-state: true
+
+# Time a player has to wait between two changes of their PvP state.
+# Allowed: 0-86400 seconds
+# Default: 30
+toggle-cooldown-seconds: 30
+
+# After a fight ended, players must wait this long before they may turn PvP
+# OFF (prevents fighting and instantly hiding behind the toggle).
+# Allowed: 0-86400 seconds
+# Default: 60
+cooldown-after-combat-seconds: 60
+
+# Players cannot change their PvP state while combat tagged.
+#
+# true:  /togglepvp is refused during combat.
+# false: players may toggle during combat.
+#
+# Default: true
+block-while-in-combat: true
+
+confirm-disable:
+  # Ask for /togglepvp confirm before PvP is turned off.
+  #
+  # true:  turning PvP off needs a confirmation.
+  # false: /togglepvp off works immediately.
+  #
+  # Default: true
+  enabled: true
+
+  # Seconds the player has to confirm.
+  # Allowed: 1-600
+  # Default: 15
+  window-seconds: 15
+
+# Worlds with a fixed PvP state that players cannot change.
+# true = PvP always on in that world, false = PvP always off.
+#
+# Example:
+#   forced-worlds:
+#     pvp_arena: true
+#     lobby: false
+#
+# Default: {} (none)
+# @user-map
+forced-worlds: {}
+
+# Worlds where the player's own choice applies. In worlds excluded here PvP
+# is always ON (unless a forced state is set above).
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []
+
+indirect-protection:
+  # Stop indirect attacks on protected players: lava buckets, flint and
+  # steel, fire, TNT, beds and respawn anchors near a player whose PvP is
+  # off (or used by a player whose PvP is off). Damage from such sources is
+  # also blocked.
+  #
+  # true:  indirect attacks near protected players are blocked.
+  # false: only direct attacks are blocked.
+  #
+  # Default: true
+  enabled: true
+
+  # Radius around protected players in which placing lava/fire/TNT is
+  # blocked.
+  # Allowed: 0-32
+  # Default: 5
+  radius: 5
+
+# Prevent fishing rods from pulling players with PvP off.
+# Default: true
+block-fishing-rod-pull: true
+
+sounds:
+  # Sound presets when PvP is turned on / off ("none" = silent).
+  # Default: pvp-enabled / pvp-disabled
+  enabled: pvp-enabled
+  disabled: pvp-disabled
+
+# Tell attackers why their attack did nothing (pvp.you-disabled /
+# pvp.target-disabled).
+# Default: true
+attacker-message: true

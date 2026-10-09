@@ -1,0 +1,51 @@
+# ============================================================================
+#  UltimateCombat - loot.yml
+#  Loot protection: items dropped when a player dies can only be picked up
+#  by certain players for a while. Mobs and hoppers cannot take them either.
+#
+#  Module switch: features.yml -> modules.loot-protection
+#  Bypass: ultimatecombat.bypass.loot-protection (may always pick up)
+#  When corpses are enabled (corpses.yml) the same rule decides who may loot
+#  a corpse.
+# ============================================================================
+
+config-version: 1
+
+# Who may pick up the loot while it is protected.
+#
+# killer-only:       only the killer.
+# victim-only:       only the player who died.
+# killer-and-victim: the killer and the victim.
+# assistants:        the killer and everyone who assisted the kill.
+# untagged:          only players who are NOT in combat (stops third parties
+#                    from stealing loot during a fight).
+# everyone:          no protection.
+#
+# Accepted values: killer-only, victim-only, killer-and-victim, assistants,
+#                  untagged, everyone
+# Default: killer-only
+mode: killer-only
+
+# How long the loot stays protected, in seconds. Afterwards anyone may take it.
+# Allowed: 1-3600
+# Default: 30
+duration-seconds: 30
+
+# Only protect loot of deaths caused by players.
+# Default: true
+pvp-deaths-only: true
+
+# Stop hoppers from collecting protected items.
+# Default: true
+block-hoppers: true
+
+# Show loot.protected-actionbar to players who try to pick up protected loot.
+# Default: true
+actionbar: true
+
+# Worlds where loot is protected.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

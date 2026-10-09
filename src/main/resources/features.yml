@@ -1,0 +1,170 @@
+# ============================================================================
+#  UltimateCombat - features.yml
+#  Master on/off switch for every module. This is the ONLY place where a whole
+#  module is turned on or off - each module's own file contains the detailed
+#  settings (and further switches for its sub-features).
+#
+#  true  = the module is loaded: its listeners, commands and tasks run.
+#  false = the module is completely inactive: no listeners, no tasks, no
+#          messages. Its configuration file is still validated so you can
+#          prepare it before switching it on.
+#
+#  Changes apply with /uc reload - no restart needed.
+# ============================================================================
+
+config-version: 1
+
+modules:
+  # Combat tagging for PvP and PvE fights (combat.yml).
+  # Most other combat features (combat log, restrictions, borders) depend on
+  # players being tagged, so keep this enabled unless you know what you do.
+  # Default: true
+  combat-tag: true
+
+  # Block commands, flight, elytra, teleporting, building and more while
+  # tagged (restrictions.yml).
+  # Default: true
+  restrictions: true
+
+  # Punish players who disconnect during combat (combatlog.yml).
+  # Default: true
+  combat-log: true
+
+  # Leave a killable copy of a player who logged out in combat
+  # (ghosts.yml). Requires combat-log.
+  # Default: false
+  ghost-players: false
+
+  # Visual walls that stop tagged players from fleeing into safe zones
+  # (borders.yml). Safe zones are the built-in zones of borders.yml and,
+  # optionally, areas where a protection plugin (WorldGuard, Towny ...)
+  # disables PvP.
+  # Default: true
+  combat-borders: true
+
+  # Classic 1.8 style combat: no attack cooldown, legacy damage, regeneration
+  # and more (old-pvp.yml).
+  # Default: false
+  old-pvp: false
+
+  # Custom knockback for melee hits, fishing rods, snowballs, eggs and ender
+  # pearls (knockback.yml).
+  # Default: false
+  knockback: false
+
+  # Let players turn PvP on or off for themselves with /togglepvp (pvp.yml).
+  # Default: true
+  toggle-pvp: true
+
+  # Protection for new players (grace.yml).
+  # Default: true
+  grace: true
+
+  # Player bounties paid with Vault money (bounties.yml). Requires Vault and an
+  # economy plugin; without them the module stays idle.
+  # Default: true
+  bounties: true
+
+  # Kills, deaths, K/D, streaks and PvP points (stats.yml).
+  # Default: true
+  stats: true
+
+  # Leaderboard GUI, holograms, signs and rank names (leaderboards.yml).
+  # Requires stats.
+  # Default: true
+  leaderboards: true
+
+  # Rule based reward engine: commands, items, money, effects for kills and
+  # other triggers (rewards.yml).
+  # Default: true
+  rewards: true
+
+  # Kill streak milestones and announcements (killstreaks.yml).
+  # Default: true
+  killstreaks: true
+
+  # Protection against kill farming and alt-account abuse (anti-abuse.yml).
+  # Default: true
+  anti-abuse: true
+
+  # Money for kills, money lost on death and safety rules for every money
+  # transfer (economy.yml). Requires Vault.
+  # Default: true
+  economy: true
+
+  # Protect dropped loot for the killer/victim for a short time (loot.yml).
+  # Default: false
+  loot-protection: false
+
+  # Lootable corpses / gravestones (corpses.yml).
+  # Default: false
+  corpses: false
+
+  # Death handling: automatic respawn, void rescue, /deathback, item spread
+  # (death.yml).
+  # Default: true
+  death: true
+
+  # Custom death messages (death-messages.yml).
+  # Default: true
+  death-messages: true
+
+  # Kill recap GUI showing how a fight went (kill-recaps.yml).
+  # Default: true
+  kill-recaps: true
+
+  # Named respawn points and respawn protection (spawnpoints.yml).
+  # Default: false
+  spawnpoints: false
+
+  # Potion restrictions, cooldowns and /potionstack (potions.yml).
+  # Default: true
+  potions: true
+
+  # Golden apple and enchanted golden apple settings (apples.yml).
+  # Default: true
+  golden-apples: true
+
+  # Totem of Undying rules and cooldowns (totems.yml).
+  # Default: false
+  totems: false
+
+  # Enchantment restrictions (enchantments.yml).
+  # Default: false
+  enchantments: false
+
+  # Weapons with special on-hit effects (custom-tools.yml).
+  # Default: false
+  custom-tools: false
+
+  # Kill counters on weapons (stattrak.yml).
+  # Default: true
+  stattrak: true
+
+  # Show the opponent's health (healthbars.yml).
+  # Default: false
+  healthbars: false
+
+  # Floating damage numbers (damage-indicators.yml).
+  # Default: false
+  damage-indicators: false
+
+  # Delay before teleport-like commands run (warmups.yml).
+  # Default: false
+  command-warmups: false
+
+  # Scheduled PvP time windows (pvp-intervals.yml).
+  # Default: false
+  pvp-intervals: false
+
+  # Player head trophies dropped on death, /sellhead (heads.yml).
+  # Default: false
+  head-trophies: false
+
+  # PlaceholderAPI placeholders (placeholders.yml). Requires PlaceholderAPI.
+  # Default: true
+  placeholders: true
+
+  # In-game administration menu /uc menu (menus.yml).
+  # Default: true
+  admin-menu: true

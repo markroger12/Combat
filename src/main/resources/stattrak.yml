@@ -1,0 +1,71 @@
+# ============================================================================
+#  UltimateCombat - stattrak.yml
+#  StatTrak: weapons that count their kills. Every StatTrak weapon has a
+#  unique id, an owner and a cryptographic signature - edited ("forged")
+#  StatTrak data is detected and removed.
+#
+#  Module switch: features.yml -> modules.stattrak
+#  Commands: /stattrak register    (ultimatecombat.stattrak.register)
+#            /stattrak inspect | reset | transfer <player>   (owner)
+#            /stattrak delete      (ultimatecombat.stattrak.delete)
+#  Admins (ultimatecombat.stattrak.admin) may reset/transfer any weapon.
+#  Free StatTrak actions: ultimatecombat.stattrak.free
+#  Lore lines: stattrak.lore in the language file ({kills}, {owner}).
+# ============================================================================
+
+config-version: 1
+
+# Items that can get StatTrak (wildcards allowed).
+# Default: swords, axes, bows, crossbows, tridents and maces
+allowed-materials:
+  - "*_SWORD"
+  - "*_AXE"
+  - BOW
+  - CROSSBOW
+  - TRIDENT
+  - MACE
+
+costs:
+  # Price for /stattrak register (0 = free, needs Vault otherwise).
+  # Default: 0
+  register: 0
+  # Price for /stattrak reset.
+  # Default: 0
+  reset: 0
+  # Price for /stattrak transfer.
+  # Default: 0
+  transfer: 0
+
+count:
+  # Count player kills.
+  # Default: true
+  players: true
+  # Count mob kills.
+  # Default: false
+  mobs: false
+
+# Only count kills made by the weapon's owner.
+# Default: true
+owner-only-counts: true
+
+# Only the owner may attack with the weapon.
+# Default: false
+owner-only-use: false
+
+# Show the kill counter in the item lore.
+# Default: true
+lore: true
+
+# Sound preset for a counted kill ("none" = silent).
+# Default: stattrak-kill
+sound: stattrak-kill
+
+# Show stattrak.kill-actionbar after a counted kill.
+# Default: true
+notify-kill: true
+
+# Secret used to sign StatTrak data. Empty = a random secret is created in
+# data/stattrak-secret.txt. Servers sharing items (network) must use the same
+# secret. Changing it makes existing StatTrak weapons invalid.
+# Default: ""
+secret: ""

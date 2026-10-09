@@ -1,0 +1,158 @@
+# ============================================================================
+#  UltimateCombat - stats.yml
+#  PvP statistics, PvP points and rank names. Statistics are stored in the
+#  database (storage.yml); servers sharing a database and data group share
+#  statistics automatically.
+#
+#  Module switch: features.yml -> modules.stats
+#  Commands: /pvpstats [player] (ultimatecombat.stats, others: .stats.others)
+#            /pvppoints [player] (ultimatecombat.points, others: .points.others)
+#            /uc resetstats <player|all> confirm (ultimatecombat.stats.reset)
+#            /uc exportstats (ultimatecombat.stats.export) -> exports/*.csv
+#  Placeholders: %ultimatecombat_kills% %ultimatecombat_deaths% %ultimatecombat_kdr%
+#    %ultimatecombat_streak% %ultimatecombat_best_streak% %ultimatecombat_points%
+#    %ultimatecombat_rank% ... (see placeholders.yml)
+# ============================================================================
+
+config-version: 1
+
+count:
+  # Count PvP kills.
+  # Default: true
+  kills: true
+
+  # Count deaths.
+  # Default: true
+  deaths: true
+
+  # Only count deaths caused by players (false = every death counts).
+  # Default: false
+  only-pvp-deaths: false
+
+  # Count assists (players who helped, see kill-credit.assists).
+  # Default: true
+  assists: true
+
+  # Count killed mobs.
+  # Default: true
+  mob-kills: true
+
+  # Count combat logs.
+  # Default: true
+  combat-logs: true
+
+  # Track damage dealt to and taken from players.
+  # Default: true
+  damage: true
+
+# Who gets the kill when a player dies. Used by statistics, rewards, bounties,
+# kill streaks and anti-abuse (also when the stats module itself is off).
+kill-credit:
+  # last-hit:    the player who hit last gets the kill (anti kill-steal off).
+  # most-damage: the player who dealt the most damage within window-seconds
+  #              gets the kill (anti kill-steal).
+  # Accepted values: last-hit, most-damage
+  # Default: last-hit
+  mode: last-hit
+
+  # Only damage within this many seconds before the death counts.
+  # Allowed: 1-600
+  # Default: 15
+  window-seconds: 15
+
+  # Give the kill to the last attacker when the player died from the
+  # environment (fall, void, lava, drowning) shortly after being hit.
+  # Default: true
+  credit-environment-deaths: true
+
+  assists:
+    # Credit assists to other players who damaged the victim.
+    # Default: true
+    enabled: true
+
+    # Only damage within this many seconds counts for assists.
+    # Allowed: 1-600
+    # Default: 15
+    window-seconds: 15
+
+    # Minimum damage (2 = one heart) needed for an assist.
+    # Allowed: 0-10000
+    # Default: 2.0
+    min-damage: 2.0
+
+    # Minimum share of the total damage (percent) needed for an assist.
+    # Allowed: 0-100
+    # Default: 10
+    min-percent: 10
+
+points:
+  # How PvP points work.
+  #
+  # fixed:    fixed amounts per kill/death/assist/combat log (below).
+  # elo:      rating system - beating stronger players gives more points.
+  # disabled: no points.
+  #
+  # Accepted values: fixed, elo, disabled
+  # Default: fixed
+  mode: fixed
+
+  # Points for a kill (fixed mode).
+  # Default: 10
+  kill: 10
+
+  # Points for dying to a player (fixed mode, negative = lose points).
+  # Default: -5
+  death: -5
+
+  # Points for an assist (both modes).
+  # Default: 3
+  assist: 3
+
+  # Points for combat logging (fixed mode).
+  # Default: -10
+  combat-log: -10
+
+  # Points never drop below this value (both modes).
+  # Default: 0
+  minimum: 0
+
+  elo:
+    # Rating every player starts with.
+    # Allowed: 0-100000
+    # Default: 1000
+    starting-rating: 1000
+
+    # How strongly one fight changes the rating (higher = faster changes).
+    # Allowed: 1-1000
+    # Default: 32
+    k-factor: 32
+
+  # Tell players how many points they won/lost (stats.points-gained /
+  # stats.points-lost).
+  # Default: true
+  notify: true
+
+ranks:
+  # Rank names by points (used by %ultimatecombat_rank%, the leaderboards
+  # and the tab list). The highest rank whose min-points is reached applies.
+  # @user-map
+  list:
+    bronze:
+      min-points: 0
+      display: "&6Bronze"
+    silver:
+      min-points: 250
+      display: "&7Silver"
+    gold:
+      min-points: 750
+      display: "&eGold"
+    diamond:
+      min-points: 2000
+      display: "&bDiamond"
+    master:
+      min-points: 5000
+      display: "&5Master"
+
+  # Name used when no rank applies (for example negative points).
+  # Default: "&7Unranked"
+  unranked: "&7Unranked"

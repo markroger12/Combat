@@ -1,0 +1,170 @@
+# ============================================================================
+#  UltimateCombat - sounds.yml
+#  Every sound the plugin plays is defined once here as a named "preset".
+#  Other files refer to these presets by name, for example:
+#     combat.yml -> pvp.sounds.start: combat-start
+#  Set a preset's "enabled" to false to mute it everywhere it is used, or set
+#  the reference in the other file to "none" to mute only that use.
+#
+#  Preset fields:
+#    enabled: true/false            Play this sound at all.
+#    sound:   sound name            Either the key (entity.player.levelup),
+#                                   the namespaced key (minecraft:entity.player.levelup),
+#                                   the enum style name (ENTITY_PLAYER_LEVELUP),
+#                                   or a resource pack sound (myserver:custom.hit).
+#                                   Invalid names are reported by /uc validate
+#                                   and the preset stays silent.
+#    volume:  0.0 - 10.0            1.0 = normal volume. Values above 1 make the
+#                                   sound audible from further away.
+#    pitch:   0.5 - 2.0             1.0 = normal pitch.
+#
+#  A sound list for your version: https://minecraft.wiki/w/Sounds.json
+# ============================================================================
+
+config-version: 1
+
+# Master switch for every sound of the plugin.
+#
+# true:  presets play as configured.
+# false: the plugin never plays any sound.
+#
+# Default: true
+enabled: true
+
+# @user-map - you may add, rename or remove presets freely.
+sounds:
+  combat-start:
+    enabled: true
+    sound: entity.experience_orb.pickup
+    volume: 0.8
+    pitch: 0.6
+  combat-end:
+    enabled: true
+    sound: entity.player.levelup
+    volume: 0.7
+    pitch: 1.4
+  denied:
+    enabled: true
+    sound: block.note_block.bass
+    volume: 1.0
+    pitch: 0.7
+  combat-log-broadcast:
+    enabled: true
+    sound: entity.lightning_bolt.thunder
+    volume: 0.4
+    pitch: 1.6
+  border-push:
+    enabled: true
+    sound: block.glass.break
+    volume: 0.5
+    pitch: 1.4
+  pvp-enabled:
+    enabled: true
+    sound: item.armor.equip_iron
+    volume: 1.0
+    pitch: 1.0
+  pvp-disabled:
+    enabled: true
+    sound: item.armor.equip_leather
+    volume: 1.0
+    pitch: 1.0
+  grace-start:
+    enabled: true
+    sound: block.beacon.activate
+    volume: 0.8
+    pitch: 1.2
+  grace-end:
+    enabled: true
+    sound: block.beacon.deactivate
+    volume: 0.8
+    pitch: 1.0
+  bounty-placed:
+    enabled: true
+    sound: block.bell.use
+    volume: 1.0
+    pitch: 0.8
+  bounty-claimed:
+    enabled: true
+    sound: entity.player.levelup
+    volume: 1.0
+    pitch: 0.8
+  kill:
+    enabled: true
+    sound: entity.experience_orb.pickup
+    volume: 1.0
+    pitch: 1.2
+  killstreak:
+    enabled: true
+    sound: ui.toast.challenge_complete
+    volume: 0.6
+    pitch: 1.0
+  warmup-tick:
+    enabled: true
+    sound: block.note_block.hat
+    volume: 0.6
+    pitch: 1.5
+  warmup-cancelled:
+    enabled: true
+    sound: block.note_block.bass
+    volume: 1.0
+    pitch: 0.5
+  warmup-done:
+    enabled: true
+    sound: entity.enderman.teleport
+    volume: 0.7
+    pitch: 1.2
+  interval-start:
+    enabled: true
+    sound: entity.wither.spawn
+    volume: 0.4
+    pitch: 1.2
+  interval-end:
+    enabled: true
+    sound: block.beacon.deactivate
+    volume: 0.8
+    pitch: 1.0
+  interval-warning:
+    enabled: true
+    sound: block.note_block.pling
+    volume: 1.0
+    pitch: 1.0
+  cooldown-ready:
+    enabled: true
+    sound: block.note_block.chime
+    volume: 0.6
+    pitch: 1.6
+  menu-click:
+    enabled: true
+    sound: ui.button.click
+    volume: 0.5
+    pitch: 1.0
+  head-drop:
+    enabled: true
+    sound: entity.item.pickup
+    volume: 1.0
+    pitch: 0.6
+  corpse-open:
+    enabled: true
+    sound: block.chest.open
+    volume: 0.8
+    pitch: 0.8
+  stattrak-kill:
+    enabled: true
+    sound: block.note_block.bit
+    volume: 0.7
+    pitch: 1.8
+  totem-blocked:
+    enabled: true
+    sound: block.anvil.land
+    volume: 0.5
+    pitch: 1.5
+  custom-tool:
+    enabled: true
+    sound: entity.blaze.shoot
+    volume: 0.6
+    pitch: 1.4
+  respawn:
+    enabled: true
+    sound: entity.player.levelup
+    volume: 0.6
+    pitch: 1.0
