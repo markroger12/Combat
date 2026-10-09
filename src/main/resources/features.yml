@@ -36,9 +36,9 @@ modules:
   ghost-players: false
 
   # Visual walls that stop tagged players from fleeing into safe zones
-  # (borders.yml). Needs a region/claim plugin (WorldGuard, Lands, Towny ...)
-  # or protection rules from pvp-intervals.yml / worlds.yml to know where PvP
-  # is disabled.
+  # (borders.yml). Safe zones are the built-in zones of borders.yml and,
+  # optionally, areas where a protection plugin (WorldGuard, Towny ...)
+  # disables PvP.
   # Default: true
   combat-borders: true
 
