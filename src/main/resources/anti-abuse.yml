@@ -1,0 +1,123 @@
+# ============================================================================
+#  UltimateCombat - anti-abuse.yml
+#  Detects kill farming and boosting. A detected kill still happens, but its
+#  rewards, points and (optionally) statistics are not counted. Bounties are
+#  not paid for suppressed kills either.
+#
+#  Module switch: features.yml -> modules.anti-abuse
+#  Exempt killers: ultimatecombat.bypass.anti-abuse
+#  Review: /uc abuse <player> (ultimatecombat.antiabuse.review)
+#
+#  Each detection has a "suppress" section:
+#    rewards: true  -> no rewards.yml / killstreak / money / bounty rewards
+#    points:  true  -> no PvP points change
+#    stats:   true  -> the kill does not count in statistics or streaks
+# ============================================================================
+
+config-version: 1
+
+repeated-kills:
+  # Detect the same player being killed by the same killer again and again.
+  #
+  # true:  more than max-kills kills of the same victim within the window
+  #        are suppressed.
+  # false: repeated kills are not limited.
+  #
+  # Default: true
+  enabled: true
+
+  # Kills of the same victim that still count within the window.
+  # Allowed: 1-10000
+  # Default: 3
+  max-kills: 3
+
+  # Time window in minutes. Counters reset automatically afterwards.
+  # Allowed: 1 second - 30 days
+  # Default: 30
+  window-minutes: 30
+
+  suppress:
+    # Default: true
+    rewards: true
+    # Default: true
+    points: true
+    # Default: false
+    stats: false
+
+same-ip:
+  # Suppress kills between two players connected from the same IP address
+  # (needs ip-checks.enabled).
+  # Default: true
+  enabled: true
+  suppress:
+    # Default: true
+    rewards: true
+    # Default: true
+    points: true
+    # Default: false
+    stats: false
+
+alt-accounts:
+  # Suppress kills between accounts that ever used the same IP address
+  # (alt accounts), using the stored IP hashes (needs ip-checks.enabled).
+  # Default: true
+  enabled: true
+  suppress:
+    # Default: true
+    rewards: true
+    # Default: true
+    points: true
+    # Default: false
+    stats: false
+
+ip-checks:
+  # Store a salted SHA-256 hash of each player's IP address so same-IP and
+  # alt-account checks work. Raw IP addresses are NEVER stored, and the hash
+  # cannot be turned back into an IP address without the salt.
+  #
+  # true:  hashes are stored.
+  # false: nothing is stored; same-ip and alt-accounts never trigger.
+  #
+  # Default: true
+  enabled: true
+
+  # Secret salt for the hashes. Empty = a random salt is created in
+  # data/ip-salt.txt. Servers sharing a database must use the SAME salt, so
+  # set the same random text on every server of a network.
+  # Default: ""
+  salt: ""
+
+respawn-kill:
+  # Suppress kills of players who respawned only seconds ago (spawn
+  # killing).
+  # Default: true
+  enabled: true
+
+  # Seconds after respawning in which kills are suppressed.
+  # Allowed: 0-3600
+  # Default: 10
+  seconds: 10
+
+  suppress:
+    # Default: true
+    rewards: true
+    # Default: true
+    points: true
+    # Default: false
+    stats: false
+
+# Tell the killer that the kill did not count (anti-abuse.suppressed.*).
+# Default: true
+notify-killer: true
+
+# Console commands run when abuse is detected. Placeholders: {player} (the
+# killer), {victim}, {reason} (repeated-kills, same-ip, alt-account,
+# respawn-kill).
+# Example: ["staffnotify {player} may be farming {victim} ({reason})"]
+# Default: []
+commands: []
+
+log:
+  # Store detections in the database for /uc abuse <player>.
+  # Default: true
+  enabled: true

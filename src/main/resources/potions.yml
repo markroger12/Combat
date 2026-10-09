@@ -1,0 +1,93 @@
+# ============================================================================
+#  UltimateCombat - potions.yml
+#  Potion rules. (To block potions completely during combat use
+#  restrictions.yml -> rules.potions.)
+#
+#  Module switch: features.yml -> modules.potions
+#  Command: /potionstack (ultimatecombat.potionstack)
+#  Bypass all potion rules: ultimatecombat.bypass.potions
+# ============================================================================
+
+config-version: 1
+
+blacklist:
+  # Effects that potions (drinking, splash, lingering, tipped arrows) can
+  # never give. Effects from other sources (beacons, commands) are not
+  # affected.
+  # Example: [INVISIBILITY, STRENGTH]
+  # Default: []
+  effects: []
+
+  # Only block the effects above while the player is in combat.
+  # Default: false
+  only-in-combat: false
+
+max-levels:
+  # Highest allowed level (1 = level I) of potion effects.
+  # Example:
+  #   effects:
+  #     STRENGTH: 1     # Strength II becomes Strength I
+  #     SPEED: 1
+  # Default: {}
+  # @user-map
+  effects: {}
+
+  # What happens with higher levels.
+  # reduce: the effect is given with the maximum allowed level instead.
+  # block:  the effect is not given at all.
+  # Accepted values: reduce, block
+  # Default: reduce
+  action: reduce
+
+# Remove invisibility when a player enters combat and stop invisibility
+# effects while tagged.
+#
+# true:  fighters are always visible.
+# false: invisibility works normally.
+#
+# Default: false
+disable-invisibility-in-combat: false
+
+cooldowns:
+  # Only apply the cooldowns below while in combat.
+  # Default: true
+  only-in-combat: true
+
+  # Cooldown after drinking a potion, in seconds (0 = none).
+  # Allowed: 0-3600
+  # Default: 0
+  drinkable-seconds: 0
+
+  # Cooldown after throwing a splash potion (0 = none).
+  # Allowed: 0-3600
+  # Default: 0
+  splash-seconds: 0
+
+  # Cooldown after throwing a lingering potion (0 = none).
+  # Allowed: 0-3600
+  # Default: 0
+  lingering-seconds: 0
+
+stacking:
+  # Allow /potionstack: stacks identical potions in the inventory.
+  # (Needs Minecraft 1.20.5+ for stacks larger than 1.)
+  # Default: true
+  enabled: true
+
+  # Maximum stack size created by /potionstack.
+  # Allowed: 1-99
+  # Default: 16
+  max-stack-size: 16
+
+instant-drinking:
+  # Drink potions instantly on right-click (no drinking animation). Other
+  # plugins and the cooldowns above can still cancel it.
+  # Default: false
+  enabled: false
+
+# Worlds where these rules apply.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

@@ -1,0 +1,94 @@
+# ============================================================================
+#  UltimateCombat - economy.yml
+#  Money for kills, money lost on death, and the safety rules used by EVERY
+#  money operation of the plugin (combat-log penalties, bounties, head
+#  trophies, StatTrak costs, rewards).
+#
+#  Module switch: features.yml -> modules.economy (kill rewards and death
+#  penalties). The safety section always applies.
+#  Requires Vault and an economy plugin.
+# ============================================================================
+
+config-version: 1
+
+safety:
+  # Penalties never take a balance below this amount.
+  # Example: 100 -> a player with 120 can lose at most 20.
+  # Allowed: 0 or more
+  # Default: 0
+  minimum-balance: 0
+
+  # Highest amount a single penalty may take. 0 = no limit.
+  # Allowed: 0 or more
+  # Default: 0
+  maximum-deduction: 0
+
+  # Write every money operation to the debug log (config.yml -> debug).
+  # Default: true
+  log-transactions: true
+
+  # Decimal places of computed amounts (percent penalties).
+  # Allowed: 0-6
+  # Default: 2
+  decimals: 2
+
+kill-reward:
+  # Pay players for killing another player (never for suppressed kills,
+  # see anti-abuse.yml).
+  #
+  # true:  killers receive money.
+  # false: no kill money.
+  #
+  # Default: false
+  enabled: false
+
+  # fixed   = amount is a fixed sum.
+  # percent = amount is a percentage of the source balance (see source).
+  # Accepted values: fixed, percent
+  # Default: fixed
+  mode: fixed
+
+  # Sum or percentage.
+  # Default: 50
+  amount: 50
+
+  # Highest reward per kill. 0 = no limit.
+  # Default: 0
+  maximum: 0
+
+  # Where the money comes from.
+  # server = new money is created.
+  # victim = the money is TRANSFERRED from the victim (no money is created;
+  #          the minimum-balance protection applies to the victim).
+  # Accepted values: server, victim
+  # Default: server
+  source: server
+
+death-penalty:
+  # Take money from players when they die.
+  # Default: false
+  enabled: false
+
+  # Accepted values: fixed, percent
+  # Default: percent
+  mode: percent
+
+  # Sum or percentage of the victim's balance.
+  # Default: 5
+  amount: 5
+
+  # Highest penalty. 0 = no limit (safety.maximum-deduction still applies).
+  # Default: 0
+  maximum: 0
+
+  # Only for deaths caused by players.
+  # Default: true
+  pvp-only: true
+
+  # Give the lost money to the killer (transfer). Otherwise it is removed.
+  # Default: false
+  give-to-killer: false
+
+# Tell players about money they received or lost (economy.* messages).
+# Default: true
+notify: true

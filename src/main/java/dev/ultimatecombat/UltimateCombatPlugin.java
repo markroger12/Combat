@@ -1,6 +1,7 @@
 package dev.ultimatecombat;
 
 import dev.ultimatecombat.commands.CoreCommands;
+import dev.ultimatecombat.core.action.ActionExecutor;
 import dev.ultimatecombat.core.command.CommandManager;
 import dev.ultimatecombat.core.config.ConfigFile;
 import dev.ultimatecombat.core.config.ConfigReader;
@@ -71,6 +72,7 @@ public class UltimateCombatPlugin extends JavaPlugin {
     private CooldownService cooldowns;
     private EconomyService economy;
     private PendingActions pending;
+    private ActionExecutor actions;
     private SyncService sync;
     private Settings settings;
     private StorageSettings startupStorage;
@@ -110,6 +112,7 @@ public class UltimateCombatPlugin extends JavaPlugin {
         cooldowns = new CooldownService(this);
         economy = new EconomyService(this);
         pending = new PendingActions(this);
+        actions = new ActionExecutor(this);
 
         ModuleRegistry.registerAll(this, modules);
         Integrations.defineAll(integrations);
@@ -450,6 +453,10 @@ public class UltimateCombatPlugin extends JavaPlugin {
 
     public PendingActions pending() {
         return pending;
+    }
+
+    public ActionExecutor actions() {
+        return actions;
     }
 
     public SyncService sync() {

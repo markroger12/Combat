@@ -1,0 +1,60 @@
+# ============================================================================
+#  UltimateCombat - totems.yml
+#  Totem of Undying rules. (To make totems never work during combat use
+#  restrictions.yml -> rules.totems.)
+#
+#  Module switch: features.yml -> modules.totems
+#  Bypass the cooldown: ultimatecombat.bypass.totems
+# ============================================================================
+
+config-version: 1
+
+cooldown:
+  # Seconds between two totem activations (0 = no cooldown). A totem that
+  # would activate during the cooldown does not save the player.
+  # Allowed: 0-86400
+  # Default: 0
+  seconds: 0
+
+  # Only use the cooldown while in combat.
+  # Default: false
+  only-in-combat: false
+
+# Totems also work when they are anywhere in the inventory (not only in a
+# hand). One totem is used up from the inventory.
+#
+# true:  any totem in the inventory saves the player.
+# false: vanilla - only totems in a hand work.
+#
+# Default: false
+use-from-inventory: false
+
+effects:
+  # Remove the vanilla totem effects (regeneration, absorption, fire
+  # resistance) and only give the list below.
+  # Default: false
+  replace-vanilla: false
+
+  # Extra effects after a totem saved a player: "EFFECT seconds level".
+  # Example: ["REGENERATION 10 2", "SPEED 5 1"]
+  # Default: []
+  list: []
+
+# Extra sound preset when a totem is used ("none" = only the vanilla sound).
+# Default: none
+sound: none
+
+# Particle preset when a totem is used ("none" = only vanilla particles).
+# Default: totem
+particle: totem
+
+# Send totems.used to the saved player.
+# Default: true
+message: true
+
+# Worlds where these rules apply.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

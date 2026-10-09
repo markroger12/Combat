@@ -2,12 +2,26 @@ package dev.ultimatecombat.modules;
 
 import dev.ultimatecombat.UltimateCombatPlugin;
 import dev.ultimatecombat.core.module.ModuleManager;
+import dev.ultimatecombat.modules.antiabuse.AntiAbuseModule;
+import dev.ultimatecombat.modules.apples.AppleModule;
 import dev.ultimatecombat.modules.borders.BorderModule;
 import dev.ultimatecombat.modules.combat.CombatModule;
 import dev.ultimatecombat.modules.combatlog.CombatLogModule;
+import dev.ultimatecombat.modules.death.DeathModule;
+import dev.ultimatecombat.modules.economy.EconomyModule;
+import dev.ultimatecombat.modules.enchantments.EnchantmentModule;
 import dev.ultimatecombat.modules.ghosts.GhostModule;
+import dev.ultimatecombat.modules.grace.GraceModule;
+import dev.ultimatecombat.modules.killstreaks.KillstreakModule;
+import dev.ultimatecombat.modules.loot.LootModule;
 import dev.ultimatecombat.modules.knockback.KnockbackModule;
 import dev.ultimatecombat.modules.oldpvp.OldPvpModule;
+import dev.ultimatecombat.modules.potions.PotionModule;
+import dev.ultimatecombat.modules.rewards.RewardsModule;
+import dev.ultimatecombat.modules.spawn.SpawnpointModule;
+import dev.ultimatecombat.modules.stats.StatsModule;
+import dev.ultimatecombat.modules.togglepvp.TogglePvpModule;
+import dev.ultimatecombat.modules.totems.TotemModule;
 import dev.ultimatecombat.modules.restrictions.RestrictionsModule;
 
 /**
@@ -26,5 +40,19 @@ public final class ModuleRegistry {
         modules.register(new BorderModule(plugin));
         modules.register(new OldPvpModule(plugin));
         modules.register(new KnockbackModule(plugin));
+        modules.register(new TogglePvpModule(plugin));
+        modules.register(new GraceModule(plugin));
+        modules.register(new AntiAbuseModule(plugin));
+        modules.register(new StatsModule(plugin));
+        modules.register(new KillstreakModule(plugin));
+        modules.register(new EconomyModule(plugin));
+        modules.register(new RewardsModule(plugin));
+        modules.register(new LootModule(plugin));
+        modules.register(new SpawnpointModule(plugin));
+        modules.register(new DeathModule(plugin));
+        modules.register(new PotionModule(plugin));
+        modules.register(new EnchantmentModule(plugin));
+        modules.register(new AppleModule(plugin));
+        modules.register(new TotemModule(plugin));
     }
 }

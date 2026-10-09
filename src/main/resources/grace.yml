@@ -1,0 +1,143 @@
+# ============================================================================
+#  UltimateCombat - grace.yml
+#  Grace (new player protection): new players cannot be attacked for a while.
+#
+#  Module switch: features.yml -> modules.grace
+#  Commands: /grace [status|disable|confirm|escape]           (ultimatecombat.grace)
+#            /grace check <player>     (ultimatecombat.grace.check.others)
+#            /grace give <player> <time> (ultimatecombat.grace.give), e.g. 30m, 2h
+#            /grace remove <player>    (ultimatecombat.grace.remove)
+#  Never receive grace: ultimatecombat.bypass.grace
+#  Placeholders: %ultimatecombat_grace_active%, %ultimatecombat_grace_time%
+# ============================================================================
+
+config-version: 1
+
+first-join:
+  # Give grace automatically to players joining for the first time.
+  #
+  # true:  new players start protected.
+  # false: grace is only given by /grace give.
+  #
+  # Default: true
+  enabled: true
+
+  # Length of first-join grace, in minutes (text like "1h30m" also works).
+  # Allowed: 1 second - 365 days
+  # Default: 30
+  duration-minutes: 30
+
+# How grace time is counted.
+#
+# playtime:  only time spent online counts (and can be paused, see below).
+# real-time: grace ends at a fixed time, even while the player is offline.
+#
+# Accepted values: playtime, real-time
+# Default: playtime
+count-mode: playtime
+
+protection:
+  # Protect against damage from other players (melee, arrows, potions,
+  # tamed animals, player-placed fire/lava/TNT ...).
+  # Default: true
+  pvp: true
+
+  # Protect against ALL damage (fall, mobs, drowning ...).
+  # Default: false
+  all-damage: false
+
+  # Protect against fire and lava.
+  # Default: true
+  fire-and-lava: true
+
+  # Protect against mobs.
+  # Default: false
+  mobs: false
+
+# What happens when a protected player attacks another player.
+#
+# true:  their grace ends immediately (grace.removed-attack).
+# false: the attack is cancelled - protected players cannot attack.
+#
+# Default: true
+end-on-attack: true
+
+# Commands protected players cannot use (without "/").
+# Example: [warp pvp, duel]
+# Default: []
+blocked-commands: []
+
+# Protected players cannot pick up items (prevents carrying stolen loot
+# around while untouchable).
+# Default: false
+block-item-pickup: false
+
+# Worlds where grace protects.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []
+
+# Pause the playtime countdown while the player is in a world where grace
+# does not protect (only with count-mode: playtime).
+# Default: true
+pause-in-disabled-worlds: true
+
+# Regions (from your protection plugin) where grace does NOT protect, for
+# example arenas.
+# Default: []
+excluded-regions: []
+
+voluntary-removal:
+  # Let players end their own grace with /grace disable.
+  # Default: true
+  enabled: true
+
+  # Require /grace confirm after /grace disable.
+  # Default: true
+  confirm: true
+
+  # Seconds to confirm.
+  # Allowed: 1-600
+  # Default: 15
+  confirm-window-seconds: 15
+
+escape:
+  # Emergency escape for protected players: /grace escape teleports them to
+  # safety (for example when trapped).
+  #
+  # true:  /grace escape works while protected.
+  # false: the escape command is disabled.
+  #
+  # Default: false
+  enabled: false
+
+  # Seconds between two escapes.
+  # Allowed: 0-86400
+  # Default: 300
+  cooldown-seconds: 300
+
+  # Console command used to move the player ({player} = name). Leave empty
+  # ("") to teleport to the world spawn instead.
+  # Default: "spawn {player}"
+  command: "spawn {player}"
+
+# Remind players when their grace is about to end (minutes before the end).
+# Default: [5, 1]
+warnings-minutes: [5, 1]
+
+# Show the remaining grace time in the action bar (grace.actionbar).
+# Default: false
+actionbar: false
+
+sounds:
+  # Sound presets ("none" = silent).
+  # Default: grace-start / grace-end
+  start: grace-start
+  end: grace-end
+
+particles:
+  # Particle preset when grace ends ("none" = off).
+  # Default: grace-end
+  end: grace-end
