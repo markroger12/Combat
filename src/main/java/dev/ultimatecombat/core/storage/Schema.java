@@ -126,10 +126,11 @@ public final class Schema {
                     + "deleted SMALLINT NOT NULL DEFAULT 0)");
 
             s.add("CREATE TABLE IF NOT EXISTS " + db.t("kill_recaps") + " ("
-                    + "id " + pk + ", data_group VARCHAR(64) NOT NULL, killer_uuid VARCHAR(36) NULL, victim_uuid VARCHAR(36) NOT NULL, "
+                    + "id " + pk + ", recap_key VARCHAR(36) NOT NULL, data_group VARCHAR(64) NOT NULL, killer_uuid VARCHAR(36) NULL, victim_uuid VARCHAR(36) NOT NULL, "
                     + "created_at BIGINT NOT NULL, payload " + text + " NOT NULL)");
             s.add("CREATE INDEX " + ifNotExists + db.t("idx_recaps_victim") + " ON " + db.t("kill_recaps") + " (data_group, victim_uuid)");
             s.add("CREATE INDEX " + ifNotExists + db.t("idx_recaps_killer") + " ON " + db.t("kill_recaps") + " (data_group, killer_uuid)");
+            s.add("CREATE INDEX " + ifNotExists + db.t("idx_recaps_key") + " ON " + db.t("kill_recaps") + " (recap_key)");
 
             s.add("CREATE TABLE IF NOT EXISTS " + db.t("combat_log_history") + " ("
                     + "id " + pk + ", data_group VARCHAR(64) NOT NULL, uuid VARCHAR(36) NOT NULL, name VARCHAR(32) NOT NULL, "

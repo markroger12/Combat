@@ -1,0 +1,53 @@
+# ============================================================================
+#  UltimateCombat - kill-recaps.yml
+#  Kill recaps: after a fight, the killer and the victim get a clickable link
+#  to a menu showing how the fight went - damage dealt and received, hits,
+#  remaining health, assists, potions and apples used, location, death cause,
+#  weapon, fight duration and inventory/equipment snapshots of both players.
+#
+#  Module switch: features.yml -> modules.kill-recaps
+#  Command: /killrecaps (ultimatecombat.killrecaps) - own recent recaps
+#           /killrecaps <player> (ultimatecombat.killrecaps.others)
+#  Players can only open recaps they took part in, unless they have
+#  ultimatecombat.killrecaps.others (privacy).
+#  Menu layouts: menus.yml -> kill-recaps / kill-recap
+# ============================================================================
+
+config-version: 1
+
+# Only create recaps for deaths caused by players.
+# Default: true
+pvp-only: true
+
+# How far back damage and potions are included (seconds).
+# Allowed: 1-3600
+# Default: 60
+fight-window-seconds: 60
+
+# Store full inventory snapshots of both players (needed for the
+# inventory buttons; uses more storage).
+# Default: true
+inventory-snapshots: true
+
+notify:
+  # Send the recap link to the victim (killrecaps.notify).
+  # Default: true
+  victim: true
+  # Send the recap link to the killer.
+  # Default: true
+  killer: true
+
+retention:
+  # Recaps kept in memory per player.
+  # Allowed: 1-1000
+  # Default: 10
+  max-per-player: 10
+
+  # Store recaps in the database so they survive restarts.
+  # Default: true
+  store-in-database: true
+
+  # Recaps older than this are deleted from the database (hours).
+  # Allowed: 0.02-8760
+  # Default: 24
+  max-age-hours: 24

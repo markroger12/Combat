@@ -8,21 +8,26 @@ import dev.ultimatecombat.modules.borders.BorderModule;
 import dev.ultimatecombat.modules.bounties.BountyModule;
 import dev.ultimatecombat.modules.combat.CombatModule;
 import dev.ultimatecombat.modules.combatlog.CombatLogModule;
+import dev.ultimatecombat.modules.corpses.CorpseModule;
 import dev.ultimatecombat.modules.death.DeathModule;
 import dev.ultimatecombat.modules.economy.EconomyModule;
 import dev.ultimatecombat.modules.enchantments.EnchantmentModule;
 import dev.ultimatecombat.modules.ghosts.GhostModule;
 import dev.ultimatecombat.modules.grace.GraceModule;
 import dev.ultimatecombat.modules.heads.HeadModule;
+import dev.ultimatecombat.modules.healthbars.HealthbarModule;
+import dev.ultimatecombat.modules.indicators.DamageIndicatorModule;
 import dev.ultimatecombat.modules.intervals.PvpIntervalModule;
 import dev.ultimatecombat.modules.killstreaks.KillstreakModule;
 import dev.ultimatecombat.modules.loot.LootModule;
 import dev.ultimatecombat.modules.knockback.KnockbackModule;
 import dev.ultimatecombat.modules.oldpvp.OldPvpModule;
 import dev.ultimatecombat.modules.potions.PotionModule;
+import dev.ultimatecombat.modules.recaps.KillRecapModule;
 import dev.ultimatecombat.modules.rewards.RewardsModule;
 import dev.ultimatecombat.modules.spawn.SpawnpointModule;
 import dev.ultimatecombat.modules.stats.StatsModule;
+import dev.ultimatecombat.modules.stattrak.StatTrakModule;
 import dev.ultimatecombat.modules.togglepvp.TogglePvpModule;
 import dev.ultimatecombat.modules.totems.TotemModule;
 import dev.ultimatecombat.modules.warmups.WarmupModule;
@@ -62,5 +67,10 @@ public final class ModuleRegistry {
         modules.register(new WarmupModule(plugin));
         modules.register(new HeadModule(plugin));
         modules.register(new BountyModule(plugin));
+        modules.register(new CorpseModule(plugin));
+        modules.register(new StatTrakModule(plugin));
+        modules.register(new KillRecapModule(plugin));
+        modules.register(new DamageIndicatorModule(plugin));
+        modules.register(new HealthbarModule(plugin));
     }
 }

@@ -1,0 +1,88 @@
+# ============================================================================
+#  UltimateCombat - corpses.yml
+#  Corpses / gravestones: when a player dies, their items are stored in a
+#  corpse at the death location instead of being dropped. Right-click the
+#  corpse to loot it. Corpses are saved in the database and come back after
+#  a restart. They are made of display entities - the world is never changed.
+#
+#  Module switch: features.yml -> modules.corpses
+#  Loot everything: ultimatecombat.corpse.loot.all
+#  Admin: /uc corpses list | remove <player> [drop] (ultimatecombat.corpse.admin)
+#  Who may loot is decided by loot.yml when loot-protection is enabled.
+# ============================================================================
+
+config-version: 1
+
+# How the corpse looks.
+# mannequin:   the player's body lying on the ground with their skin and
+#              armour (Paper 1.21.9+; otherwise armor-stand is used).
+# armor-stand: an invisible stand wearing the player's head and armour.
+# head:        the player's head on the ground.
+# chest:       a chest-shaped gravestone (a display, not a real chest).
+# Accepted values: mannequin, armor-stand, head, chest
+# Default: armor-stand
+appearance: armor-stand
+
+# Only create corpses for deaths caused by players.
+# Default: false
+pvp-deaths-only: false
+
+# How long a corpse exists, in seconds.
+# Allowed: 5-604800
+# Default: 300
+duration-seconds: 300
+
+# What happens with remaining items when the corpse disappears.
+# drop-items:   the items (and experience) drop on the ground.
+# delete-items: the items are deleted.
+# Accepted values: drop-items, delete-items
+# Default: drop-items
+on-expire: drop-items
+
+# Remove the corpse as soon as it is empty.
+# Default: true
+remove-when-empty: true
+
+# Only open corpses with shift + right-click (prevents accidental opening).
+# Default: false
+shift-click-only: false
+
+# Store the dropped experience in the corpse; the first looter receives it.
+# Default: true
+store-experience: true
+
+# Show a text above the corpse (corpses.hologram) with the owner and the
+# remaining time.
+# Default: true
+hologram: true
+
+access:
+  # The owner can always loot their own corpse (otherwise loot.yml decides).
+  # Default: true
+  owner-can-always-loot: true
+
+  deny:
+    # Players with grace protection cannot loot corpses.
+    # Default: true
+    grace-players: true
+    # Players with PvP turned off cannot loot corpses.
+    # Default: true
+    pvp-disabled-players: true
+    # Players with respawn protection cannot loot corpses.
+    # Default: true
+    spawn-protected-players: true
+
+# Allow putting items INTO corpses.
+# Default: false
+allow-depositing: false
+
+# Sound preset when a corpse is opened ("none" = silent).
+# Default: corpse-open
+sound: corpse-open
+
+# Worlds where corpses are created.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

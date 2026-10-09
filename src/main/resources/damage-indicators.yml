@@ -1,0 +1,106 @@
+# ============================================================================
+#  UltimateCombat - damage-indicators.yml
+#  Floating damage numbers shown where an entity was hit. Each number is a
+#  temporary text display entity: never saved to the world, always removed
+#  after "duration-ticks" and removed immediately when the module is
+#  disabled or the plugin stops.
+#
+#  Module switch: features.yml -> modules.damage-indicators
+#  Text formats: language file -> indicators.normal / indicators.critical /
+#                indicators.headshot  ({damage}, {color})
+#  Requires a server with display entities (1.19.4+).
+# ============================================================================
+
+config-version: 1
+
+# Which hits produce a number.
+show:
+  # A player (or their projectile/pet/TNT) damages another player.
+  # Default: true
+  players-hitting-players: true
+  # A player damages a mob.
+  # Default: true
+  players-hitting-mobs: true
+  # A mob damages a player.
+  # Default: false
+  mobs-hitting-players: false
+
+# Victim entity types that never show numbers (Bukkit entity type names,
+# e.g. ARMOR_STAND, VILLAGER). Default: [ARMOR_STAND]
+entity-blacklist:
+  - ARMOR_STAND
+
+# How long a number stays visible (ticks, 20 = 1 second).
+# Allowed: 5-200
+# Default: 20
+duration-ticks: 20
+
+# How far (blocks) the number floats upwards during its lifetime.
+# Allowed: 0-5
+# Default: 0.8
+rise: 0.8
+
+# Decimal places shown (0 = whole numbers).
+# Allowed: 0-3
+# Default: 1
+decimals: 1
+
+# How the damage is rounded to "decimals".
+# Allowed: half-up | floor | ceiling
+# Default: half-up
+rounding: half-up
+
+# Who can see the numbers.
+#   everyone             - every nearby player
+#   attacker             - only the player who dealt the damage
+#   attacker-and-victim  - the attacker and the victim (if a player)
+# Default: everyone
+visibility: everyone
+
+critical-hits:
+  # Use indicators.critical for critical (falling) hits. Paper only - on
+  # Spigot critical hits cannot be detected and look like normal hits.
+  # Default: true
+  enabled: true
+  # Particle preset (particles.yml) played on a critical hit ("none" = off).
+  # Default: critical-hit
+  particle: critical-hit
+
+headshots:
+  # Detect projectile hits at head height and use indicators.headshot.
+  # Default: false
+  enabled: false
+  # Damage multiplier for headshots (1.0 = no change). Only applies when
+  # headshots are enabled and the shooter is a player.
+  # Allowed: 0-10
+  # Default: 1.0
+  damage-multiplier: 1.0
+
+# Number colour by damage dealt. The highest threshold that is <= the
+# damage is used ({color} in the text format). Keys are numbers; replace the
+# whole section to define your own steps.
+# @user-map
+colors:
+  "0": "&a"
+  "4": "&e"
+  "8": "&6"
+  "12": "&c"
+  "16": "&4"
+
+# Maximum indicators alive at the same time on the whole server. New hits
+# are not shown while the limit is reached (protects busy servers).
+# Allowed: 1-1000
+# Default: 64
+max-active: 64
+
+# Particle preset (particles.yml) played on every hit ("none" = off).
+# Default: none
+hit-particle: none
+
+# Worlds where indicators are shown.
+worlds:
+  # blacklist = everywhere except the listed worlds; whitelist = only listed
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []
