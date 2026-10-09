@@ -1,0 +1,63 @@
+# ============================================================================
+#  UltimateCombat - heads.yml
+#  Head trophies: a player's head can drop when they die. The head carries
+#  the money the victim lost; whoever sells it with /sellhead gets that money.
+#  Every head can be sold exactly once, even if it was duplicated by a bug.
+#
+#  Module switch: features.yml -> modules.head-trophies
+#  Command: /sellhead (ultimatecombat.sellhead) - sell the head in your hand
+#  Your head never drops: ultimatecombat.bypass.headdrop
+#  Heads are not dropped for kills suppressed by anti-abuse.yml.
+#  Item name and lore: heads.item-name / heads.item-lore in the language file.
+# ============================================================================
+
+config-version: 1
+
+# Chance (percent) that the head drops.
+# Allowed: 0-100
+# Default: 25
+drop-chance: 25
+
+# Only drop heads when a player killed the victim.
+# Default: true
+pvp-only: true
+
+money-penalty:
+  # Take money from the victim when their head drops. The money is stored
+  # inside the head and paid out on /sellhead (requires Vault).
+  # Default: true
+  enabled: true
+
+  # percent = percentage of the victim's balance, fixed = fixed amount.
+  # Accepted values: percent, fixed
+  # Default: percent
+  mode: percent
+
+  # Percentage (0-100) or fixed amount.
+  # Default: 5
+  amount: 5
+
+  # Highest penalty (0 = no limit; economy.yml safety rules always apply).
+  # Default: 0
+  maximum: 0
+
+# Put the head straight into the killer's inventory instead of dropping it.
+# Default: false
+give-directly-to-killer: false
+
+sell:
+  # Allow /sellhead.
+  # Default: true
+  enabled: true
+
+  # Extra value every head is worth when sold, created by the server
+  # (on top of the money taken from the victim).
+  # Default: 0
+  base-value: 0
+
+# Worlds where heads drop.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

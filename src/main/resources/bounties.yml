@@ -1,0 +1,160 @@
+# ============================================================================
+#  UltimateCombat - bounties.yml
+#  Players put money on other players' heads. Whoever kills the target gets
+#  the money. Requires Vault + an economy plugin and working storage.
+#  Every bounty is paid, refunded or expired exactly once (database state),
+#  also across servers sharing one database.
+#
+#  Module switch: features.yml -> modules.bounties
+#  Commands: /bounty                         GUI (ultimatecombat.bounty)
+#            /bounty set <player> <amount> [anonymous]  (ultimatecombat.bounty.set,
+#                       anonymous needs ultimatecombat.bounty.anonymous)
+#            /bounty list | top | info <player>
+#            /bounty track <player>          (ultimatecombat.bounty.track)
+#            /bounty remove <player>         (ultimatecombat.bounty.admin, refunds)
+#  Immune to bounties: ultimatecombat.bypass.bounty (online targets)
+#  No place cooldown: ultimatecombat.bypass.bounty-cooldown
+#  Placeholders: %ultimatecombat_bounty_value%, %ultimatecombat_has_bounty%,
+#    %ultimatecombat_bounty_initiator%, %ultimatecombat_bounty_prefix%
+#  Bounties are not paid for kills suppressed by anti-abuse.yml.
+# ============================================================================
+
+config-version: 1
+
+amount:
+  # Smallest amount of one bounty.
+  # Default: 100
+  minimum: 100
+
+  # Largest amount of one bounty.
+  # Default: 1000000
+  maximum: 1000000
+
+  # Highest total of all bounties on one player (0 = no limit).
+  # Default: 0
+  maximum-total-per-target: 0
+
+tax:
+  # Extra cost for the setter in percent of the amount. The tax is removed
+  # from the economy and NOT paid to the killer.
+  # Allowed: 0-100
+  # Default: 5
+  percent: 5
+
+  # Fixed extra cost per bounty.
+  # Default: 0
+  fixed: 0
+
+anonymous:
+  # Allow anonymous bounties (the setter's name is hidden).
+  # Default: true
+  enabled: true
+
+  # Extra fee for anonymous bounties in percent of the amount.
+  # Default: 10
+  extra-fee-percent: 10
+
+# Allow several bounties on the same player (they add up).
+# Default: true
+allow-multiple: true
+
+# Allow players to put a bounty on themselves.
+# Default: false
+allow-self: false
+
+# Allow the setter to claim their own bounty by killing the target.
+# Default: false
+setter-can-claim: false
+
+# Seconds a player must wait between placing two bounties.
+# Allowed: 0-86400
+# Default: 60
+place-cooldown-seconds: 60
+
+# Maximum active bounties one player may have placed (0 = no limit).
+# Default: 5
+max-active-per-setter: 5
+
+expiry:
+  # Bounties expire after some time.
+  # Default: true
+  enabled: true
+
+  # Days until a bounty expires.
+  # Allowed: 0.0007-365 (1 minute - 1 year)
+  # Default: 7
+  days: 7
+
+  # Give the setter their money back when a bounty expires.
+  # Default: true
+  refund: true
+
+  # Percentage kept as a fee from expired bounties (0 = full refund).
+  # Allowed: 0-100
+  # Default: 10
+  fee-percent: 10
+
+claim:
+  # Percentage of the bounty total paid to the killer.
+  # Allowed: 0-100
+  # Default: 100
+  payout-percent: 100
+
+announce:
+  # Broadcast new bounties (bounties.announce-placed).
+  # Default: true
+  placed: true
+  # Broadcast claimed bounties (bounties.announce-claimed).
+  # Default: true
+  claimed: true
+  # Broadcast expired bounties (bounties.announce-expired).
+  # Default: false
+  expired: false
+
+target:
+  # Make players with a bounty glow.
+  # Default: false
+  glow: false
+
+  particles:
+    # Show a particle preset above players with a bounty (every 2 seconds).
+    # Default: true
+    enabled: true
+    # Default: bounty-target
+    preset: bounty-target
+
+  # Put the target into combat when a bounty is placed on them (stops them
+  # from logging out immediately).
+  # Default: false
+  tag-on-place: false
+
+tracking-compass:
+  # Allow /bounty track <player>: gives a compass pointing to the target.
+  # Default: true
+  enabled: true
+
+  # Price of a tracking compass (0 = free).
+  # Default: 0
+  cost: 0
+
+  # How often compasses are updated (ticks).
+  # Allowed: 5-1200
+  # Default: 40
+  update-interval-ticks: 40
+
+  # Only point to targets in the same world.
+  # Default: true
+  same-world-only: true
+
+sounds:
+  # Sound presets ("none" = silent).
+  # Default: bounty-placed / bounty-claimed
+  placed: bounty-placed
+  claimed: bounty-claimed
+
+# Worlds where bounties can be claimed.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

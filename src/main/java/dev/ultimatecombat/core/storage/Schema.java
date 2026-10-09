@@ -142,6 +142,11 @@ public final class Schema {
                     + "killer_name VARCHAR(32) NOT NULL, victim_uuid VARCHAR(36) NOT NULL, victim_name VARCHAR(32) NOT NULL, "
                     + "reason VARCHAR(64) NOT NULL, created_at BIGINT NOT NULL)");
             s.add("CREATE INDEX " + ifNotExists + db.t("idx_abuse_killer") + " ON " + db.t("abuse_log") + " (data_group, killer_uuid)");
+
+            s.add("CREATE TABLE IF NOT EXISTS " + db.t("heads") + " ("
+                    + "id VARCHAR(36) NOT NULL PRIMARY KEY, data_group VARCHAR(64) NOT NULL, victim_uuid VARCHAR(36) NOT NULL, "
+                    + "victim_name VARCHAR(32) NOT NULL, killer_uuid VARCHAR(36) NULL, value DOUBLE NOT NULL DEFAULT 0, "
+                    + "created_at BIGINT NOT NULL, sold_by VARCHAR(36) NULL, sold_at BIGINT NULL)");
         }
         return s;
     }
