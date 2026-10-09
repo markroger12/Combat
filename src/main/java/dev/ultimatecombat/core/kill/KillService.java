@@ -117,6 +117,14 @@ public final class KillService implements Listener {
         combatLogDeaths.put(player, new int[]{creditKill ? 1 : 0, countStats ? 1 : 0});
     }
 
+    /**
+     * @return a copy of the item the player last hit a player with, or {@code null}
+     */
+    public ItemStack lastWeapon(UUID player) {
+        ItemStack item = lastWeapon.get(player);
+        return item == null ? null : item.clone();
+    }
+
     public boolean isCombatLogDeathPending(UUID player) {
         return combatLogDeaths.containsKey(player);
     }

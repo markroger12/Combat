@@ -294,6 +294,20 @@ public final class MessageService {
         return !message(key).isEmpty();
     }
 
+    /**
+     * @return whether any language file (custom, player locale, selected or en_US) defines the key
+     */
+    public boolean exists(String key) {
+        return lookup(key, null) != null;
+    }
+
+    /**
+     * @return the unformatted chat lines of a message in the viewer's language (for random pools)
+     */
+    public List<String> rawLines(Player viewer, String key) {
+        return message(key, localeOf(viewer)).chat();
+    }
+
     // ----------------------------------------------------------------------------- sending
 
     public void send(CommandSender to, String key, Object... placeholders) {

@@ -9,7 +9,9 @@ import dev.ultimatecombat.modules.bounties.BountyModule;
 import dev.ultimatecombat.modules.combat.CombatModule;
 import dev.ultimatecombat.modules.combatlog.CombatLogModule;
 import dev.ultimatecombat.modules.corpses.CorpseModule;
+import dev.ultimatecombat.modules.customtools.CustomToolModule;
 import dev.ultimatecombat.modules.death.DeathModule;
+import dev.ultimatecombat.modules.deathmessages.DeathMessageModule;
 import dev.ultimatecombat.modules.economy.EconomyModule;
 import dev.ultimatecombat.modules.enchantments.EnchantmentModule;
 import dev.ultimatecombat.modules.ghosts.GhostModule;
@@ -72,5 +74,7 @@ public final class ModuleRegistry {
         modules.register(new KillRecapModule(plugin));
         modules.register(new DamageIndicatorModule(plugin));
         modules.register(new HealthbarModule(plugin));
+        modules.register(new DeathMessageModule(plugin));
+        modules.register(new CustomToolModule(plugin));
     }
 }

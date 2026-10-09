@@ -1,0 +1,115 @@
+# ============================================================================
+#  UltimateCombat - death-messages.yml
+#  Custom death messages: a random message per death category, weapon
+#  tooltips on hover, who can see them, a word filter for item names, admin
+#  alerts and a per-player toggle.
+#
+#  Module switch: features.yml -> modules.death-messages
+#  Command: /deathmessages [on|off]   (ultimatecombat.deathmessages.toggle)
+#           also /uc deathmessages
+#  Admin alerts: ultimatecombat.deathmessages.alerts
+#
+#  THE MESSAGES THEMSELVES are in the language files (languages/*.yml or
+#  custom.yml) under "death-messages.messages.<category>". Each category is
+#  a list; one line is picked at random. Set a category to [] to show no
+#  message for it. A category that does not exist falls back:
+#    player-*  -> player-other
+#    mob-*     -> mob
+#    others    -> default
+#  Categories:
+#    PvP:   player-melee, player-fist, player-projectile, player-explosion,
+#           player-fall, player-void, player-fire, player-magic, player-other
+#    Mobs:  mob, mob-projectile, mob-explosion
+#    Other: the damage cause in lower case with dashes, e.g. fall, void,
+#           lava, fire, fire-tick, drowning, suffocation, starvation,
+#           lightning, magic, poison, wither, block-explosion, contact,
+#           freeze, cramming, fly-into-wall, hot-floor, suicide, kill,
+#           world-border, falling-block, thorns, custom ... and "default".
+#  Placeholders: {victim} {victim_display} {killer} {killer_display}
+#           {weapon} {mob} {distance} {killer_health} {killer_hearts}
+#           {cause} {world} {x} {y} {z}  (+ PlaceholderAPI for the viewer)
+#
+#  Combat-log deaths are not handled here: combatlog.death-message (language
+#  file) is used for them. Ghost/NPC deaths never produce a message.
+# ============================================================================
+
+config-version: 1
+
+# Replace vanilla death messages.
+#
+# true:  vanilla messages are always removed. Deaths without a matching
+#        custom message (see fallbacks above) show nothing.
+# false: vanilla messages are kept for deaths without a custom message.
+#
+# Default: true
+replace-vanilla: true
+
+# Only PvP deaths get a custom message. Other deaths keep the vanilla
+# message (or none when replace-vanilla is true).
+# Default: false
+pvp-only: false
+
+# Who sees death messages (the victim and the killer always see them).
+#   everyone - every online player
+#   world    - players in the world where the death happened
+#   radius   - players within "radius" blocks of the death
+#   involved - only the victim and the killer
+#   none     - nobody (except admin alerts)
+# Default: everyone
+visibility: everyone
+
+# Radius in blocks for visibility: radius.
+# Allowed: 1-10000
+# Default: 100
+radius: 100
+
+# Hovering over {weapon} shows the weapon's name, enchantments and lore.
+# Default: true
+weapon-hover: true
+
+word-filter:
+  # Replace offensive words in custom item names (weapon names and lore in
+  # tooltips). Matching is case-insensitive; colours of a filtered name are
+  # removed.
+  # Default: true
+  enabled: true
+  # Words or phrases to replace.
+  # Default: []
+  words: []
+  # Replacement text.
+  # Default: "***"
+  replacement: "***"
+  # Also filter player names and display names (nicknames).
+  # Default: false
+  player-names: false
+
+# Players with ultimatecombat.deathmessages.alerts also receive messages
+# that are hidden from them (visibility, toggle), marked with
+# death-messages.alert-prefix.
+# Default: true
+admin-alerts: true
+
+# Also print death messages to the console.
+# Default: true
+console: true
+
+# Allow players to hide other players' death messages with /deathmessages.
+# The choice is stored on the player and survives restarts.
+# Default: true
+player-toggle: true
+
+# Sound preset (sounds.yml) played to everyone who sees the message
+# ("none" = silent).
+# Default: none
+sound: none
+
+# Particle preset (particles.yml) shown at the death location ("none" = off).
+# Default: none
+particle: none
+
+# Worlds where custom death messages are used (other worlds keep vanilla).
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

@@ -95,4 +95,25 @@ public final class Numbers {
         }
         return ThreadLocalRandom.current().nextDouble() < chance;
     }
+
+    private static final int[] ROMAN_VALUES = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    private static final String[] ROMAN_SYMBOLS = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
+    /**
+     * @return the roman numeral for 1-3999 (enchantment levels), the plain number otherwise
+     */
+    public static String roman(int value) {
+        if (value < 1 || value > 3999) {
+            return Integer.toString(value);
+        }
+        StringBuilder sb = new StringBuilder();
+        int rest = value;
+        for (int i = 0; i < ROMAN_VALUES.length; i++) {
+            while (rest >= ROMAN_VALUES[i]) {
+                sb.append(ROMAN_SYMBOLS[i]);
+                rest -= ROMAN_VALUES[i];
+            }
+        }
+        return sb.toString();
+    }
 }
