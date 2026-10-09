@@ -46,7 +46,7 @@ public final class KillService implements Listener {
     private final DamageAttribution attribution = new DamageAttribution();
     private final DamageTracker tracker = new DamageTracker();
     private final List<KillHandler> handlers = new CopyOnWriteArrayList<>();
-    private final Set<UUID> combatLogDeaths = ConcurrentHashMap.newKeySet();
+    private final Map<UUID, int[]> combatLogDeaths = new ConcurrentHashMap<>();
     private final Map<UUID, ItemStack> lastWeapon = new ConcurrentHashMap<>();
     private volatile Settings settings = new Settings("last-hit", 15_000, true, true, 15_000, 2.0, 0.1);
     private ScheduledTask purgeTask;
@@ -109,20 +109,23 @@ public final class KillService implements Listener {
 
     /**
      * Flags the next death of this player as a combat-log punishment.
+     *
+     * @param creditKill whether the last opponent receives the kill
+     * @param countStats whether the death counts in statistics
      */
-    public void markCombatLogDeath(UUID player) {
-        combatLogDeaths.add(player);
+    public void markCombatLogDeath(UUID player, boolean creditKill, boolean countStats) {
+        combatLogDeaths.put(player, new int[]{creditKill ? 1 : 0, countStats ? 1 : 0});
     }
 
     public boolean isCombatLogDeathPending(UUID player) {
-        return combatLogDeaths.contains(player);
+        return combatLogDeaths.containsKey(player);
     }
 
     // ------------------------------------------------------------------------------ damage
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent event) {
-        if (IntegrationManager.isSimulating() || !(event.getEntity() instanceof Player victim)) {
+        if (IntegrationManager.isSimulating() || !(event.getEntity() instanceof Player victim) || victim.hasMetadata("NPC")) {
             return;
         }
         if (event.getFinalDamage() <= 0) {
@@ -271,21 +274,27 @@ public final class KillService implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player victim = event.getEntity();
-        boolean combatLog = combatLogDeaths.remove(victim.getUniqueId());
-        Player killer = creditedKiller(victim, victim.getLastDamageCause());
+        if (victim.hasMetadata("NPC")) {
+            return; // Citizens NPCs (including ghost players) are not real players
+        }
+        int[] flags = combatLogDeaths.remove(victim.getUniqueId());
+        boolean combatLog = flags != null;
+        Player killer = combatLog && flags[0] == 0 ? null : creditedKiller(victim, victim.getLastDamageCause());
         EntityDamageEvent.DamageCause cause = victim.getLastDamageCause() == null
                 ? EntityDamageEvent.DamageCause.CUSTOM : victim.getLastDamageCause().getCause();
-        process(victim, killer, cause, event, combatLog);
+        process(victim, killer, cause, event, combatLog, combatLog && flags[1] == 0);
     }
 
     /**
      * Runs the pipeline for a combat-log punishment that did not produce a real death event.
      */
-    public void processSynthetic(Player victim, Player opponent) {
-        process(victim, opponent, EntityDamageEvent.DamageCause.CUSTOM, null, true);
+    public void processSynthetic(Player victim, Player opponent, boolean creditKill) {
+        Player killer = creditKill ? (opponent != null ? opponent : creditedKiller(victim, null)) : null;
+        process(victim, killer, EntityDamageEvent.DamageCause.CUSTOM, null, true, false);
     }
 
-    private void process(Player victim, Player killer, EntityDamageEvent.DamageCause cause, PlayerDeathEvent event, boolean combatLog) {
+    private void process(Player victim, Player killer, EntityDamageEvent.DamageCause cause, PlayerDeathEvent event, boolean combatLog,
+                         boolean skipStats) {
         Settings s = settings;
         Set<UUID> assists = assists(victim, killer);
         Map<UUID, Double> damage = tracker.damageByPlayer(victim.getUniqueId(), Math.max(s.windowMillis(), s.assistWindowMillis()));
@@ -295,6 +304,9 @@ public final class KillService implements Listener {
         KillContext ctx = new KillContext(victim, killer, assists, damage, cause, weapon, location, event, combatLog, fightStart);
         if (combatLog) {
             ctx.suppressRewards("combat-log");
+        }
+        if (skipStats) {
+            ctx.suppressStats("combat-log");
         }
         for (KillHandler handler : handlers) {
             if (!handler.activeHandler()) {

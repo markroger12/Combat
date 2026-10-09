@@ -58,6 +58,7 @@ public final class IntegrationManager implements Listener {
     private volatile EconomyHook economy;
     private volatile PlaceholderHook placeholders;
     private volatile NpcHook npcs;
+    private volatile SoundFilterHook soundFilter;
     private volatile boolean genericProtectionCheck;
     private volatile boolean vanishMetadata = true;
 
@@ -144,6 +145,7 @@ public final class IntegrationManager implements Listener {
             plugin.messages().setExternalPlaceholders(h::apply);
         }
         if (integration instanceof NpcHook h && npcs == null) npcs = h;
+        if (integration instanceof SoundFilterHook h && soundFilter == null) soundFilter = h;
     }
 
     private void unregister(Integration integration) {
@@ -158,6 +160,7 @@ public final class IntegrationManager implements Listener {
             plugin.messages().setExternalPlaceholders(null);
         }
         if (npcs == integration) npcs = null;
+        if (soundFilter == integration) soundFilter = null;
     }
 
     public synchronized void unhookAll() {
@@ -222,6 +225,10 @@ public final class IntegrationManager implements Listener {
 
     public NpcHook npcs() {
         return npcs;
+    }
+
+    public SoundFilterHook soundFilter() {
+        return soundFilter;
     }
 
     /**

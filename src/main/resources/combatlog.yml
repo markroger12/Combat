@@ -1,0 +1,277 @@
+# ============================================================================
+#  UltimateCombat - combatlog.yml
+#  Punishments for disconnecting while combat tagged ("combat logging").
+#
+#  Module switch: features.yml -> modules.combat-log (needs combat-tag)
+#  Bypass permission: ultimatecombat.bypass.combat-log (never punished)
+#  Admin commands: /uc combatlog history|pending|clear <player>
+#
+#  Every punishment is safe against item, money and statistic duplication.
+#  Punishments that must wait until the player returns ("rejoin" actions) are
+#  stored in the database and survive restarts.
+# ============================================================================
+
+config-version: 1
+
+punish-on:
+  # Punish players who leave normally (closing the game, disconnecting).
+  #
+  # true:  leaving while tagged is punished.
+  # false: normal disconnects are never punished.
+  #
+  # Default: true
+  quit: true
+
+  # Punish players who are kicked while tagged (by staff, an anti-cheat ...).
+  #
+  # true:  kicks are punished (except the reasons listed below).
+  # false: kicked players are never punished.
+  #
+  # Default: false
+  kick: false
+
+  # Kick messages that are never punished even if kick is true. A kick is
+  # ignored when its message contains one of these texts (case-insensitive).
+  # Example: ["restart", "server closed"]
+  # Default: ["server closed", "restart"]
+  ignored-kick-reasons: ["server closed", "restart"]
+
+  # Punish players whose connection timed out (lag, internet loss).
+  # Detection is exact on Paper/Folia; on Spigot timeouts count as quits.
+  #
+  # true:  timeouts are punished.
+  # false: timed out players are not punished.
+  #
+  # Default: true
+  timeout: true
+
+# Only punish when at least this many seconds of combat were left.
+# 0 = always punish.
+# Allowed: 0-3600
+# Default: 0
+minimum-remaining-seconds: 0
+
+# Replace the server's leave message of combat loggers with
+# combatlog.quit-message from the language file.
+#
+# true:  everyone sees the combat-log quit message.
+# false: the normal leave message is shown.
+#
+# Default: true
+custom-quit-message: true
+
+# Tell the logger's opponents that they logged out (combatlog.opponent-logged).
+# Default: true
+notify-opponents: true
+
+history:
+  # Store every combat log (time, location, opponent, punishment) in the
+  # database for /uc combatlog history <player>.
+  #
+  # true:  history is stored.
+  # false: no history is kept.
+  #
+  # Default: true
+  enabled: true
+
+# Worlds where combat logging is punished.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []
+
+# Regions (from your protection plugin) where logging out is never punished.
+# Default: []
+excluded-regions: []
+
+# ----------------------------------------------------------------------------
+# Punishment profiles. "pvp" is used for players in PvP combat, "pve" for
+# players in PvE combat (see combat.yml). Both profiles accept exactly the same
+# settings; they are documented once in the pvp profile.
+# ----------------------------------------------------------------------------
+profiles:
+  pvp:
+    # How the player is punished at the moment they log out.
+    #
+    # death:
+    #   The player is killed. Their items drop according to normal death rules
+    #   (corpses, loot protection and death messages apply). Totems of
+    #   Undying never save a combat logger.
+    #
+    # drop-and-clear:
+    #   No death event: items and experience are dropped (see drop-inventory /
+    #   drop-experience) and the inventory is cleared. The player stays alive
+    #   and keeps their position. Use this when other plugins should not see a
+    #   death at all.
+    #
+    # none:
+    #   Nobody is killed and nothing is dropped. Only money penalties,
+    #   commands and messages apply.
+    #
+    # Accepted values: death, drop-and-clear, none
+    # Default: death
+    kill-mode: death
+
+    # Wait until the player rejoins and kill them then (instead of killing at
+    # logout). Ignored when a ghost player is spawned.
+    #
+    # true:  the death happens on rejoin.
+    # false: kill-mode applies at logout.
+    #
+    # Default: false
+    kill-on-rejoin: false
+
+    # When the world has the keepInventory game rule, still drop the combat
+    # logger's items (kill-mode: death).
+    #
+    # true:  combat loggers lose their items even with keepInventory.
+    # false: keepInventory is respected.
+    #
+    # Default: true
+    ignore-keep-inventory: true
+
+    # Drop the inventory (false = the items are deleted instead).
+    # Default: true
+    drop-inventory: true
+
+    # Drop experience (vanilla amount: 7 per level, at most 100).
+    # Default: true
+    drop-experience: true
+
+    # Count the combat log as a kill for the last opponent (statistics).
+    # Rewards are never given for combat-log deaths (anti abuse).
+    #
+    # true:  the opponent gets the kill in statistics.
+    # false: nobody gets a kill.
+    #
+    # Default: true
+    give-kill-to-opponent: true
+
+    # Count the combat log as a death in the logger's statistics.
+    # (The combat-log counter is always increased.)
+    # Default: true
+    count-as-death: true
+
+    money-penalty:
+      # Take money from the combat logger (requires Vault + economy plugin).
+      #
+      # true:  the penalty below is taken.
+      # false: no money is taken.
+      #
+      # Default: false
+      enabled: false
+
+      # percent = a percentage of the player's balance.
+      # fixed   = a fixed amount.
+      # The minimum-balance protection and maximum deduction from
+      # economy.yml always apply.
+      # Accepted values: percent, fixed
+      # Default: percent
+      mode: percent
+
+      # Percentage (0-100) or fixed amount, depending on mode.
+      # Default: 10
+      amount: 10
+
+      # Highest amount this penalty may take. 0 = no limit.
+      # Default: 0
+      maximum: 0
+
+      # Give the money to the last opponent instead of deleting it
+      # (transfer - no money is ever created).
+      # Default: true
+      give-to-opponent: true
+
+    # Console commands run at logout. Placeholders: {player}, {opponent},
+    # {world}, {x}, {y}, {z}, {type}, {time} (seconds of combat left).
+    # Example: ["ban {player} 10m Combat logging"]
+    # Default: []
+    commands: []
+
+    broadcast:
+      # Announce the combat log to everyone (combatlog.broadcast).
+      # Default: true
+      enabled: true
+
+      # Include the logout location (uses combatlog.broadcast-location).
+      # Default: false
+      show-location: false
+
+      # Sound preset played to other players ("none" = silent).
+      # Default: combat-log-broadcast
+      sound: combat-log-broadcast
+
+    # Leave a killable ghost of the player behind instead of killing them
+    # right away (ghosts.yml, module ghost-players must be enabled). If the
+    # ghost is killed, its items drop and the player dies on rejoin; if it
+    # survives, the player keeps everything. Falls back to kill-mode if no
+    # ghost can be spawned.
+    # Default: false
+    ghost-player: false
+
+    rejoin:
+      # Tell the player why they were punished when they come back
+      # (combatlog.rejoin / combatlog.rejoin-killed).
+      # Default: true
+      message: true
+
+      # Announce the return to everyone (combatlog.rejoin-broadcast).
+      # Default: false
+      broadcast: false
+
+      # Commands run when the player comes back. Placeholders: {player},
+      # {opponent}, {ago}.
+      # Default: []
+      console-commands: []
+      # Run by the player with their own permissions.
+      # Default: []
+      player-commands: []
+
+  pve:
+    # Default: death
+    kill-mode: death
+    # Default: false
+    kill-on-rejoin: false
+    # Default: true
+    ignore-keep-inventory: true
+    # Default: true
+    drop-inventory: true
+    # Default: true
+    drop-experience: true
+    # PvE logs have no player opponent; this has no effect for mobs.
+    # Default: false
+    give-kill-to-opponent: false
+    # Default: true
+    count-as-death: true
+    money-penalty:
+      # Default: false
+      enabled: false
+      # Default: percent
+      mode: percent
+      # Default: 5
+      amount: 5
+      # Default: 0
+      maximum: 0
+      # Default: false
+      give-to-opponent: false
+    # Default: []
+    commands: []
+    broadcast:
+      # Default: false
+      enabled: false
+      # Default: false
+      show-location: false
+      # Default: combat-log-broadcast
+      sound: combat-log-broadcast
+    # Default: false
+    ghost-player: false
+    rejoin:
+      # Default: true
+      message: true
+      # Default: false
+      broadcast: false
+      # Default: []
+      console-commands: []
+      # Default: []
+      player-commands: []

@@ -65,6 +65,24 @@ public abstract class Module<S> implements Listener {
     protected abstract S parse(ConfigReader reader);
 
     /**
+     * Registers the module's commands once at start-up. Commands stay registered while the module
+     * is switched off and answer with general.module-disabled (see {@link #guard}).
+     */
+    public void registerCommands() {
+    }
+
+    /**
+     * @return {@code true} when the module is enabled; otherwise tells the sender it is disabled
+     */
+    public final boolean guard(dev.ultimatecombat.core.command.CommandContext ctx) {
+        if (!enabled) {
+            ctx.reply("general.module-disabled", "module", id);
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Called after the module was enabled and its listener registered.
      */
     protected void onEnable() {

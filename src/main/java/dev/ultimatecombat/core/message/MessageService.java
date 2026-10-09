@@ -224,6 +224,25 @@ public final class MessageService {
         return Text.color(s);
     }
 
+    /**
+     * Replaces plugin and PlaceholderAPI placeholders without applying colours (for commands).
+     */
+    public String placeholders(Player viewer, String text, Object... placeholders) {
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+        String s = replace(text, placeholders);
+        BiFunction<Player, String, String> ext = externalPlaceholders;
+        if (usePlaceholderApi && ext != null && viewer != null && s.indexOf('%') >= 0) {
+            try {
+                s = ext.apply(viewer, s);
+            } catch (RuntimeException ignored) {
+                // never let a third-party placeholder break a command
+            }
+        }
+        return s;
+    }
+
     public static String replace(String text, Object... placeholders) {
         if (placeholders == null || placeholders.length == 0 || text.indexOf('{') < 0) {
             return text;

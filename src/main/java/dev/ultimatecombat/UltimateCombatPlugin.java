@@ -5,7 +5,9 @@ import dev.ultimatecombat.core.command.CommandManager;
 import dev.ultimatecombat.core.config.ConfigFile;
 import dev.ultimatecombat.core.config.ConfigReader;
 import dev.ultimatecombat.core.config.ConfigService;
+import dev.ultimatecombat.core.cooldown.CooldownService;
 import dev.ultimatecombat.core.debug.DebugService;
+import dev.ultimatecombat.core.economy.EconomyService;
 import dev.ultimatecombat.core.effect.EffectService;
 import dev.ultimatecombat.core.gui.ChatPrompt;
 import dev.ultimatecombat.core.gui.MenuListener;
@@ -15,6 +17,7 @@ import dev.ultimatecombat.core.kill.KillService;
 import dev.ultimatecombat.core.message.MessageService;
 import dev.ultimatecombat.core.module.Module;
 import dev.ultimatecombat.core.module.ModuleManager;
+import dev.ultimatecombat.core.pending.PendingActions;
 import dev.ultimatecombat.core.player.PlayerDataService;
 import dev.ultimatecombat.core.scheduler.BukkitTaskScheduler;
 import dev.ultimatecombat.core.scheduler.FoliaTaskScheduler;
@@ -47,7 +50,7 @@ public class UltimateCombatPlugin extends JavaPlugin {
      */
     public static final List<String> CORE_FILES = List.of(
             "config.yml", "features.yml", "worlds.yml", "messages.yml", "sounds.yml", "particles.yml", "menus.yml",
-            "commands.yml", "permissions.yml", "placeholders.yml", "integrations.yml", "storage.yml");
+            "commands.yml", "permissions.yml", "placeholders.yml", "integrations.yml", "storage.yml", "cooldowns.yml");
 
     private static UltimateCombatPlugin instance;
 
@@ -65,6 +68,9 @@ public class UltimateCombatPlugin extends JavaPlugin {
     private ModuleManager modules;
     private CommandManager commands;
     private KillService kills;
+    private CooldownService cooldowns;
+    private EconomyService economy;
+    private PendingActions pending;
     private SyncService sync;
     private Settings settings;
     private StorageSettings startupStorage;
@@ -101,6 +107,9 @@ public class UltimateCombatPlugin extends JavaPlugin {
         modules = new ModuleManager(this);
         commands = new CommandManager(this);
         kills = new KillService(this);
+        cooldowns = new CooldownService(this);
+        economy = new EconomyService(this);
+        pending = new PendingActions(this);
 
         ModuleRegistry.registerAll(this, modules);
         Integrations.defineAll(integrations);
@@ -126,6 +135,10 @@ public class UltimateCombatPlugin extends JavaPlugin {
         messages.load();
         menus.load();
         kills.load();
+        cooldowns.load();
+        economy.load();
+        pending.setExpireMillis(configs.file("storage.yml").reader().durationMillis("pending-actions-expire-days",
+                30L * 86_400_000L, ConfigReader.TimeUnitHint.DAYS, 86_400_000L, 3650L * 86_400_000L));
 
         startDatabase();
         players = new PlayerDataService(database, scheduler, getLogger());
@@ -142,6 +155,11 @@ public class UltimateCombatPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(prompts, this);
         Bukkit.getPluginManager().registerEvents(integrations, this);
         Bukkit.getPluginManager().registerEvents(kills, this);
+        Bukkit.getPluginManager().registerEvents(cooldowns, this);
+        Bukkit.getPluginManager().registerEvents(pending, this);
+        if (storageReady) {
+            scheduler.runAsyncTimer(pending::purge, 20L * 60, 20L * 3600);
+        }
         debug.setPlayerSink((uuid, line) -> {
             Player p = Bukkit.getPlayer(uuid);
             if (p != null) {
@@ -244,6 +262,8 @@ public class UltimateCombatPlugin extends JavaPlugin {
             menus.load();
             integrations.loadSettings();
             kills.load();
+            cooldowns.load();
+            economy.load();
             modules.reloadAll();
             commands.registerStandalone();
             return reloaded;
@@ -281,6 +301,7 @@ public class UltimateCombatPlugin extends JavaPlugin {
             switch (file.name()) {
                 case "config.yml", "permissions.yml" -> readSettings();
                 case "sounds.yml", "particles.yml" -> effects.load();
+                case "cooldowns.yml" -> cooldowns.load();
                 case "menus.yml" -> menus.load();
                 case "commands.yml" -> commands.registerStandalone();
                 case "integrations.yml" -> integrations.loadSettings();
@@ -318,6 +339,9 @@ public class UltimateCombatPlugin extends JavaPlugin {
             }
             if (sync != null) {
                 sync.stop();
+            }
+            if (cooldowns != null) {
+                cooldowns.shutdown();
             }
             if (players != null) {
                 players.shutdown();
@@ -414,6 +438,18 @@ public class UltimateCombatPlugin extends JavaPlugin {
 
     public KillService kills() {
         return kills;
+    }
+
+    public CooldownService cooldowns() {
+        return cooldowns;
+    }
+
+    public EconomyService economy() {
+        return economy;
+    }
+
+    public PendingActions pending() {
+        return pending;
     }
 
     public SyncService sync() {

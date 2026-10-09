@@ -1,0 +1,481 @@
+# ============================================================================
+#  UltimateCombat - combat.yml
+#  Combat tagging. A "tag" marks a player as being in combat for a while after
+#  a fight. Many other features react to it (combat log punishments, command
+#  blocking, combat borders, restrictions ...).
+#
+#  Module switch: features.yml -> modules.combat-tag
+#  Bypass permission: ultimatecombat.bypass.combat-tag (never tagged)
+#  Commands: /uc tag, /uc untag, /tag (shows your own combat status)
+# ============================================================================
+
+config-version: 1
+
+pvp:
+  # Enable or disable PvP combat tagging.
+  #
+  # true:
+  #   Players who attack each other enter combat mode.
+  #   The combat timer starts or refreshes after valid hits.
+  #   Combat-related restrictions become active.
+  #
+  # false:
+  #   Attacking another player will NOT activate combat mode.
+  #   PvP combat-tag restrictions will not be applied.
+  #
+  # Default: true
+  enabled: true
+
+  # Duration of the combat timer, in seconds.
+  #
+  # Example:
+  #   15 = players remain tagged for 15 seconds.
+  #   30 = players remain tagged for 30 seconds.
+  # Text values such as "1m" or "45s" are accepted too.
+  #
+  # A valid new attack refreshes the timer when refresh-on-hit is enabled.
+  #
+  # Allowed: 1-3600
+  # Default: 20
+  duration-seconds: 20
+
+  # Restart the timer on every new valid hit.
+  #
+  # true:
+  #   Each hit sets the remaining time back to duration-seconds.
+  #
+  # false:
+  #   The timer runs out duration-seconds after the FIRST hit, no matter how
+  #   long the fight continues.
+  #
+  # Default: true
+  refresh-on-hit: true
+
+  # Which hits count for tagging.
+  #
+  # damage:
+  #   Every attack that is not cancelled tags, even if armour, a shield or
+  #   resistance reduced the damage to zero.
+  #
+  # successful-hit:
+  #   Only attacks that actually deal damage (more than 0) tag.
+  #
+  # Accepted values: damage, successful-hit
+  # Default: damage
+  tag-mode: damage
+
+  # Tag the attacking player.
+  #
+  # true:  the attacker enters combat.
+  # false: only the victim is tagged (attackers can leave freely).
+  #
+  # Default: true
+  tag-attacker: true
+
+  # Tag the player who was attacked.
+  #
+  # true:  the victim enters combat.
+  # false: only the attacker is tagged.
+  #
+  # Default: true
+  tag-victim: true
+
+  # Which kinds of attacks tag. The responsible player is always found, also
+  # for indirect damage (the shooter of an arrow, the owner of a wolf, the
+  # player who placed the lava, detonated the crystal or primed the TNT).
+  sources:
+    # Swords, axes, other items and fists.
+    # Default: true
+    melee: true
+
+    # Arrows, tridents, snowballs, eggs, fishing rods, wind charges and other
+    # projectiles.
+    # Default: true
+    projectiles: true
+
+    # Harmful splash/lingering potions (poison, harming, slowness, weakness ...)
+    # and the poison/wither damage they cause.
+    # Default: true
+    potions: true
+
+    # TNT, end crystals, fireballs, beds and respawn anchors exploded by a
+    # player.
+    # Default: true
+    explosions: true
+
+    # Fire and lava placed by a player, fire aspect and flame arrows.
+    # Default: true
+    fire-and-lava: true
+
+    # Tamed animals (wolves ...) attacking for their owner.
+    # Default: true
+    tamed-animals: true
+
+    # Anything else a player is responsible for (lightning from a channeling
+    # trident, evoker fangs ...).
+    # Default: true
+    other: true
+
+  # Friendly-fire exclusion: never tag when both players are allies according
+  # to an installed party, faction, town or island plugin (see
+  # integrations.yml). Whether allies can hurt each other at all is decided by
+  # that plugin.
+  #
+  # true:  allies hitting each other are not tagged.
+  # false: allies are tagged like everyone else.
+  #
+  # Default: true
+  exclude-allies: true
+
+  # End the combat tag of a player when they die.
+  #
+  # true:  dying ends combat.
+  # false: the timer continues after respawning.
+  #
+  # Default: true
+  untag-on-death: true
+
+  # End combat for a player when their last remaining opponent died.
+  #
+  # true:
+  #   Killing your only opponent ends your combat immediately.
+  #
+  # false:
+  #   Your timer runs out normally.
+  #
+  # Default: true
+  untag-on-kill: true
+
+  # Send the "you are now in combat" message (combat.pvp.start-attacker /
+  # combat.pvp.start-victim in the language file).
+  # Default: true
+  notify-start: true
+
+  # Send the "you are no longer in combat" message (combat.end).
+  # Default: true
+  notify-end: true
+
+  sounds:
+    # Sound preset from sounds.yml played when combat starts ("none" = silent).
+    # Default: combat-start
+    start: combat-start
+
+    # Sound preset played when combat ends ("none" = silent).
+    # Default: combat-end
+    end: combat-end
+
+  particles:
+    # Particle preset from particles.yml shown when combat starts ("none" = off).
+    # Default: combat-start
+    start: combat-start
+
+  # Commands executed when a player enters / leaves PvP combat.
+  # console: run by the console. player: run by the tagged player with their
+  # own permissions.
+  # Placeholders: {player}, {opponent}, {type}, {time} (on-tag only)
+  # and PlaceholderAPI placeholders.
+  #
+  # Example:
+  #   on-tag:
+  #     console:
+  #       - "lp user {player} permission settemp essentials.fly false 30s"
+  #
+  # Default: empty lists (nothing is executed)
+  commands:
+    on-tag:
+      console: []
+      player: []
+    on-untag:
+      console: []
+      player: []
+
+pve:
+  # Enable or disable PvE combat tagging (fights against mobs).
+  #
+  # true:
+  #   Fighting mobs puts a player into PvE combat with its own timer and its
+  #   own combat-log punishment profile (combatlog.yml -> profiles.pve).
+  #
+  # false:
+  #   Mobs never tag players.
+  #
+  # Default: false
+  enabled: false
+
+  # Duration of the PvE combat timer, in seconds.
+  # Allowed: 1-3600
+  # Default: 10
+  duration-seconds: 10
+
+  # Restart the PvE timer on every new valid hit.
+  # Default: true
+  refresh-on-hit: true
+
+  # damage = every non-cancelled hit tags, successful-hit = only hits that
+  # deal more than 0 damage.
+  # Accepted values: damage, successful-hit
+  # Default: damage
+  tag-mode: damage
+
+  # Tag a player who attacks a mob.
+  # Default: true
+  tag-when-player-attacks: true
+
+  # Tag a player who is attacked by a mob (also by skeleton arrows etc.).
+  # Default: true
+  tag-when-mob-attacks: true
+
+  # PvP has precedence over PvE.
+  #
+  # true:
+  #   A PvP hit turns an existing PvE tag into a PvP tag (with the PvP timer).
+  #
+  # false:
+  #   An existing PvE tag stays PvE until it ends; PvP hits only extend it.
+  #
+  # Default: true
+  pvp-overrides-pve: true
+
+  # Allow mob hits to extend an existing PvP tag.
+  #
+  # true:  fighting mobs while in PvP combat keeps the PvP timer running.
+  # false: mob hits are ignored while in PvP combat.
+  #
+  # Default: false
+  pve-hit-refreshes-pvp-tag: false
+
+  entities:
+    # Hostile mobs (zombies, skeletons, creepers, ...).
+    # Default: true
+    hostile: true
+
+    # Passive animals (cows, pigs, horses, ...).
+    # Default: false
+    animals: false
+
+    # Bosses (Ender Dragon, Wither, Elder Guardian, Warden) and mobs that a
+    # custom mob plugin marks as boss.
+    # Default: true
+    bosses: true
+
+    # Custom mobs from MythicMobs and similar plugins (see integrations.yml).
+    # Default: true
+    custom: true
+
+    # Every other living entity (golems, villagers, ...).
+    # Default: false
+    other: false
+
+    # If this list is NOT empty, ONLY these entity types cause PvE tags and
+    # the category switches above are ignored.
+    # Example: [ZOMBIE, SKELETON, WITHER]
+    # Default: [] (empty = use the categories above)
+    whitelist: []
+
+    # Entity types that never cause PvE tags.
+    # Default: [ARMOR_STAND]
+    blacklist: [ARMOR_STAND]
+
+    # Mobs whose custom name matches one of these texts never tag. Each entry
+    # is a case-insensitive regular expression; plain words simply match if
+    # the name contains them.
+    # Example: ["Training Dummy", "^\\[NPC\\]"]
+    # Default: []
+    name-exclusions: []
+
+    # Custom mob ids (MythicMobs internal names) that never tag.
+    # Example: [TrainingDummy]
+    # Default: []
+    custom-blacklist: []
+
+  # End the PvE tag when the player dies.
+  # Default: true
+  untag-on-death: true
+
+  # Send combat.pve.start / combat.end messages for PvE combat.
+  # Default: true
+  notify-start: true
+  # Default: true
+  notify-end: true
+
+  sounds:
+    # Sound presets for PvE combat start/end ("none" = silent).
+    # Default: combat-start / combat-end
+    start: combat-start
+    end: combat-end
+
+  # Commands executed when a player enters / leaves PvE combat.
+  # Same format and placeholders as pvp.commands.
+  # Default: empty lists
+  commands:
+    on-tag:
+      console: []
+      player: []
+    on-untag:
+      console: []
+      player: []
+
+display:
+  actionbar:
+    # Show a live countdown in the action bar while tagged. The text is
+    # combat.actionbar.pvp / combat.actionbar.pve in the language file and may
+    # use {time}, {bar}, {opponent}, {type}.
+    #
+    # true:  the countdown is shown above the hotbar.
+    # false: no action bar countdown.
+    #
+    # Default: true
+    enabled: true
+
+    # Show combat.actionbar.end in the action bar when combat ends.
+    # Default: true
+    show-end-message: true
+
+  bossbar:
+    # Show a boss bar countdown at the top of the screen while tagged. The
+    # title is combat.bossbar.pvp / combat.bossbar.pve in the language file.
+    #
+    # true:  a boss bar is shown.
+    # false: no boss bar.
+    #
+    # Default: false
+    enabled: false
+
+    # Boss bar colour for PvP / PvE combat.
+    # Accepted values: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+    # Default: RED / YELLOW
+    pvp-color: RED
+    pve-color: YELLOW
+
+    # Boss bar style.
+    # Accepted values: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+    # Default: SEGMENTED_20
+    style: SEGMENTED_20
+
+    # Let the boss bar shrink as the timer runs out.
+    # true:  the bar empties over time.
+    # false: the bar stays full.
+    # Default: true
+    show-progress: true
+
+  # The {bar} placeholder: a text progress bar for action bar and boss bar.
+  progress-bar:
+    # Number of characters.
+    # Allowed: 1-100
+    # Default: 20
+    length: 20
+
+    # Character used for the remaining (filled) part.
+    # Default: "|"
+    filled-char: "|"
+
+    # Character used for the elapsed (empty) part.
+    # Default: "|"
+    empty-char: "|"
+
+    # Colour of the filled part (& code or hex such as &#FF5555).
+    # Default: "&c"
+    filled-color: "&c"
+
+    # Colour of the empty part.
+    # Default: "&7"
+    empty-color: "&7"
+
+  glowing:
+    # Make players glow (white outline visible through walls) while they are
+    # in PvP combat. The previous glowing state is restored afterwards.
+    #
+    # true:  tagged players glow.
+    # false: no glowing.
+    #
+    # Default: false
+    enabled: false
+
+third-party:
+  # Stop players who are not part of a fight from attacking somebody who is
+  # already fighting someone else (anti-interference).
+  #
+  # true:
+  #   Attacks on a tagged player by anyone who is not one of their current
+  #   opponents are cancelled (message: combat.third-party-blocked).
+  #
+  # false:
+  #   Anyone may join a fight.
+  #
+  # Default: false
+  block-interference: false
+
+  anti-kill-steal:
+    # Protect almost-dead fighters from being finished off by an outsider.
+    #
+    # true:
+    #   An outsider cannot hurt a player who was hit by their real opponent
+    #   within protect-seconds while that player's health is below
+    #   only-below-health-percent (message: combat.kill-steal-blocked).
+    #
+    # false:
+    #   No kill-steal protection.
+    #
+    # Default: false
+    enabled: false
+
+    # How long after the last hit from the real opponent the protection lasts.
+    # Allowed: 1-600
+    # Default: 10
+    protect-seconds: 10
+
+    # Only protect when the fighter's health is at or below this percentage of
+    # their maximum health. 100 = always protect.
+    # Allowed: 0-100
+    # Default: 100
+    only-below-health-percent: 100
+
+attribution:
+  # Count damage from tamed animals (for example wolves) as damage from their
+  # owner. Affects tagging, kill credit and statistics.
+  #
+  # true:  a wolf kill counts as a kill by its owner.
+  # false: tamed animals are treated like ordinary mobs.
+  #
+  # Default: true
+  count-tamed-animals: true
+
+# Players in these game modes are never tagged.
+# Accepted values: SURVIVAL, CREATIVE, ADVENTURE, SPECTATOR
+# Default: [CREATIVE, SPECTATOR]
+exempt-gamemodes: [CREATIVE, SPECTATOR]
+
+# Region names (WorldGuard regions, Lands, claims ... as reported by the
+# installed protection plugin) in which players are never tagged.
+# Example: [spawn, arena_lobby]
+# Default: [] (no excluded regions)
+excluded-regions: []
+
+# Worlds where combat tagging works.
+worlds:
+  # blacklist = tagging works everywhere EXCEPT the listed worlds.
+  # whitelist = tagging works ONLY in the listed worlds.
+  # Accepted values: blacklist, whitelist
+  # Default: blacklist
+  mode: blacklist
+
+  # World names. An empty blacklist means every world.
+  # Example: [creative, lobby]
+  # Default: []
+  list: []
+
+# End combat when a player changes world (for example through a portal).
+#
+# true:  changing world ends combat.
+# false: the tag continues in the new world (unless that world is excluded
+#        above, in which case combat always ends).
+#
+# Default: false
+untag-on-world-change: false
+
+# Ignore NPCs from Citizens and similar plugins (entities marked with the
+# standard "NPC" metadata) - they are never tagged and never tag others.
+# Ghost players from ghosts.yml are handled separately.
+#
+# Default: true
+ignore-npcs: true

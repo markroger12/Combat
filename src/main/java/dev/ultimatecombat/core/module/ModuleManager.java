@@ -61,6 +61,11 @@ public final class ModuleManager {
     public void enableAll() {
         for (Module<?> module : byId.values()) {
             parse(module);
+            try {
+                module.registerCommands();
+            } catch (RuntimeException e) {
+                plugin.getLogger().log(Level.SEVERE, "Commands of module " + module.id() + " could not be registered", e);
+            }
             if (switchedOn(module)) {
                 enable(module);
             }

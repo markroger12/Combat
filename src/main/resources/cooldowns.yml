@@ -1,0 +1,69 @@
+# ============================================================================
+#  UltimateCombat - cooldowns.yml
+#  How cooldowns are SHOWN and when they reset. This file is shared by every
+#  feature that has a cooldown. The cooldown DURATIONS are set where the
+#  feature is configured, so each value exists in exactly one place:
+#
+#    restrictions.yml -> rules.<rule>.cooldown-seconds   (ender pearls, chorus
+#                        fruit, wind charges, shields, custom items ...)
+#    apples.yml       -> golden / enchanted golden apples
+#    potions.yml      -> potions
+#    totems.yml       -> totems of undying
+#    pvp.yml          -> /togglepvp
+#    warmups.yml      -> command cooldowns
+# ============================================================================
+
+config-version: 1
+
+# Show the remaining time in the action bar when a player tries to use
+# something that is still on cooldown (text: cooldowns.actionbar).
+#
+# true:  "Ender Pearl: 4.2s" appears above the hotbar on a blocked use.
+# false: only the chat message cooldowns.active is sent (set it to "" in the
+#        language file to hide it too).
+#
+# Default: true
+actionbar-on-blocked-use: true
+
+# Show Minecraft's own cooldown overlay (the grey sweep on the item icon) for
+# item cooldowns.
+#
+# true:  the item icon shows the cooldown in the hotbar.
+# false: no overlay.
+#
+# Default: true
+vanilla-item-overlay: true
+
+ready-notification:
+  # Tell players when a cooldown has ended (text: cooldowns.ready).
+  #
+  # true:  a message (and optional sound) is sent when the cooldown ends.
+  # false: cooldowns end silently.
+  #
+  # Default: true
+  enabled: true
+
+  # Also show cooldowns.ready-actionbar in the action bar.
+  # Default: true
+  actionbar: true
+
+  # Sound preset from sounds.yml ("none" = silent).
+  # Default: cooldown-ready
+  sound: cooldown-ready
+
+# Clear every running cooldown when a player dies.
+#
+# true:  dying resets all cooldowns.
+# false: cooldowns keep running after death.
+#
+# Default: false
+reset-on-death: false
+
+# Keep running cooldowns when a player logs out and back in (until the next
+# server restart).
+#
+# true:  relogging does not reset cooldowns.
+# false: logging out clears the player's cooldowns.
+#
+# Default: true
+keep-after-logout: true

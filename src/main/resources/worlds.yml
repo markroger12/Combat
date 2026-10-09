@@ -1,0 +1,42 @@
+# ============================================================================
+#  UltimateCombat - worlds.yml
+#  Per-world overrides for ANY setting of ANY module file.
+#
+#  Most features additionally have their own "worlds:" filter inside their
+#  file (blacklist/whitelist of worlds where that feature is active). Use
+#  those filters to turn a feature off in a world, and use the overrides
+#  below to change values (durations, amounts, messages ...) in a world.
+# ============================================================================
+
+config-version: 1
+
+# Per-world overrides.
+#
+# Structure:
+#   overrides:
+#     <world name>:
+#       <file name without .yml>:
+#         <setting path exactly as in that file>: <value>
+#
+# Only the settings you list are changed in that world; everything else uses
+# the normal value of the file. Overrides are validated exactly like the
+# original setting - invalid values fall back to the normal value and are
+# reported by /uc validate.
+#
+# Example - longer combat timer and no flying restriction in the nether:
+#   overrides:
+#     world_nether:
+#       combat:
+#         pvp:
+#           duration-seconds: 30
+#       restrictions:
+#         rules:
+#           flight:
+#             enabled: false
+#
+# Important: module on/off switches (features.yml) and storage settings
+# cannot be overridden per world. Settings that are used without a world
+# (for example global announcements) always use the normal value.
+#
+# Default: {} (no overrides)
+overrides: {}

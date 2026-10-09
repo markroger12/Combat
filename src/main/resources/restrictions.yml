@@ -1,0 +1,1157 @@
+# ============================================================================
+#  UltimateCombat - restrictions.yml
+#  Things players may not do while in combat (or outside combat, or always).
+#
+#  Module switch: features.yml -> modules.restrictions
+#  General bypass: ultimatecombat.bypass.restrictions (ignores every rule)
+#  Command bypass: ultimatecombat.bypass.commands
+#  Per-rule bypass: ultimatecombat.bypass.restriction.<rule> (configurable)
+#
+#  ---------------------------------------------------------------------------
+#  SETTINGS SHARED BY EVERY RULE (each rule below repeats them):
+#
+#  enabled: true/false
+#    true  = the rule is active.
+#    false = the rule does nothing at all.
+#
+#  when: in-combat | out-of-combat | always
+#    in-combat     = restricted only while the player is tagged.
+#    out-of-combat = restricted only while the player is NOT tagged.
+#    always        = restricted at all times.
+#
+#  action: block | cooldown
+#    block    = the action is cancelled while "when" applies.
+#    cooldown = the action is allowed, but only once every cooldown-seconds
+#               while "when" applies (how cooldowns are displayed is set in
+#               cooldowns.yml). Only meaningful for rules with a
+#               cooldown-seconds setting.
+#
+#  cooldown-seconds: 0-86400  (only for usable items, used with action: cooldown)
+#
+#  combat-types: [PVP] | [PVE] | [PVP, PVE]
+#    Which kinds of combat count as "in combat" for this rule.
+#
+#  permission: ""
+#    If set, players WITHOUT this permission can never use the action.
+#    Empty = no extra permission needed.
+#
+#  bypass-permission: ultimatecombat.bypass.restriction.<rule>
+#    Players with this permission ignore the rule. Set it to "" to make the
+#    rule apply to everybody. (Operators only bypass when permissions.yml
+#    -> operators-bypass is true or they have the permission explicitly.)
+#
+#  worlds: {mode: blacklist|whitelist, list: [...]}
+#    Worlds where the rule works. Empty blacklist = every world.
+#
+#  message: ""
+#    Custom text when blocked. Empty = use restrictions.blocked.<rule> from
+#    the language file. Placeholders: {player}, {action}, {time}.
+#
+#  sound: denied
+#    Sound preset from sounds.yml played when blocked ("none" = silent).
+#  ---------------------------------------------------------------------------
+# ============================================================================
+
+config-version: 1
+
+commands:
+  # Block commands while in combat.
+  #
+  # true:
+  #   Commands matching the list below cannot be used while tagged
+  #   (blacklist mode), or ONLY listed commands can be used (whitelist mode).
+  #
+  # false:
+  #   No commands are blocked by this section.
+  #
+  # Default: true
+  enabled: true
+
+  # blacklist = the listed commands are blocked during combat.
+  # whitelist = ONLY the listed commands are allowed during combat.
+  # Accepted values: blacklist, whitelist
+  # Default: blacklist
+  mode: blacklist
+
+  # Commands for the mode above. Write them without "/". Aliases are detected
+  # automatically (blocking "spawn" also blocks "essentials:spawn" and every
+  # alias of the same command). An entry with a space only matches that
+  # sub command, e.g. "gamemode creative". "*" matches every command.
+  #
+  # Default: common teleport/escape commands
+  list:
+    - spawn
+    - home
+    - homes
+    - sethome
+    - warp
+    - warps
+    - tpa
+    - tpahere
+    - tpaccept
+    - tpyes
+    - tp
+    - back
+    - rtp
+    - wild
+    - fly
+    - god
+    - vanish
+    - v
+    - ec
+    - enderchest
+    - kit
+    - hub
+    - lobby
+    - logout
+
+  # Commands blocked at ALL times (for everyone without
+  # ultimatecombat.bypass.commands), independent of combat.
+  # Default: []
+  blocked-always: []
+
+  # Which kinds of combat block commands.
+  # Accepted values: PVP, PVE
+  # Default: [PVP, PVE]
+  combat-types: [PVP, PVE]
+
+  # Custom text when a command is blocked ("" = restrictions.command-blocked
+  # from the language file). Placeholders: {command}, {time}.
+  # Default: ""
+  message: ""
+
+  # Sound preset played when a command is blocked ("none" = silent).
+  # Default: denied
+  sound: denied
+
+  # Worlds where commands are blocked.
+  worlds:
+    # Default: blacklist
+    mode: blacklist
+    # Default: []
+    list: []
+
+rules:
+
+  # --------------------------------------------------------------------------
+  # flight: Flying (survival flight from /fly or permissions; creative/spectator are handled by the 'creative' rule).
+  #
+  # true:  Players cannot start flying while the rule applies.
+  # false: Flying is not limited by this rule.
+  # --------------------------------------------------------------------------
+  flight:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.flight
+    bypass-permission: ultimatecombat.bypass.restriction.flight
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.flight).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Turn flight off as soon as a player is tagged (otherwise they are only
+    # stopped from STARTING to fly).
+    # Default: true
+    disable-on-tag: true
+    # Give flight back when combat ends, if the player could fly before.
+    # Default: true
+    restore-after-combat: true
+
+  # --------------------------------------------------------------------------
+  # elytra: Gliding with an elytra.
+  #
+  # true:  Players cannot start gliding (and cannot boost with fireworks).
+  # false: Elytra flight is not limited.
+  # --------------------------------------------------------------------------
+  elytra:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.elytra
+    bypass-permission: ultimatecombat.bypass.restriction.elytra
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.elytra).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Stop players who are already gliding when they get tagged.
+    # Default: true
+    stop-gliding-on-tag: true
+    # Also block using firework rockets to boost while gliding.
+    # Default: true
+    block-firework-boost: true
+
+  # --------------------------------------------------------------------------
+  # riptide: Using a riptide trident to launch yourself.
+  #
+  # true:  Riptide tridents cannot be used.
+  # false: Riptide works normally.
+  # --------------------------------------------------------------------------
+  riptide:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # block | cooldown
+    # Default: block
+    action: block
+    # Cooldown when action is "cooldown", in seconds.
+    # Allowed: 0-86400
+    # Default: 0
+    cooldown-seconds: 0
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.riptide
+    bypass-permission: ultimatecombat.bypass.restriction.riptide
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.riptide).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # creative: Creative and spectator mode.
+  #
+  # true:  Players cannot switch to creative/spectator.
+  # false: Game mode changes are not limited.
+  # --------------------------------------------------------------------------
+  creative:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.creative
+    bypass-permission: ultimatecombat.bypass.restriction.creative
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.creative).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Put players in creative/spectator back into survival when tagged
+    # (only happens if exempt-gamemodes in combat.yml does not exempt them).
+    # Default: true
+    force-survival-on-tag: true
+    # Block switching TO creative/spectator while the rule applies.
+    # Default: true
+    block-gamemode-change: true
+
+  # --------------------------------------------------------------------------
+  # god-mode: God mode from EssentialsX, CMI and similar plugins (needs the matching integration).
+  #
+  # true:  God mode is switched off when a player is tagged.
+  # false: God mode is left alone.
+  # --------------------------------------------------------------------------
+  god-mode:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.god-mode
+    bypass-permission: ultimatecombat.bypass.restriction.god-mode
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.god-mode).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Switch god mode off when a player is tagged.
+    # Default: true
+    disable-on-tag: true
+
+  # --------------------------------------------------------------------------
+  # vanish: Vanish (EssentialsX, CMI, SuperVanish, PremiumVanish ... via integrations).
+  #
+  # true:  Vanished players become visible when tagged.
+  # false: Vanish is left alone.
+  # --------------------------------------------------------------------------
+  vanish:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.vanish
+    bypass-permission: ultimatecombat.bypass.restriction.vanish
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.vanish).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Make vanished players visible again when they are tagged.
+    # Default: true
+    unvanish-on-tag: true
+
+  # --------------------------------------------------------------------------
+  # disguise: Disguises from LibsDisguises (needs the integration).
+  #
+  # true:  Disguised players are undisguised when tagged.
+  # false: Disguises are left alone.
+  # --------------------------------------------------------------------------
+  disguise:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.disguise
+    bypass-permission: ultimatecombat.bypass.restriction.disguise
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.disguise).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Remove the disguise when a player is tagged.
+    # Default: true
+    undisguise-on-tag: true
+
+  # --------------------------------------------------------------------------
+  # teleport: Teleports caused by commands and plugins (homes, warps, spawn, TPA, GUI teleports ...).
+  #
+  # true:  Matching teleports are cancelled.
+  # false: Teleporting is not limited by this rule (commands may still be blocked in the commands section).
+  # --------------------------------------------------------------------------
+  teleport:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.teleport
+    bypass-permission: ultimatecombat.bypass.restriction.teleport
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.teleport).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Which teleport causes are blocked.
+    # Accepted values: COMMAND, PLUGIN, NETHER_PORTAL, END_PORTAL,
+    # END_GATEWAY, SPECTATE, ENDER_PEARL, DISMOUNT, EXIT_BED, UNKNOWN
+    # (CHORUS_FRUIT is handled by the chorus-fruit rule.)
+    # Default: [COMMAND, PLUGIN]
+    causes: [COMMAND, PLUGIN]
+    # Allow teleports shorter than this many blocks in the same world (for
+    # example anti-cheat corrections). 0 = block every distance.
+    # Allowed: 0-1000
+    # Default: 0
+    allow-short-distance: 0
+
+  # --------------------------------------------------------------------------
+  # containers: Opening containers.
+  #
+  # true:  Opening the listed container types is blocked.
+  # false: Containers can be opened.
+  # --------------------------------------------------------------------------
+  containers:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.containers
+    bypass-permission: ultimatecombat.bypass.restriction.containers
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.containers).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Inventory types that count as containers for this rule.
+    # Examples: ENDER_CHEST, CHEST, BARREL, SHULKER_BOX, HOPPER, DISPENSER,
+    # DROPPER, FURNACE, BREWING, BEACON, CRAFTER
+    # Default: [ENDER_CHEST]
+    inventory-types: [ENDER_CHEST]
+
+  # --------------------------------------------------------------------------
+  # block-break: Breaking blocks.
+  #
+  # true:  Blocks cannot be broken.
+  # false: Breaking blocks is allowed.
+  # --------------------------------------------------------------------------
+  block-break:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.block-break
+    bypass-permission: ultimatecombat.bypass.restriction.block-break
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.block-break).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Blocks that may always be broken (wildcards allowed, e.g. "*_LEAVES").
+    # Default: [COBWEB]
+    exempt-materials: [COBWEB]
+
+  # --------------------------------------------------------------------------
+  # block-place: Placing blocks.
+  #
+  # true:  Blocks cannot be placed.
+  # false: Placing blocks is allowed.
+  # --------------------------------------------------------------------------
+  block-place:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.block-place
+    bypass-permission: ultimatecombat.bypass.restriction.block-place
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.block-place).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Blocks that may always be placed (wildcards allowed).
+    # Default: [COBWEB]
+    exempt-materials: [COBWEB]
+
+  # --------------------------------------------------------------------------
+  # sleeping: Sleeping in beds.
+  #
+  # true:  Players cannot enter beds.
+  # false: Beds work normally.
+  # --------------------------------------------------------------------------
+  sleeping:
+    # Rule on/off.
+    # Default: true
+    enabled: true
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.sleeping
+    bypass-permission: ultimatecombat.bypass.restriction.sleeping
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.sleeping).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # armor-switching: Changing armour (inventory clicks, right-click equipping, dispensers).
+  #
+  # true:  Armour cannot be changed.
+  # false: Armour can be changed freely.
+  # --------------------------------------------------------------------------
+  armor-switching:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.armor-switching
+    bypass-permission: ultimatecombat.bypass.restriction.armor-switching
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.armor-switching).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # inventory: Moving items inside the player's own inventory.
+  #
+  # true:  Clicks in the own inventory are cancelled (hotbar keys still select slots).
+  # false: The inventory can be used normally.
+  # --------------------------------------------------------------------------
+  inventory:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.inventory
+    bypass-permission: ultimatecombat.bypass.restriction.inventory
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.inventory).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Also block dropping items (Q key / dragging out of the inventory).
+    # Default: false
+    include-dropping: false
+
+  # --------------------------------------------------------------------------
+  # mending: The Mending enchantment repairing items with experience.
+  #
+  # true:  Mending does not repair items (the experience is kept by the player).
+  # false: Mending works normally.
+  # --------------------------------------------------------------------------
+  mending:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.mending
+    bypass-permission: ultimatecombat.bypass.restriction.mending
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.mending).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # enchanting: Enchanting tables and anvils.
+  #
+  # true:  The listed inventories cannot be opened.
+  # false: They can be used normally.
+  # --------------------------------------------------------------------------
+  enchanting:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.enchanting
+    bypass-permission: ultimatecombat.bypass.restriction.enchanting
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.enchanting).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Inventory types blocked by this rule.
+    # Examples: ENCHANTING, ANVIL, GRINDSTONE, SMITHING
+    # Default: [ENCHANTING, ANVIL]
+    inventory-types: [ENCHANTING, ANVIL]
+
+  # --------------------------------------------------------------------------
+  # potions: Using potions (cooldowns and effect limits are in potions.yml).
+  #
+  # true:  Selected potion kinds cannot be used.
+  # false: Potions are not blocked by this rule.
+  # --------------------------------------------------------------------------
+  potions:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.potions
+    bypass-permission: ultimatecombat.bypass.restriction.potions
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.potions).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Which potion kinds this rule blocks.
+    # Default: true / true / true
+    drinkable: true
+    splash: true
+    lingering: true
+
+  # --------------------------------------------------------------------------
+  # ender-pearls: Throwing ender pearls.
+  #
+  # true:  Ender pearls cannot be thrown (action: block) or are rate limited (action: cooldown).
+  # false: Pearls are not limited.
+  # --------------------------------------------------------------------------
+  ender-pearls:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # block | cooldown
+    # Default: block
+    action: block
+    # Cooldown when action is "cooldown", in seconds.
+    # Allowed: 0-86400
+    # Default: 0
+    cooldown-seconds: 0
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.ender-pearls
+    bypass-permission: ultimatecombat.bypass.restriction.ender-pearls
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.ender-pearls).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # chorus-fruit: Eating chorus fruit / its teleport.
+  #
+  # true:  Chorus fruit cannot be eaten.
+  # false: Chorus fruit works normally.
+  # --------------------------------------------------------------------------
+  chorus-fruit:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # block | cooldown
+    # Default: block
+    action: block
+    # Cooldown when action is "cooldown", in seconds.
+    # Allowed: 0-86400
+    # Default: 0
+    cooldown-seconds: 0
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.chorus-fruit
+    bypass-permission: ultimatecombat.bypass.restriction.chorus-fruit
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.chorus-fruit).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # golden-apples: Eating golden apples (cooldowns and effects are in apples.yml).
+  #
+  # true:  Golden apples cannot be eaten.
+  # false: Golden apples are not blocked by this rule.
+  # --------------------------------------------------------------------------
+  golden-apples:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.golden-apples
+    bypass-permission: ultimatecombat.bypass.restriction.golden-apples
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.golden-apples).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # enchanted-golden-apples: Eating enchanted golden apples (cooldowns and effects are in apples.yml).
+  #
+  # true:  Enchanted golden apples cannot be eaten.
+  # false: They are not blocked by this rule.
+  # --------------------------------------------------------------------------
+  enchanted-golden-apples:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.enchanted-golden-apples
+    bypass-permission: ultimatecombat.bypass.restriction.enchanted-golden-apples
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.enchanted-golden-apples).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # totems: Totems of Undying saving a player (cooldowns/effects are in totems.yml).
+  #
+  # true:  Totems do not activate (the player dies).
+  # false: Totems work normally.
+  # --------------------------------------------------------------------------
+  totems:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.totems
+    bypass-permission: ultimatecombat.bypass.restriction.totems
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.totems).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # shields: Raising shields.
+  #
+  # true:  Shields cannot be raised.
+  # false: Shields work normally.
+  # --------------------------------------------------------------------------
+  shields:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # block | cooldown
+    # Default: block
+    action: block
+    # Cooldown when action is "cooldown", in seconds.
+    # Allowed: 0-86400
+    # Default: 0
+    cooldown-seconds: 0
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.shields
+    bypass-permission: ultimatecombat.bypass.restriction.shields
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.shields).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # tnt: Placing and igniting TNT.
+  #
+  # true:  TNT cannot be placed or lit with flint and steel / fire charges.
+  # false: TNT is not limited.
+  # --------------------------------------------------------------------------
+  tnt:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # block | cooldown
+    # Default: block
+    action: block
+    # Cooldown when action is "cooldown", in seconds.
+    # Allowed: 0-86400
+    # Default: 0
+    cooldown-seconds: 0
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.tnt
+    bypass-permission: ultimatecombat.bypass.restriction.tnt
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.tnt).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # wind-charges: Throwing wind charges (1.21+).
+  #
+  # true:  Wind charges cannot be thrown.
+  # false: Wind charges are not limited.
+  # --------------------------------------------------------------------------
+  wind-charges:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # block | cooldown
+    # Default: block
+    action: block
+    # Cooldown when action is "cooldown", in seconds.
+    # Allowed: 0-86400
+    # Default: 0
+    cooldown-seconds: 0
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.wind-charges
+    bypass-permission: ultimatecombat.bypass.restriction.wind-charges
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.wind-charges).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+
+  # --------------------------------------------------------------------------
+  # custom-items: Using items matching the list below (custom weapons, special items).
+  #
+  # true:  Matching items cannot be used (right-click / eat / drink).
+  # false: They are not limited.
+  # --------------------------------------------------------------------------
+  custom-items:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # block | cooldown
+    # Default: block
+    action: block
+    # Cooldown when action is "cooldown", in seconds.
+    # Allowed: 0-86400
+    # Default: 0
+    cooldown-seconds: 0
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.custom-items
+    bypass-permission: ultimatecombat.bypass.restriction.custom-items
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.custom-items).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Items blocked by this rule. Every condition you set must match; leave a
+    # condition out to ignore it.
+    #   material:          item type
+    #   name-contains:     text the display name must contain (case-insensitive)
+    #   custom-model-data: custom model data number (0 = ignore)
+    #   custom-id:         custom item id from MMOItems & co (see integrations.yml)
+    #
+    # Example:
+    #   items:
+    #     grappling-hook:
+    #       material: FISHING_ROD
+    #       name-contains: "grappling"
+    #
+    # Default: {} (no items)
+    # @user-map
+    items: {}
+
+  # --------------------------------------------------------------------------
+  # entity-interactions: Right-clicking entities (villager trading, mounting horses ...). Players are never affected.
+  #
+  # true:  Interacting with the listed entities is blocked.
+  # false: Entity interactions are allowed.
+  # --------------------------------------------------------------------------
+  entity-interactions:
+    # Rule on/off.
+    # Default: false
+    enabled: false
+    # in-combat | out-of-combat | always
+    # Default: in-combat
+    when: in-combat
+    # Combat kinds that count (PVP, PVE).
+    # Default: [PVP]
+    combat-types: [PVP]
+    # Permission needed to use this at all ("" = none).
+    # Default: ""
+    permission: ""
+    # Permission to ignore this rule ("" = nobody bypasses).
+    # Default: ultimatecombat.bypass.restriction.entity-interactions
+    bypass-permission: ultimatecombat.bypass.restriction.entity-interactions
+    # Worlds where the rule works (blacklist/whitelist + list).
+    worlds:
+      mode: blacklist
+      list: []
+    # Custom block message ("" = language file restrictions.blocked.entity-interactions).
+    # Default: ""
+    message: ""
+    # Sound preset when blocked ("none" = silent).
+    # Default: denied
+    sound: denied
+    # Entity types affected. Empty list = every non-player entity.
+    # Example: [VILLAGER, HORSE]
+    # Default: []
+    entity-types: []

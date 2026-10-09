@@ -1,0 +1,156 @@
+# ============================================================================
+#  UltimateCombat - borders.yml
+#  Combat borders keep tagged players inside PvP areas, so they cannot escape
+#  a fight by running into a safe zone (spawn, claims, towns ...).
+#
+#  Module switch: features.yml -> modules.combat-borders (needs combat-tag)
+#  Bypass permission: ultimatecombat.bypass.combat-borders
+#  Admin commands: /uc border pos1 | pos2 | create <name> | delete <name> | list
+#
+#  Where are "safe zones"?
+#   1. Zones defined below (zones:) - work without any other plugin.
+#   2. Areas where an installed protection plugin disables PvP (WorldGuard
+#      pvp flag, Lands, Towny, GriefPrevention claims ...) when
+#      use-protection-plugins is true (see integrations.yml).
+#
+#  Visual walls are CLIENT-SIDE only: the real world is never modified and
+#  every fake block disappears when combat ends, on logout, reload or restart.
+# ============================================================================
+
+config-version: 1
+
+# How borders work.
+#
+# visual-blocks: a wall of fake blocks is shown at the edge of safe zones
+#                (players can still walk through unless pushback is active).
+# pushback:      invisible border - players are pushed back when they try to
+#                walk into a safe zone.
+# both:          visible wall AND push back.
+#
+# Accepted values: visual-blocks, pushback, both
+# Default: both
+mode: both
+
+visual:
+  # Block shown as the wall (any block material).
+  # Default: RED_STAINED_GLASS
+  material: RED_STAINED_GLASS
+
+  # How far around the player (in blocks) borders are searched and shown.
+  # Limited by config.yml -> performance.max-border-scan-radius.
+  # Allowed: 2-32
+  # Default: 8
+  radius: 8
+
+  # Wall height: blocks below and above the player's feet.
+  # Allowed: 1-16
+  # Default: 3
+  height: 3
+
+  # Only show fake blocks where the real block is air, water/lava or
+  # passable (grass, flowers ...). Prevents visually replacing solid blocks.
+  #
+  # true:  walls only fill empty space.
+  # false: walls replace any block visually (the real block is unchanged).
+  #
+  # Default: true
+  only-replace-air: true
+
+  # How often the wall is recalculated, in ticks (20 = 1 second).
+  # Lower = smoother, higher = less work.
+  # Allowed: 1-100
+  # Default: 5
+  update-interval-ticks: 5
+
+pushback:
+  # Horizontal push strength when a tagged player walks into a safe zone.
+  # 0 = they are only stopped, not pushed.
+  # Allowed: 0-5
+  # Default: 1.0
+  strength: 1.0
+
+  # Upward push.
+  # Allowed: 0-2
+  # Default: 0.25
+  vertical: 0.25
+
+# Cancel ender pearls that would land a tagged player inside a safe zone.
+# Default: true
+block-ender-pearls: true
+
+# Cancel any other teleport (commands, plugins, portals) into a safe zone
+# while tagged.
+# Default: true
+block-teleports: true
+
+particles:
+  # Show border particles (preset from particles.yml) along the edge.
+  # Default: false
+  enabled: false
+
+  # Particle preset.
+  # Default: border
+  preset: border
+
+# Sound preset when a player is stopped ("none" = silent).
+# Default: border-push
+sound: border-push
+
+# Send borders.blocked when a player is stopped.
+# Default: true
+message: true
+
+escape-attempt:
+  # Console commands run when a tagged player tries to escape (walks into a
+  # border or pearls into a safe zone). Placeholders: {player}, {world}, {x},
+  # {y}, {z}.
+  # Example: ["effect give {player} slowness 3 1"]
+  # Default: []
+  commands: []
+
+  # Minimum time between two command executions for the same player
+  # (seconds), so commands are not spammed.
+  # Allowed: 0-3600
+  # Default: 10
+  cooldown-seconds: 10
+
+# Which combat types are kept inside PvP areas.
+# Accepted values: PVP, PVE
+# Default: [PVP]
+combat-types: [PVP]
+
+# Use areas where installed protection plugins disable PvP as safe zones.
+#
+# true:  WorldGuard/Lands/Towny/... no-PvP areas get borders.
+# false: only the zones below get borders.
+#
+# Default: true
+use-protection-plugins: true
+
+# Region names (from protection plugins) that never get a border even though
+# PvP is disabled there.
+# Default: []
+ignored-regions: []
+
+# Built-in no-PvP zones. Inside a zone with block-pvp: true, players cannot
+# hurt each other (works without other plugins) and the zone gets a combat
+# border. Create zones in game with /uc border pos1, /uc border pos2 and
+# /uc border create <name>, or write them here:
+#
+#   zones:
+#     spawn:
+#       world: world
+#       min: "-50,0,-50"     # x,y,z of one corner
+#       max: "50,320,50"     # x,y,z of the opposite corner
+#       block-pvp: true      # true = no PvP inside (safe zone)
+#
+# Default: {} (no zones)
+# @user-map
+zones: {}
+
+# Worlds where borders work.
+worlds:
+  # Default: blacklist
+  mode: blacklist
+  # Default: []
+  list: []

@@ -1,0 +1,99 @@
+# ============================================================================
+#  UltimateCombat - messages.yml
+#  Global message settings. The texts themselves are in languages/<code>.yml.
+#
+#  Message files:
+#    languages/en_US.yml  English (always complete; used for missing keys)
+#    languages/de_DE.yml  German
+#    languages/custom.yml Your own overrides. Copy any key from en_US.yml into
+#                         custom.yml and change it there - custom.yml always
+#                         wins and is never touched by plugin updates.
+#
+#  Formatting supported in every text:
+#    &a &l ...        legacy colour/format codes
+#    &#FF5555         hex colour (also {#FF5555} and <#FF5555>)
+#    <gradient:#f00:#00f>text</gradient>, <bold>, <red> ...
+#                     MiniMessage tags (Paper/Folia only, see text-format)
+#    {placeholder}    plugin placeholders listed next to each message
+#    %placeholder%    PlaceholderAPI placeholders (if installed and enabled)
+#  An empty text ("") disables that message completely.
+# ============================================================================
+
+config-version: 1
+
+# Text placed in front of chat messages ({prefix} in texts also inserts it).
+#
+# Default: "&8[&cUltimateCombat&8] &r"
+prefix: "&8[&cUltimateCombat&8] &r"
+
+# Language file used for every message.
+#
+# Accepted values: any file name in plugins/UltimateCombat/languages/ without
+# ".yml" (bundled: en_US, de_DE). Create e.g. languages/fr_FR.yml to add a
+# language; missing keys fall back to English.
+#
+# Default: en_US
+language: en_US
+
+# Use each player's Minecraft client language when a matching file exists
+# (for example languages/de_de.yml for a German client).
+#
+# true:
+#   Players see messages in their own client language when available,
+#   otherwise in the language above.
+#
+# false:
+#   Everyone sees the language selected above.
+#
+# Default: false
+per-player-language: false
+
+# Replace PlaceholderAPI placeholders (%...%) inside messages.
+#
+# true:  placeholders are replaced when PlaceholderAPI is installed.
+# false: %...% texts are shown unchanged.
+#
+# Default: true
+use-placeholderapi: true
+
+# How texts are interpreted.
+#
+# auto:        legacy & codes and hex always work; MiniMessage tags are used
+#              when a text contains them (Paper/Folia only).
+# legacy:      only & codes and hex colours.
+# minimessage: every text is parsed as MiniMessage first (Paper/Folia only;
+#              on Spigot this behaves like legacy).
+#
+# Accepted values: auto, legacy, minimessage
+# Default: auto
+text-format: auto
+
+formats:
+  # Unit labels used when durations are shown, e.g. "1h 5m 3s".
+  # Default: d / h / m / s
+  day: "d"
+  hour: "h"
+  minute: "m"
+  second: "s"
+
+  # Text shown for true/false values in placeholders and status messages.
+  # Default: "&atrue" / "&cfalse"
+  yes: "&atrue"
+  no: "&cfalse"
+
+  # Text shown when a value does not exist (for example no combat opponent).
+  # Default: "None"
+  none: "None"
+
+  # Text shown when a value is unknown or still loading.
+  # Default: "-"
+  unknown: "-"
+
+  # Show combat timers with tenths of a second (12.4) instead of whole seconds
+  # (13). Affects {time} in combat messages and the timer placeholders.
+  #
+  # true:  12.4
+  # false: 13
+  #
+  # Default: true
+  timer-decimals: true

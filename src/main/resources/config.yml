@@ -1,0 +1,111 @@
+# ============================================================================
+#  UltimateCombat - config.yml
+#  General plugin behaviour. Feature settings live in their own files:
+#    features.yml  -> turn whole modules on or off
+#    combat.yml    -> combat tagging (PvP and PvE)
+#    combatlog.yml -> punishments for logging out in combat
+#    ...one file per feature (see CONFIGURATION.md for the full list)
+#
+#  Every option is documented directly above it. You can also run
+#    /uc config explain <file>:<path>   (example: /uc config explain combat.yml:pvp.duration-seconds)
+#  in game or in the console to read the documentation of any setting.
+#
+#  After editing, run /uc reload (or /uc reload <file>) - no restart needed
+#  unless a setting says otherwise.
+# ============================================================================
+
+# Internal layout version of this file. Used to migrate settings safely when
+# the plugin is updated. Do NOT change this value.
+config-version: 1
+
+config-management:
+  # Automatically apply structural migrations (renamed or moved settings)
+  # when the plugin is updated.
+  #
+  # true:
+  #   Renamed settings are moved to their new names automatically, keeping
+  #   your values. A backup of every changed file is written to backups/
+  #   first and every change is logged in the console.
+  #
+  # false:
+  #   Nothing is changed automatically. Outdated settings are reported in the
+  #   console and you can apply the migration with /uc migrate.
+  #
+  # Default: true
+  auto-migrate: true
+
+  # Automatically add settings that were introduced by a newer plugin version
+  # (together with their documentation) to your files on start-up.
+  #
+  # true:
+  #   Missing settings are appended to your files after a backup is made.
+  #
+  # false:
+  #   Your files are left untouched. Missing settings silently use their
+  #   documented default value. Run /uc migrate whenever you want to add them.
+  #
+  # Default: false
+  auto-add-missing-keys: false
+
+  # How many backup folders to keep inside plugins/UltimateCombat/backups/.
+  # A new backup folder is created whenever the plugin changes one of your
+  # files (/uc config set, the GUI editor, /uc migrate, /uc backup).
+  # Older folders beyond this number are deleted automatically.
+  #
+  # Allowed: 1-1000
+  # Default: 20
+  keep-backups: 20
+
+debug:
+  # Enable debug output. Only useful when diagnosing problems or when asked
+  # by support. Individual admins can also receive live debug output in chat
+  # with /uc debug (permission ultimatecombat.debug) without enabling this.
+  #
+  # true:
+  #   Debug lines are written to the console and/or the log file below.
+  #
+  # false:
+  #   No debug output (recommended for production).
+  #
+  # Default: false
+  enabled: false
+
+  # Write debug lines to the server console.
+  #
+  # Default: true
+  console: true
+
+  # Write debug lines to plugins/UltimateCombat/logs/debug-<date>.log.
+  #
+  # Default: false
+  file: false
+
+  # Only show these debug categories. An empty list shows every category.
+  #
+  # Available categories: combat, combatlog, kills, config, integrations,
+  # storage, restrictions, rewards, bounties, borders, oldpvp, grace
+  #
+  # Example:
+  #   categories: [combat, combatlog]
+  #
+  # Default: [] (all categories)
+  categories: []
+
+performance:
+  # How often (in ticks, 20 ticks = 1 second) combat timers are checked and
+  # the action bar / boss bar countdowns are refreshed.
+  #
+  # Lower values = smoother countdown (needed to show tenths of seconds).
+  # Higher values = slightly less work on servers with many fighting players.
+  #
+  # Allowed: 1-20
+  # Default: 2
+  combat-update-interval-ticks: 2
+
+  # Radius (in blocks) in which combat borders are searched around a fighting
+  # player. Larger values show walls earlier but cost more processing.
+  # (Detailed border settings are in borders.yml; this is a hard upper limit.)
+  #
+  # Allowed: 2-32
+  # Default: 16
+  max-border-scan-radius: 16
