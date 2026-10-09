@@ -2,6 +2,7 @@ package dev.ultimatecombat.modules;
 
 import dev.ultimatecombat.UltimateCombatPlugin;
 import dev.ultimatecombat.core.module.ModuleManager;
+import dev.ultimatecombat.modules.admin.AdminMenuModule;
 import dev.ultimatecombat.modules.antiabuse.AntiAbuseModule;
 import dev.ultimatecombat.modules.apples.AppleModule;
 import dev.ultimatecombat.modules.borders.BorderModule;
@@ -80,5 +81,6 @@ public final class ModuleRegistry {
         modules.register(new CustomToolModule(plugin));
         modules.register(new LeaderboardModule(plugin));
         modules.register(new PlaceholderModule(plugin));
+        modules.register(new AdminMenuModule(plugin));
     }
 }

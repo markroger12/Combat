@@ -164,6 +164,36 @@ public final class ConfigFile {
         return defaults.get(path);
     }
 
+    /**
+     * @return whether the path is a section in the administrator's file or the defaults
+     */
+    public boolean isSection(String path) {
+        if (path.isEmpty()) {
+            return true;
+        }
+        YamlConfiguration u = user;
+        return u.isSet(path) ? u.isConfigurationSection(path) : defaults.isConfigurationSection(path);
+    }
+
+    /**
+     * Direct child keys of a section: the administrator's keys plus default keys, except for
+     * user-replaced map sections (marked {@code @user-map}) where only the administrator's keys count.
+     */
+    public Set<String> childKeys(String path) {
+        Set<String> out = new java.util.LinkedHashSet<>();
+        YamlConfiguration u = user;
+        ConfigurationSection userSection = path.isEmpty() ? u : u.getConfigurationSection(path);
+        ConfigurationSection defSection = path.isEmpty() ? defaults : defaults.getConfigurationSection(path);
+        boolean userMap = !path.isEmpty() && comments(path).stream().anyMatch(c -> c.contains("@user-map"));
+        if (defSection != null && !(userMap && userSection != null)) {
+            out.addAll(defSection.getKeys(false));
+        }
+        if (userSection != null) {
+            out.addAll(userSection.getKeys(false));
+        }
+        return out;
+    }
+
     public boolean isSetByUser(String path) {
         return user.isSet(path);
     }

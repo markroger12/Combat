@@ -179,6 +179,18 @@ public final class CoreCommands {
             ctx.reply("admin.config.wrong-type", "value", text, "type", typeName(current));
             return false;
         }
+        return setValue(plugin, ctx, ref, value);
+    }
+
+    /**
+     * Writes an already typed value (used by the GUI editor for list edits).
+     */
+    public static boolean setValue(UltimateCombatPlugin plugin, CommandContext ctx, ConfigService.Reference ref, Object value) {
+        Object current = ref.file().rawValue(ref.path());
+        if (current == null || current instanceof ConfigurationSection) {
+            ctx.reply("admin.config.unknown-path", "path", ref.path(), "file", ref.file().name());
+            return false;
+        }
         Object previous = ref.file().isSetByUser(ref.path()) ? current : null;
         plugin.configs().newBackupSession();
         if (!ref.file().write(ref.path(), value)) {
