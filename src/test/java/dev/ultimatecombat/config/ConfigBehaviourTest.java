@@ -55,6 +55,7 @@ class ConfigBehaviourTest extends TestBase {
 
     @Test
     void yamlSyntaxErrorKeepsTheLastValidConfiguration() throws Exception {
+        allowSevereLogs(); // the syntax error is reported as SEVERE on purpose
         PlayerMock a = join("A");
         PlayerMock b = join("B");
         setAndReload("combat.yml", "pvp.duration-seconds", 7);

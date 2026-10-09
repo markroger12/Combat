@@ -17,7 +17,13 @@ import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.entity.PlayerMock;
 import org.mockbukkit.mockbukkit.world.WorldMock;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,13 +36,33 @@ public abstract class TestBase {
     protected ServerMock server;
     protected WorldMock world;
     protected UltimateCombatPlugin plugin;
+    protected final List<LogRecord> severe = new CopyOnWriteArrayList<>();
+    private boolean severeAllowed;
+    private final Handler capture = new Handler() {
+        @Override
+        public void publish(LogRecord record) {
+            if (record.getLevel().intValue() >= Level.SEVERE.intValue()) {
+                severe.add(record);
+            }
+        }
+
+        @Override
+        public void flush() {
+        }
+
+        @Override
+        public void close() {
+        }
+    };
 
     @BeforeEach
     void setUpServer() throws Exception {
         server = MockBukkit.mock();
         world = server.addSimpleWorld("world");
         beforeLoad();
+        Logger.getLogger("UltimateCombat").addHandler(capture);
         plugin = MockBukkit.load(UltimateCombatPlugin.class);
+        plugin.getLogger().addHandler(capture);
         assertTrue(plugin.isEnabled(), "plugin enabled");
         assertTrue(plugin.storageReady(), "storage ready");
         configure();
@@ -44,7 +70,23 @@ public abstract class TestBase {
 
     @AfterEach
     void tearDownServer() {
-        MockBukkit.unmock();
+        try {
+            if (!severeAllowed && !severe.isEmpty()) {
+                LogRecord first = severe.get(0);
+                throw new AssertionError("SEVERE log during the test: " + first.getMessage(), first.getThrown());
+            }
+        } finally {
+            plugin.getLogger().removeHandler(capture);
+            Logger.getLogger("UltimateCombat").removeHandler(capture);
+            MockBukkit.unmock();
+        }
+    }
+
+    /**
+     * For tests that provoke errors on purpose.
+     */
+    protected void allowSevereLogs() {
+        severeAllowed = true;
     }
 
     /**

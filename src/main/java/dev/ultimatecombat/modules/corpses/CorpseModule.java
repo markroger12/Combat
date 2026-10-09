@@ -217,6 +217,23 @@ public final class CorpseModule extends Module<CorpseModule.Settings> {
                 "z", loc.getBlockZ());
     }
 
+    /**
+     * @return copies of the items currently stored in the player's active corpses
+     */
+    public List<ItemStack> contents(UUID owner) {
+        List<ItemStack> out = new ArrayList<>();
+        for (Corpse corpse : corpses.values()) {
+            if (!corpse.removed && corpse.owner.equals(owner)) {
+                for (ItemStack item : corpse.inventory.getContents()) {
+                    if (item != null && !item.getType().isAir()) {
+                        out.add(item.clone());
+                    }
+                }
+            }
+        }
+        return out;
+    }
+
     private void spawnVisuals(Corpse corpse, Player template) {
         World world = corpse.location.getWorld();
         if (world == null || !world.isChunkLoaded(corpse.location.getBlockX() >> 4, corpse.location.getBlockZ() >> 4)) {

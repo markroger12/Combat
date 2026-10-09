@@ -152,6 +152,10 @@ public class UltimateCombatPlugin extends JavaPlugin {
         }
         sync = new SyncService(this);
         sync.start(startupStorage.redis());
+        // other servers drop their cached copy of a profile when it changed elsewhere
+        players.setSaveListener(id -> sync.publish("profile", id.toString()));
+        sync.on("profile", args -> invalidateProfile(args));
+        sync.on("pvp-toggle", args -> invalidateProfile(args));
 
         Bukkit.getPluginManager().registerEvents(players, this);
         Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
@@ -486,6 +490,17 @@ public class UltimateCombatPlugin extends JavaPlugin {
         }
         // Bypass permissions default to false (even for operators), see plugin.yml.
         return player.hasPermission("ultimatecombat.bypass." + bypass);
+    }
+
+    private void invalidateProfile(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
+        try {
+            players.invalidate(java.util.UUID.fromString(args[0]));
+        } catch (IllegalArgumentException ignored) {
+            // malformed message from another server
+        }
     }
 
     public File dataFile(String name) {

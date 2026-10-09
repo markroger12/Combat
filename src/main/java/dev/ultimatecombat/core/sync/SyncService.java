@@ -71,7 +71,10 @@ public final class SyncService {
         plugin.scheduler().runAsync(() -> b.publish(type, args));
     }
 
-    private void receive(String type, String[] args) {
+    /**
+     * Dispatches a message received from another server (package-private for tests).
+     */
+    void receive(String type, String[] args) {
         Consumer<String[]> handler = handlers.get(type);
         if (handler == null) {
             return;

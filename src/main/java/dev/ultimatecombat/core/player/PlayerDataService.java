@@ -51,6 +51,7 @@ public final class PlayerDataService implements Listener {
     private final Map<UUID, PreLoaded> preloaded = new ConcurrentHashMap<>();
     private final Map<UUID, PlayerProfile> saving = new ConcurrentHashMap<>();
     private final Map<UUID, CompletableFuture<Void>> saveChains = new ConcurrentHashMap<>();
+    private volatile Consumer<UUID> saveListener;
     private final Map<UUID, PlayerProfile> offlineCache = java.util.Collections.synchronizedMap(new LinkedHashMap<>(64, 0.75f, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<UUID, PlayerProfile> eldest) {
@@ -314,10 +315,16 @@ public final class PlayerDataService implements Listener {
                     return null;
                 }).handle((r, t) -> {
                     if (t != null) {
+                        // keep the changes; they are written by the next save attempt
                         profile.stats().restore(delta);
                         profile.markDirty();
+                        logger.warning("Could not save data of " + profile.name() + " (will retry): " + Database.rootMessage(t));
                     } else {
                         profile.markClean();
+                        Consumer<UUID> listener = saveListener;
+                        if (listener != null) {
+                            listener.accept(uuid);
+                        }
                     }
                     return null;
                 });
@@ -325,6 +332,21 @@ public final class PlayerDataService implements Listener {
         });
         result.whenComplete((v, t) -> saveChains.remove(uuid, result));
         return result;
+    }
+
+    /**
+     * Called (on the database thread) after a profile was written; used to tell other servers.
+     */
+    public void setSaveListener(Consumer<UUID> listener) {
+        this.saveListener = listener;
+    }
+
+    /**
+     * Forgets the cached copy of an offline player so the next lookup reads the database again
+     * (another server changed the data).
+     */
+    public void invalidate(UUID uuid) {
+        offlineCache.remove(uuid);
     }
 
     public void saveDirty() {
