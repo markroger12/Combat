@@ -21,6 +21,7 @@ import dev.ultimatecombat.modules.healthbars.HealthbarModule;
 import dev.ultimatecombat.modules.indicators.DamageIndicatorModule;
 import dev.ultimatecombat.modules.intervals.PvpIntervalModule;
 import dev.ultimatecombat.modules.killstreaks.KillstreakModule;
+import dev.ultimatecombat.modules.leaderboards.LeaderboardModule;
 import dev.ultimatecombat.modules.loot.LootModule;
 import dev.ultimatecombat.modules.knockback.KnockbackModule;
 import dev.ultimatecombat.modules.oldpvp.OldPvpModule;
@@ -76,5 +77,6 @@ public final class ModuleRegistry {
         modules.register(new HealthbarModule(plugin));
         modules.register(new DeathMessageModule(plugin));
         modules.register(new CustomToolModule(plugin));
+        modules.register(new LeaderboardModule(plugin));
     }
 }

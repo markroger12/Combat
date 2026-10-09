@@ -110,8 +110,22 @@ public final class StatsModule extends Module<StatsModule.Settings> implements K
         return s.pointsMode() == PointsMode.ELO ? s.startingRating() + stats.points() : stats.points();
     }
 
+    /**
+     * @return the value added to stored points for display (the ELO starting rating, otherwise 0)
+     */
+    public long pointsOffset() {
+        Settings s = settings();
+        return s.pointsMode() == PointsMode.ELO ? s.startingRating() : 0;
+    }
+
     public String rankName(PlayerStats stats) {
-        long points = displayPoints(stats);
+        return rankName(displayPoints(stats));
+    }
+
+    /**
+     * @return the configured rank for a displayed points value
+     */
+    public String rankName(long points) {
         for (Rank rank : settings().ranks()) {
             if (points >= rank.minPoints()) {
                 return rank.display();
