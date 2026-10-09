@@ -69,11 +69,10 @@ public final class RewardsModule extends Module<RewardsModule.Settings> implemen
         List<Rule> rules = new ArrayList<>();
         for (String id : r.keys("rules")) {
             ConfigReader rule = r.section("rules." + id);
-            if (!rule.bool("enabled", true)) {
-                continue;
-            }
+            // disabled rules are still parsed so their mistakes are reported before they are enabled
+            boolean enabled = rule.bool("enabled", true);
             ConfigReader c = rule.section("conditions");
-            rules.add(new Rule(id,
+            Rule parsed = new Rule(id,
                     rule.enumValue("trigger", Trigger.class, Trigger.PLAYER_KILL),
                     rule.percent("chance", 100),
                     rule.durationMillis("cooldown-seconds", 0, ConfigReader.TimeUnitHint.SECONDS, 0, 31L * 86_400_000L),
@@ -84,7 +83,10 @@ public final class RewardsModule extends Module<RewardsModule.Settings> implemen
                     c.entityTypes("entity-types"),
                     c.lowerCaseSet("custom-mob-ids"),
                     c.string("custom-trigger", "").toLowerCase(Locale.ROOT),
-                    ActionExecutor.validate(rule, "actions", rule.stringList("actions"))));
+                    ActionExecutor.validate(rule, "actions", rule.stringList("actions")));
+            if (enabled) {
+                rules.add(parsed);
+            }
         }
         return new Settings(rules);
     }

@@ -78,8 +78,8 @@ formats:
 
   # Text shown for true/false values in placeholders and status messages.
   # Default: "&atrue" / "&cfalse"
-  yes: "&atrue"
-  no: "&cfalse"
+  "yes": "&atrue"
+  "no": "&cfalse"
 
   # Text shown when a value does not exist (for example no combat opponent).
   # Default: "None"

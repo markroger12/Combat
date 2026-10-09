@@ -30,9 +30,34 @@ public final class ConfigReader {
 
     private static final Pattern DURATION = Pattern.compile("(\\d+(?:\\.\\d+)?)\\s*(ms|t|s|m|h|d|w)?", Pattern.CASE_INSENSITIVE);
 
+    /**
+     * Optional record of every setting read (file name + path). Disabled by default; the test
+     * suite enables it to prove that every documented option is actually read by the code.
+     */
+    private static volatile Set<String> accessLog;
+
     private final ConfigFile file;
     private final String base;
     private final ConfigurationSection overlay;
+
+    public static void recordAccess(boolean enabled) {
+        accessLog = enabled ? java.util.concurrent.ConcurrentHashMap.newKeySet() : null;
+    }
+
+    /**
+     * @return paths read since {@link #recordAccess(boolean)} was enabled, as {@code file|path}
+     */
+    public static Set<String> accessed() {
+        Set<String> log = accessLog;
+        return log == null ? Set.of() : Set.copyOf(log);
+    }
+
+    private void record(String full) {
+        Set<String> log = accessLog;
+        if (log != null) {
+            log.add(file.name() + "|" + full);
+        }
+    }
 
     ConfigReader(ConfigFile file, String base, ConfigurationSection overlay) {
         this.file = file;
@@ -70,6 +95,7 @@ public final class ConfigReader {
 
     public Object raw(String path) {
         String full = full(path);
+        record(full);
         if (overlay != null && overlay.isSet(full)) {
             return overlay.get(full);
         }
@@ -82,6 +108,7 @@ public final class ConfigReader {
 
     public boolean has(String path) {
         String full = full(path);
+        record(full);
         return (overlay != null && overlay.isSet(full)) || file.user().isSet(full) || file.defaults().isSet(full);
     }
 
@@ -96,6 +123,7 @@ public final class ConfigReader {
      */
     public Set<String> keys(String path) {
         String full = full(path);
+        record(full);
         if (overlay != null && overlay.isConfigurationSection(full)) {
             return new LinkedHashSet<>(overlay.getConfigurationSection(full).getKeys(false));
         }

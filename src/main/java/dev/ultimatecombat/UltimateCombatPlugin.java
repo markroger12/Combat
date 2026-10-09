@@ -187,6 +187,8 @@ public class UltimateCombatPlugin extends JavaPlugin {
 
     private void startDatabase() {
         StorageSettings storage = StorageSettings.read(configs.file("storage.yml").reader());
+        // read up front so a mistake is reported at every start, not only when the database fails
+        boolean fallback = configs.file("storage.yml").reader().bool("fallback-to-sqlite", true);
         database = new Database(getLogger());
         try {
             database.start(storage, getDataFolder());
@@ -195,7 +197,6 @@ public class UltimateCombatPlugin extends JavaPlugin {
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "Could not connect to the " + storage.type() + " database: " + Database.rootMessage(e));
             database.shutdown(1000);
-            boolean fallback = configs.file("storage.yml").reader().bool("fallback-to-sqlite", true);
             if (storage.type() != Database.Type.SQLITE && fallback) {
                 getLogger().severe("Falling back to local SQLite storage (storage.yml: fallback-to-sqlite). "
                         + "Statistics will NOT be shared with other servers until the database is fixed.");
