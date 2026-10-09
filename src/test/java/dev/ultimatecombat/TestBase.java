@@ -137,6 +137,17 @@ public abstract class TestBase {
     }
 
     /**
+     * Adds a player connecting from the given IP address.
+     */
+    protected PlayerMock join(String name, String ip) throws Exception {
+        PlayerMock p = new PlayerMock(server, name, java.util.UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes()));
+        p.setAddress(new java.net.InetSocketAddress(java.net.InetAddress.getByName(ip), 25565));
+        server.addPlayer(p);
+        settle();
+        return p;
+    }
+
+    /**
      * Waits for queued database work and runs the resulting main-thread callbacks.
      */
     protected void settle() throws Exception {
