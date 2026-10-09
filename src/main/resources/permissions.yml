@@ -1,0 +1,41 @@
+# ============================================================================
+#  UltimateCombat - permissions.yml
+#  How bypass permissions behave. The permission nodes themselves are listed
+#  in PERMISSIONS.md (and in the plugin.yml inside the JAR):
+#    ultimatecombat.user        normal player features (default: everyone)
+#    ultimatecombat.admin       every admin feature    (default: operators)
+#    ultimatecombat.bypass.*    every bypass           (default: NOBODY)
+#  Bypass permissions are never given automatically, not even to operators
+#  or to holders of ultimatecombat.* - give them explicitly with your
+#  permission plugin (e.g. LuckPerms) when a player really should bypass.
+# ============================================================================
+
+config-version: 1
+
+# Let server operators bypass everything as if they had
+# ultimatecombat.bypass.* (useful on test servers).
+#
+# true:  operators ignore combat tags, restrictions, cooldowns ...
+# false: operators play by the same rules unless given bypass permissions.
+#
+# Default: false
+operators-bypass: false
+
+# Master switch for all bypass permissions.
+#
+# true:  ultimatecombat.bypass.<name> permissions work.
+# false: nobody can bypass anything (bypass permissions are ignored), for
+#        example during events or tournaments.
+#
+# Default: true
+bypass-permissions-enabled: true
+
+# Bypasses that are ignored even if a player has the permission. Use the
+# part after "ultimatecombat.bypass.".
+# Allowed: anti-abuse, apples, bounty, bounty-cooldown, combat-borders,
+#          combat-log, combat-tag, commands, deathback, enchantments, grace,
+#          headdrop, loot-protection, potions, restrictions,
+#          restriction.<rule>, togglepvp-cooldown, totems, warmups
+# Example: [combat-log, combat-tag]
+# Default: []
+disabled-bypasses: []

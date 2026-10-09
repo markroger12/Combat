@@ -1,0 +1,173 @@
+# ============================================================================
+#  UltimateCombat - commands.yml
+#  Stand-alone commands. Every feature is ALWAYS available below
+#  /ultimatecombat (alias /uc), for example /togglepvp = /uc togglepvp,
+#  /pvpstats = /uc stats, /pvppoints = /uc points, /pvptop = /uc top.
+#  The commands here are extra short forms.
+#
+#  For each command:
+#    enabled:           register the short form at all
+#    name:              the command label (without "/")
+#    aliases:           extra labels
+#    override-existing: replace a command with the same label that belongs
+#                       to ANOTHER plugin. When false (recommended) such
+#                       labels are skipped with a console notice and the
+#                       command stays reachable as /ultimatecombat:<label>.
+#  Permissions are the same as for the /uc sub-command (PERMISSIONS.md).
+#  Changes apply on /uc reload commands (players may need to rejoin to see
+#  new tab completions).
+# ============================================================================
+
+config-version: 1
+
+commands:
+  togglepvp:
+    # Toggle your own PvP on or off.
+    # Default: true
+    enabled: true
+    # Default: togglepvp
+    name: togglepvp
+    # Default: [pvptoggle]
+    aliases: [pvptoggle]
+    # Default: false
+    override-existing: false
+  tag:
+    # Combat-tag a player (admin).
+    # Default: true
+    enabled: true
+    # Default: tag
+    name: tag
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  pvpstats:
+    # Show PvP statistics.
+    # Default: true
+    enabled: true
+    # Default: pvpstats
+    name: pvpstats
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  pvppoints:
+    # Show PvP points and rank.
+    # Default: true
+    enabled: true
+    # Default: pvppoints
+    name: pvppoints
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  pvptop:
+    # Leaderboards (menu or chat).
+    # Default: true
+    enabled: true
+    # Default: pvptop
+    name: pvptop
+    # Default: [pvpleaderboard]
+    aliases: [pvpleaderboard]
+    # Default: false
+    override-existing: false
+  bounty:
+    # View, place and track bounties.
+    # Default: true
+    enabled: true
+    # Default: bounty
+    name: bounty
+    # Default: [bounties]
+    aliases: [bounties]
+    # Default: false
+    override-existing: false
+  grace:
+    # Grace period (newbie protection).
+    # Default: true
+    enabled: true
+    # Default: grace
+    name: grace
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  deathback:
+    # Return to your last death location.
+    # Default: true
+    enabled: true
+    # Default: deathback
+    name: deathback
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  killrecaps:
+    # Open your kill recaps.
+    # Default: true
+    enabled: true
+    # Default: killrecaps
+    name: killrecaps
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  deathmessages:
+    # Hide or show death messages.
+    # Default: true
+    enabled: true
+    # Default: deathmessages
+    name: deathmessages
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  stattrak:
+    # StatTrak weapons.
+    # Default: true
+    enabled: true
+    # Default: stattrak
+    name: stattrak
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  sellhead:
+    # Sell player heads.
+    # Default: true
+    enabled: true
+    # Default: sellhead
+    name: sellhead
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  potionstack:
+    # Stack potions in your inventory.
+    # Default: true
+    enabled: true
+    # Default: potionstack
+    name: potionstack
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  pvp-interval:
+    # Show the PvP interval schedule.
+    # Default: true
+    enabled: true
+    # Default: pvp-interval
+    name: pvp-interval
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
+  oldpvp:
+    # Switch between classic and modern combat.
+    # Default: true
+    enabled: true
+    # Default: oldpvp
+    name: oldpvp
+    # Default: []
+    aliases: []
+    # Default: false
+    override-existing: false
