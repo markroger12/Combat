@@ -1,7 +1,9 @@
 # ============================================================================
 #  UltimateCombat - enchantments.yml
-#  Enchantment restrictions for vanilla enchantments and custom enchantments
-#  from AdvancedEnchantments / EcoEnchants (see integrations.yml).
+#  Enchantment restrictions for vanilla enchantments, enchantments that other
+#  plugins add to the server's enchantment registry (written with their
+#  namespace, e.g. "someplugin:lifesteal") and AdvancedEnchantments custom
+#  enchantments (written as custom:<name>, see integrations.yml).
 #
 #  Module switch: features.yml -> modules.enchantments
 #  Command: /uc enchantment (lists the active rules,

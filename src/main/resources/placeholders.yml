@@ -1,0 +1,59 @@
+# ============================================================================
+#  UltimateCombat - placeholders.yml
+#  PlaceholderAPI placeholders for scoreboards, tab lists, holograms, chat
+#  plugins ... Requires PlaceholderAPI (integrations.yml -> hooks.placeholderapi).
+#
+#  Module switch: features.yml -> modules.placeholders
+#  Usage: %<identifier>_<placeholder>%   e.g. %ultimatecombat_kills%
+#
+#  Player placeholders (online players):
+#    in_combat               true/false (values below)
+#    combat_time             seconds left in combat (0 = not in combat)
+#    combat_time_formatted   e.g. "12s"
+#    combat_opponent         last opponent's name
+#    combat_opponents        number of opponents
+#    combat_type             pvp | pve
+#    pvp_enabled             own /togglepvp state
+#    grace_active / grace_time / grace_time_formatted
+#    interval_pvp            PvP allowed by pvp-intervals.yml in the world
+#    interval_next           minutes until the next interval change
+#  Statistics (online players; offline players show "values.empty"):
+#    kills, deaths, kdr, streak (alias killstreak), best_streak, points,
+#    rank, combatlogs, assists, mob_kills, bounties_claimed,
+#    bounty_earnings, damage_dealt, damage_taken
+#  Bounties:
+#    has_bounty, bounty_value (formatted), bounty_value_raw, bounty_count,
+#    bounty_initiator
+#  Leaderboards (leaderboards.yml; board ids may use - or _):
+#    top_<board>_<position>_name   e.g. %ultimatecombat_top_kills_1_name%
+#    top_<board>_<position>_value  e.g. %ultimatecombat_top_kdr_3_value%
+#    position                      own position on the default board
+#    position_<board>              own position on a board ("" if unlisted)
+#
+#  Unknown placeholders are left untouched by PlaceholderAPI.
+# ============================================================================
+
+config-version: 1
+
+# The expansion identifier (the part before the first "_"). Changing it
+# re-registers the expansion on reload.
+# Allowed: lower-case letters, digits, _ and - (max 32 characters)
+# Default: ultimatecombat
+identifier: ultimatecombat
+
+values:
+  # Text for "true" results (colour codes allowed).
+  # Default: "true"
+  "true": "true"
+  # Text for "false" results.
+  # Default: "false"
+  "false": "false"
+  # Shown when a value is not available (offline player, module disabled,
+  # no opponent ...).
+  # Default: ""
+  empty: ""
+  # Shown for empty leaderboard positions.
+  # Default: "---"
+  top-empty-name: "---"
+  # Default: "0"
+  top-empty-value: "0"

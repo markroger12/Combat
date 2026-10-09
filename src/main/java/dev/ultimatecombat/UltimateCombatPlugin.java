@@ -51,7 +51,7 @@ public class UltimateCombatPlugin extends JavaPlugin {
      */
     public static final List<String> CORE_FILES = List.of(
             "config.yml", "features.yml", "worlds.yml", "messages.yml", "sounds.yml", "particles.yml", "menus.yml",
-            "commands.yml", "permissions.yml", "placeholders.yml", "integrations.yml", "storage.yml", "cooldowns.yml");
+            "commands.yml", "permissions.yml", "integrations.yml", "storage.yml", "cooldowns.yml");
 
     private static UltimateCombatPlugin instance;
 
@@ -115,7 +115,7 @@ public class UltimateCombatPlugin extends JavaPlugin {
         actions = new ActionExecutor(this);
 
         ModuleRegistry.registerAll(this, modules);
-        Integrations.defineAll(integrations);
+        Integrations.defineAll(this, integrations);
         ConfigMigrations.register(configs);
 
         configs.loadAll();
@@ -263,7 +263,7 @@ public class UltimateCombatPlugin extends JavaPlugin {
             effects.load();
             messages.load();
             menus.load();
-            integrations.loadSettings();
+            integrations.refreshHooks();
             kills.load();
             cooldowns.load();
             economy.load();
@@ -307,7 +307,10 @@ public class UltimateCombatPlugin extends JavaPlugin {
                 case "cooldowns.yml" -> cooldowns.load();
                 case "menus.yml" -> menus.load();
                 case "commands.yml" -> commands.registerStandalone();
-                case "integrations.yml" -> integrations.loadSettings();
+                case "integrations.yml" -> {
+                    integrations.refreshHooks();
+                    modules.reloadAll();
+                }
                 case "features.yml", "worlds.yml" -> modules.reloadAll();
                 default -> {
                     // storage.yml and others need a restart or are read on demand

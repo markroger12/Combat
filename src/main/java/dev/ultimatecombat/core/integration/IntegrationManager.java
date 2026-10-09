@@ -94,6 +94,32 @@ public final class IntegrationManager implements Listener {
         }
     }
 
+    /**
+     * Applies changed hook switches from integrations.yml: hooks switched off are unhooked, hooks
+     * switched on are hooked. Unchanged active hooks are left alone (live NPCs etc. stay valid).
+     */
+    public synchronized void refreshHooks() {
+        loadSettings();
+        for (Definition def : definitions) {
+            State state = states.get(def.id());
+            boolean enabled = configEnabled(def);
+            if (state != null && state.status() == Status.ACTIVE) {
+                if (!enabled) {
+                    try {
+                        state.instance().disable();
+                    } catch (Throwable t) {
+                        plugin.getLogger().fine("Error while unhooking " + def.pluginName() + ": " + t.getMessage());
+                    }
+                    unregister(state.instance());
+                    states.put(def.id(), new State(def, Status.DISABLED_IN_CONFIG, "", null));
+                    plugin.getLogger().info("Unhooked " + def.pluginName() + " (disabled in integrations.yml)");
+                }
+            } else {
+                hook(def);
+            }
+        }
+    }
+
     private boolean configEnabled(Definition def) {
         ConfigReader r = plugin.configs().file("integrations.yml").reader();
         return r.bool("hooks." + def.id() + ".enabled", true);

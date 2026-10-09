@@ -186,8 +186,8 @@ disable-sweep-attacks: true
 
 sounds:
   # Hide modern combat sounds for players using classic combat. Requires
-  # ProtocolLib (see integrations.yml); without it this does nothing and a
-  # notice is shown by /uc integrations.
+  # ProtocolLib (see integrations.yml); without it this setting has no
+  # effect. /uc integrations shows whether ProtocolLib is hooked.
   #
   # true:  the listed sounds are not sent to classic-combat players.
   # false: every sound plays normally.

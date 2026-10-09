@@ -25,6 +25,7 @@ import dev.ultimatecombat.modules.leaderboards.LeaderboardModule;
 import dev.ultimatecombat.modules.loot.LootModule;
 import dev.ultimatecombat.modules.knockback.KnockbackModule;
 import dev.ultimatecombat.modules.oldpvp.OldPvpModule;
+import dev.ultimatecombat.modules.placeholders.PlaceholderModule;
 import dev.ultimatecombat.modules.potions.PotionModule;
 import dev.ultimatecombat.modules.recaps.KillRecapModule;
 import dev.ultimatecombat.modules.rewards.RewardsModule;
@@ -78,5 +79,6 @@ public final class ModuleRegistry {
         modules.register(new DeathMessageModule(plugin));
         modules.register(new CustomToolModule(plugin));
         modules.register(new LeaderboardModule(plugin));
+        modules.register(new PlaceholderModule(plugin));
     }
 }
