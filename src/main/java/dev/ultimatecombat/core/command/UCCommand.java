@@ -110,8 +110,12 @@ public abstract class UCCommand {
         ctx.reply("help.header", "command", label);
         for (UCCommand child : children.values()) {
             if (ctx.has(child.permission())) {
-                ctx.reply("help.entry", "command", label + " " + child.usage(),
-                        "description", ctx.messages().text(ctx.player(), child.descriptionKey()));
+                if (ctx.messages().exists(child.descriptionKey())) {
+                    ctx.reply("help.entry", "command", label + " " + child.usage(),
+                            "description", ctx.messages().text(ctx.player(), child.descriptionKey()));
+                } else {
+                    ctx.reply("help.entry-no-description", "command", label + " " + child.usage());
+                }
             }
         }
     }

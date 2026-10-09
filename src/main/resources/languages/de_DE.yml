@@ -1,0 +1,745 @@
+# ============================================================================
+#  UltimateCombat - Deutsche Texte (de_DE)
+#
+#  Aktivieren: messages.yml -> language: de_DE
+#  Diese Datei nicht direkt anpassen - Updates können sie ersetzen. Kopiere
+#  die Schlüssel, die du ändern willst, nach languages/custom.yml.
+#  Die verfügbaren {Platzhalter} stehen in en_US.yml über jedem Text.
+#  Fehlende Schlüssel werden automatisch aus en_US.yml genommen.
+# ============================================================================
+
+general:
+  module-disabled: "&cDiese Funktion ({module}) ist auf diesem Server deaktiviert."
+  no-permission: "&cDazu hast du keine Berechtigung."
+  player-only: "&cNur Spieler können diesen Befehl benutzen."
+  usage: "&cBenutzung: &f{usage}"
+  player-not-found: "&cSpieler &f{player} &cwurde nicht gefunden."
+  invalid-number: "&cUngültige Zahl &f{value}&c. Erlaubt: &f{min}&c - &f{max}&c."
+  internal-error: "&cEin interner Fehler ist aufgetreten. Bitte melde das einem Admin (siehe Konsole)."
+  data-load-failed: "Deine Daten konnten nicht geladen werden. Bitte versuche es gleich noch einmal."
+  storage-unavailable: "&cDie Datenbank ist gerade nicht erreichbar."
+
+help:
+  header: "&8&m          &r &cUltimateCombat &8- &f/{command} &8&m          "
+  entry: "&c/{command} &8- &7{description}"
+  entry-no-description: "&c/{command}"
+  descriptions:
+    help: "Diese Hilfe anzeigen"
+    reload: "Konfigurationsdateien neu laden"
+    validate: "Alle Konfigurationsdateien prüfen"
+    config: "Eine Einstellung lesen, erklären oder ändern"
+    migrate: "Neue Einstellungen in deine Dateien eintragen (mit Backup)"
+    backup: "Alle Konfigurationsdateien sichern"
+    status: "Plugin-Status anzeigen"
+    version: "Plugin-Version anzeigen"
+    debug: "Live-Debugausgabe umschalten"
+    integrations: "Erkannte Plugin-Integrationen anzeigen"
+    tag: "Einen Spieler in den Kampf setzen"
+    untag: "Einen Spieler aus dem Kampf nehmen"
+    combat: "Kampfstatus anzeigen"
+    combatlog: "Combat-Log-Verlauf und offene Strafen"
+    ghosts: "Geister-Spieler verwalten"
+    border: "Eigene Nicht-PvP-Zonen verwalten"
+    oldpvp: "Zwischen klassischem und modernem Kampf wechseln"
+    togglepvp: "Dein PvP an- oder ausschalten"
+    pvp: "PvP-Status von Spielern verwalten"
+    grace: "Schutz für neue Spieler"
+    bounty: "Kopfgelder"
+    stats: "PvP-Statistiken anzeigen"
+    points: "PvP-Punkte anzeigen"
+    leaderboard: "Bestenlisten-Hologramme und -Schilder verwalten"
+    top: "Bestenlisten anzeigen"
+    editor: "Den Konfigurations-Editor im Spiel öffnen"
+    customtools: "Eigene Kampfwerkzeuge auflisten und vergeben"
+    deathmessages: "Todesnachrichten aus- oder einblenden"
+    deathback: "Zum letzten Todesort zurückkehren"
+    spawnpoint: "Spawnpunkte verwalten"
+    killrecaps: "Deine letzten Kampfberichte anzeigen"
+    stattrak: "Kill-Zähler für Waffen"
+    sellhead: "Eine Kopftrophäe verkaufen"
+    potionstack: "Tränke im Inventar stapeln"
+    pvp-interval: "PvP-Zeitfenster anzeigen"
+    apple: "Goldapfel-Einstellungen"
+    enchantment: "Verzauberungs-Regeln"
+    rewards: "Belohnungsregeln auslösen"
+    abuse: "Anti-Missbrauch-Prüfung"
+    resetstats: "Statistiken zurücksetzen"
+    exportstats: "Statistiken als CSV exportieren"
+    corpses: "Leichen verwalten"
+
+gui:
+  prompt-cancel-hint: "&7Schreibe &f{word}&7, um abzubrechen."
+  prompt-cancel-word: "abbrechen"
+  prompt-cancelled: "&7Eingabe abgebrochen."
+  prompt-expired: "&cDie Eingabe ist abgelaufen."
+
+admin:
+  version: "&7UltimateCombat &f{version} &7auf &f{platform} {minecraft}"
+  reload:
+    done: "&f{target} &awurde in &f{time}ms &aneu geladen."
+    issues: "&e{count} Konfigurationsproblem(e) gefunden - sichere Standardwerte werden benutzt. Führe &f/uc validate &eaus."
+    unknown-target: "&cUnbekanntes Ziel &f{target}&c. Benutze all, messages, einen Modul- oder Dateinamen."
+    restart-required: "&e{file} wurde geändert - diese Datei wirkt erst nach einem kompletten Neustart."
+  validate:
+    ok: "&aAlle {files} Konfigurationsdateien sind gültig."
+    header: "&e{count} Konfigurationsproblem(e):"
+    entry: "&e- &7{issue}"
+    error: "&c- {issue}"
+    more: "&7... und {count} weitere (siehe Konsole)."
+    missing: "&7{count} neuere Einstellung(en) fehlen in deinen Dateien (Standardwerte aktiv). &f/uc migrate &7trägt sie ein."
+  config:
+    explain-header: "&c{file} &8> &f{path}"
+    explain-line: "&7{line}"
+    no-documentation: "&7Für diese Einstellung gibt es keine Beschreibung."
+    current: "&7Aktueller Wert: &f{value}"
+    value: "&c{file} &8> &f{path} &7= &f{value} &8({source})"
+    unknown-path: "&c{path} existiert nicht in {file}."
+    is-section: "&c{path} ist ein Abschnitt; ändere die Einstellungen darin."
+    wrong-type: "&c'{value}' ist hier nicht gültig. Erwartet: {type}."
+    write-failed: "&c{file} konnte nicht geschrieben werden (YAML-Fehler?)."
+    rejected: "&cDer Wert wurde abgelehnt und der alte Wert wiederhergestellt: &7{reason}"
+    updated: "&a{file} > {path} ist jetzt &f{value}&a (Backup erstellt)."
+    bad-reference: "&cBenutze datei:pfad, z. B. combat.yml:pvp.duration-seconds (erhalten: {reference})."
+  backup:
+    done: "&a{count} Dateien nach plugins/UltimateCombat/backups/ gesichert."
+  migrate:
+    preview-file: "&7{file}: &f{count} &7neue Einstellung(en) würden eingetragen."
+    file: "&a{file}: {count} Einstellung(en) eingetragen."
+    failed: "&c{file}: Migration fehlgeschlagen (YAML-Fehler?)."
+    structural: "&7{change}"
+    done: "&aMigration abgeschlossen, {count} Einstellung(en) eingetragen. Backups liegen in backups/."
+  status:
+    header: "&8&m       &r &cUltimateCombat {version} Status &8&m       "
+    platform: "&7Server: &f{platform} {minecraft} &7Java &f{java}"
+    storage: "&7Speicher: &f{type} &7Gruppe &f{group} &7Redis: {redis}"
+    modules-on: "&7Aktive Module ({count}): &a{list}"
+    modules-off: "&7Deaktivierte Module ({count}): &8{list}"
+    issues: "&7Konfigurationsprobleme: &f{count}"
+    players: "&7Spieler online: &f{count} &7(geladene Profile: {profiles})"
+  debug:
+    enabled: "&aLive-Debugausgabe für dich aktiviert."
+    disabled: "&7Live-Debugausgabe deaktiviert."
+    console-hint: "&7Für Debugausgaben in der Konsole: config.yml -> debug.enabled."
+    counters-header: "&7Debug-Zähler ({count}):"
+    counter: "&8- &7{name}: &f{value}"
+  integrations:
+    header: "&7Plugin-Integrationen:"
+    active: "&a✔ {name} &8({id}) &7{detail}"
+    disabled: "&8✖ {name} &8({id}) - in integrations.yml deaktiviert"
+    missing: "&8- {name} &8({id}) - nicht installiert"
+    failed: "&c✖ {name} &8({id}) &c- fehlgeschlagen: {detail}"
+
+combat:
+  pvp:
+    start-attacker:
+      chat: "&cDu hast &f{opponent} &cangegriffen - du bist &f{time}s &cim Kampf. Nicht ausloggen!"
+    start-victim:
+      chat: "&cDu wurdest von &f{opponent} &cangegriffen - du bist &f{time}s &cim Kampf. Nicht ausloggen!"
+  pve:
+    start: "&eDu bist jetzt &f{time}s &eim PvE-Kampf mit &f{opponent}&e."
+  end: "&aDu bist nicht mehr im Kampf."
+  end-other: "&aDu bist nicht mehr im Kampf."
+  actionbar:
+    pvp: "&c&lKAMPF &8| {bar} &8| &f{time}s"
+    pve: "&e&lPVE &8| {bar} &8| &f{time}s"
+    end: "&a&lDu bist nicht mehr im Kampf"
+  bossbar:
+    pvp: "&cIm Kampf mit &f{opponent} &8- &f{time}s"
+    pve: "&eKampf gegen &f{opponent} &8- &f{time}s"
+  third-party-blocked: "&c{player} kämpft bereits mit jemand anderem."
+  kill-steal-blocked: "&cDu kannst {player} den Kill nicht stehlen."
+  admin:
+    tagged: "&a{player} ist jetzt im {type}-Kampf ({time}s)."
+    tag-failed: "&c{player} konnte nicht markiert werden (Welt, Spielmodus oder ein anderes Plugin)."
+    untagged: "&a{player} ist nicht mehr im Kampf."
+    not-tagged: "&7{player} ist nicht im Kampf."
+    untagged-all: "&a{count} Spieler aus dem Kampf genommen."
+  status:
+    in-combat: "&cDu bist noch &f{time}s &cim {type}-Kampf gegen &f{opponents}&c."
+    not-in-combat: "&aDu bist nicht im Kampf."
+    other-in-combat: "&c{player} ist noch &f{time}s &cim {type}-Kampf gegen &f{opponents}&c."
+    other-not-in-combat: "&a{player} ist nicht im Kampf."
+
+cooldowns:
+  active: "&cDu kannst &f{item} &cerst in &f{time}s &cwieder benutzen."
+  actionbar: "&c{item}: &f{time}s"
+  ready: "&a{item} ist wieder bereit."
+  ready-actionbar: "&a{item} bereit"
+
+restrictions:
+  command-blocked: "&cDu kannst &f{command} &cim Kampf nicht benutzen (noch &f{time}s&c)."
+  command-disabled: "&cDer Befehl &f{command} &cist deaktiviert."
+  missing-permission: "&cDu darfst {action} nicht benutzen."
+  flight-disabled: "&cDein Flug wurde deaktiviert, weil du im Kampf bist."
+  flight-restored: "&aDu kannst wieder fliegen."
+  gamemode-reset: "&cDu wurdest in den Überlebensmodus gesetzt, weil du im Kampf bist."
+  godmode-disabled: "&cDer Gott-Modus wurde deaktiviert, weil du im Kampf bist."
+  vanish-disabled: "&cDu bist wieder sichtbar, weil du im Kampf bist."
+  disguise-removed: "&cDeine Verkleidung wurde entfernt, weil du im Kampf bist."
+  blocked:
+    flight: "&cDu kannst im Kampf nicht fliegen."
+    elytra: "&cDu kannst im Kampf keine Elytren benutzen."
+    riptide: "&cDu kannst im Kampf keine Sog-Verzauberung benutzen."
+    creative: "&cDu kannst im Kampf deinen Spielmodus nicht ändern."
+    god-mode: "&cDu kannst im Kampf keinen Gott-Modus benutzen."
+    vanish: "&cDu kannst dich im Kampf nicht unsichtbar machen."
+    disguise: "&cDu kannst dich im Kampf nicht verkleiden."
+    teleport: "&cDu kannst dich im Kampf nicht teleportieren."
+    containers: "&cDu kannst das im Kampf nicht öffnen."
+    block-break: "&cDu kannst im Kampf keine Blöcke abbauen."
+    block-place: "&cDu kannst im Kampf keine Blöcke setzen."
+    sleeping: "&cDu kannst im Kampf nicht schlafen."
+    armor-switching: "&cDu kannst im Kampf deine Rüstung nicht wechseln."
+    inventory: "&cDu kannst im Kampf dein Inventar nicht benutzen."
+    mending: "&cReparatur wirkt im Kampf nicht."
+    enchanting: "&cDu kannst im Kampf nicht verzaubern."
+    potions: "&cDu kannst im Kampf keine Tränke benutzen."
+    ender-pearls: "&cDu kannst im Kampf keine Enderperlen werfen."
+    chorus-fruit: "&cDu kannst im Kampf keine Chorusfrucht essen."
+    golden-apples: "&cDu kannst im Kampf keine goldenen Äpfel essen."
+    enchanted-golden-apples: "&cDu kannst im Kampf keine verzauberten goldenen Äpfel essen."
+    totems: "&cTotems der Unsterblichkeit wirken im Kampf nicht."
+    shields: "&cDu kannst im Kampf keine Schilde benutzen."
+    tnt: "&cDu kannst im Kampf kein TNT benutzen."
+    wind-charges: "&cDu kannst im Kampf keine Windkugeln benutzen."
+    custom-items: "&cDu kannst diesen Gegenstand im Kampf nicht benutzen."
+    entity-interactions: "&cDamit kannst du im Kampf nicht interagieren."
+  names:
+    flight: "Fliegen"
+    elytra: "Elytren"
+    riptide: "Sog"
+    creative: "Kreativmodus"
+    god-mode: "Gott-Modus"
+    vanish: "Unsichtbarkeit"
+    disguise: "Verkleidung"
+    teleport: "Teleport"
+    containers: "Behälter"
+    block-break: "Blöcke abbauen"
+    block-place: "Blöcke setzen"
+    sleeping: "Schlafen"
+    armor-switching: "Rüstungswechsel"
+    inventory: "Inventar"
+    mending: "Reparatur"
+    enchanting: "Verzaubern"
+    potions: "Tränke"
+    ender-pearls: "Enderperle"
+    chorus-fruit: "Chorusfrucht"
+    golden-apples: "Goldener Apfel"
+    enchanted-golden-apples: "Verzauberter goldener Apfel"
+    totems: "Totem der Unsterblichkeit"
+    shields: "Schild"
+    tnt: "TNT"
+    wind-charges: "Windkugel"
+    custom-items: "diesen Gegenstand"
+    entity-interactions: "Interaktion"
+
+combatlog:
+  quit-message: "&c{player} &7hat sich im Kampf ausgeloggt."
+  broadcast: "&c&l{player} &chat sich im Kampf ausgeloggt!"
+  broadcast-location: "&c&l{player} &chat sich bei &f{world} {x}, {y}, {z} &cim Kampf ausgeloggt!"
+  opponent-logged: "&e{player} hat sich während eures Kampfes ausgeloggt."
+  money-received: "&aDu hast &f{amount} &aaus der Combat-Log-Strafe von {player} erhalten."
+  death-message: "&c{player} wurde getötet, weil er sich im Kampf ausgeloggt hat."
+  rejoin: "&cDu hast dich vor {ago} im Kampf ausgeloggt und wurdest bestraft."
+  rejoin-killed: "&cDu hast dich vor {ago} im Kampf ausgeloggt und wurdest getötet."
+  rejoin-broadcast: "&7{player}, der sich im Kampf ausgeloggt hat, ist zurück."
+  history:
+    header: "&7Letzte {count} Combat-Logs von &f{player}&7:"
+    entry: "&8- &f{date} &7{type} gegen &f{opponent} &7bei {world} {location} &8({punishment})"
+  pending:
+    entry: "&8- &f{type} &7seit {date}"
+    total: "&7{player} hat {count} offene Strafe(n)."
+    cleared: "&a{count} offene Strafe(n) von {player} entfernt."
+
+ghosts:
+  name: "&c{player} &7(ausgeloggt)"
+  spawned: "&c{player} hat sich im Kampf ausgeloggt - sein Geist bleibt {time}s. Töte ihn für die Beute!"
+  killed: "&c{killer} hat den Geist von {player} getötet!"
+  survived: "&aDein Geist hat überlebt - du behältst deine Gegenstände."
+  rejoin-killed: "&cDein Geist wurde von {killer} getötet, während du offline warst. Deine Gegenstände wurden fallengelassen."
+  list-header: "&7Aktive Geister: &f{count} &7(Spawnen angehalten: {halted})"
+  list-entry: "&8- &f{player} &7bei {world} {x}, {y}, {z}"
+  removed: "&aDer Geist von {player} wurde entfernt."
+  not-found: "&c{player} hat keinen Geist."
+  halted: "&eGeister erscheinen erst wieder nach /uc ghosts resume."
+  resumed: "&aGeister erscheinen wieder."
+
+borders:
+  blocked: "&cDu kannst im Kampf nicht fliehen!"
+  zone-no-pvp: "&cIn diesem Bereich ist PvP deaktiviert."
+  position-set: "&aPosition {number} auf {x}, {y}, {z} gesetzt."
+  selection-incomplete: "&cSetze zuerst beide Positionen in derselben Welt (/uc border pos1, /uc border pos2)."
+  zone-created: "&aZone {name} erstellt (borders.yml)."
+  zone-deleted: "&aZone {name} gelöscht."
+  zone-unknown: "&cEs gibt keine Zone namens {name}."
+  zone-list-header: "&7Nicht-PvP-Zonen: &f{count}"
+  zone-list-entry: "&8- &f{name} &7{world} {min} -> {max}"
+
+oldpvp:
+  enabled: "&aDu benutzt jetzt den klassischen (1.8) Kampf."
+  disabled: "&aDu benutzt jetzt den modernen Kampf."
+  toggle-disabled: "&cAuf diesem Server kann der Kampfmodus nicht gewählt werden."
+
+admin-menu:
+  unknown-file: "&cUnbekannte Konfigurationsdatei: &f{file}"
+  reloaded: "&aAlle Konfigurationsdateien wurden neu geladen."
+  file-name: "&e{file}"
+  file-lore:
+    - "&7{status}"
+    - "&7Validierungsprobleme: &f{issues}"
+    - ""
+    - "&eKlicken &7zum Durchsuchen"
+  module-file-lore:
+    - "&7{status}"
+    - "&7Validierungsprobleme: &f{issues}"
+    - ""
+    - "&eKlicken &7zum Durchsuchen"
+    - "&eShift-Klick &7schaltet das Modul an/aus"
+  core-file: "Kerndatei"
+  module-on: "&aModul {module} ist AN"
+  module-off: "&cModul {module} ist AUS"
+  entry-name: "&f{key}"
+  entry-value:
+    - "&7Wert: &f{value}"
+    - "&8({source})"
+  source-file: "in deiner Datei gesetzt"
+  source-default: "Standardwert"
+  list-entry: "&8- &f{entry}"
+  list-more: "&8... und {count} weitere"
+  doc-line: "&8{line}"
+  hint-section: ["", "&eKlicken &7zum Öffnen"]
+  hint-boolean: ["", "&eKlicken &7zum Umschalten"]
+  hint-number: ["", "&eLinks-/Rechtsklick &7+/- ein Schritt", "&eShift-Klick &7Wert eintippen"]
+  hint-text: ["", "&eKlicken &7für einen neuen Wert"]
+  hint-list: ["", "&eLinksklick &7ersetzen (durch Kommas getrennt)", "&eRechtsklick &7einen Eintrag hinzufügen", "&eShift + Rechtsklick &7leeren"]
+  prompt-value: "&eSchreibe den neuen Wert für &f{path}&e (aktuell: &f{value}&e):"
+  prompt-list: "&eSchreibe die neuen Einträge für &f{path}&e durch Kommas getrennt (aktuell: &f{value}&e). &f[]&e für eine leere Liste:"
+  prompt-list-add: "&eSchreibe den Eintrag, der zu &f{path}&e hinzugefügt wird:"
+
+anti-abuse:
+  suppressed:
+    repeated-kills: "&7Du hast &f{victim} &7zu oft getötet - keine Belohnung für diesen Kill."
+    same-ip: "&7Kills von Spielern aus demselben Netzwerk geben keine Belohnung."
+    alt-account: "&7Kills deiner eigenen Accounts geben keine Belohnung."
+    respawn-kill: "&7Spieler direkt nach dem Respawn zu töten gibt keine Belohnung."
+  review-header: "&8&m     &r &cAnti-Missbrauch: &f{player} &8&m     &r\n&7Erkennungen: &f{count} &8| &7Accounts im selben Netzwerk: &f{alts}"
+  review-entry: "&8- &7{date} &f{victim} &8({reason})"
+
+apples:
+  names:
+    golden: "Goldener Apfel"
+    enchanted: "Verzauberter goldener Apfel"
+  editor-title: "&8Rezept: {apple}"
+  editor-save: "&aRezept speichern"
+  editor-cancel: "&cAbbrechen"
+  editor-empty: "&cDas Rezept braucht mindestens eine Zutat."
+  editor-saved: "&aRezept in apples.yml gespeichert und neu geladen."
+
+bounties:
+  unavailable: "&cKopfgelder brauchen ein Economy-Plugin (Vault) - sie sind gerade nicht verfügbar."
+  no-self: "&cDu kannst kein Kopfgeld auf dich selbst setzen."
+  target-immune: "&c{player} kann kein Kopfgeld bekommen."
+  no-anonymous: "&cDu darfst keine anonymen Kopfgelder setzen."
+  already-has: "&cDu hast bereits ein Kopfgeld auf {player}."
+  total-limit: "&cDas Kopfgeld auf diesen Spieler darf {max} nicht übersteigen."
+  setter-limit: "&cDu kannst nicht mehr als {max} aktive Kopfgelder haben."
+  cooldown: "&cDu kannst das nächste Kopfgeld in {time} setzen."
+  not-enough-money: "&cDafür brauchst du {cost}."
+  failed: "&cDie Zahlung ist fehlgeschlagen - es wurde kein Kopfgeld gesetzt."
+  placed: "&aDu hast ein Kopfgeld von &f{amount} &aauf &f{player} &agesetzt (bezahlt: {cost})."
+  announce-placed: "&6{setter} &ehat ein Kopfgeld von &6{amount} &eauf &6{player} &egesetzt! Gesamt: &6{total}"
+  announce-placed-anonymous: "&eJemand hat ein Kopfgeld von &6{amount} &eauf &6{player} &egesetzt! Gesamt: &6{total}"
+  claimed: "&aDu hast das Kopfgeld auf &f{player} &aerhalten: &f{amount}"
+  announce-claimed: "&6{killer} &ehat das Kopfgeld von &6{amount} &eauf &6{player} &ekassiert!"
+  announce-expired: "&7Das Kopfgeld von {amount} auf {player} ist abgelaufen."
+  expired-refund: "&7Dein Kopfgeld auf {player} ist abgelaufen - {amount} wurde erstattet."
+  removed-refund: "&7Dein Kopfgeld auf {player} wurde entfernt - {amount} wurde erstattet."
+  removed: "&a{count} Kopfgeld/Kopfgelder auf {player} entfernt."
+  none: "&7Auf {player} ist kein Kopfgeld ausgesetzt."
+  anonymous-name: "Anonym"
+  list-header: "&8&m     &r &6Kopfgelder &7({count}) &8&m     "
+  list-entry: "&8- &f{player}&7: &6{amount} &8({count})"
+  top-header: "&8&m     &r &6Höchste Kopfgelder &8&m     "
+  top-entry: "&6#{rank} &f{player}&7: &6{amount}"
+  info-header: "&6Kopfgelder auf {player} &7(gesamt {total}):"
+  info-entry: "&8- &6{amount} &7von &f{setter} &8(läuft ab: {expires})"
+  menu-item-name: "&6{player}"
+  menu-item-lore:
+    - "&7Gesamt: &6{amount}"
+    - "&7Kopfgelder: &f{count}"
+    - "&7Gesetzt von: &f{initiator}"
+    - ""
+    - "&eLinksklick &7zum Verfolgen"
+    - "&eRechtsklick &7für Details"
+  compass-disabled: "&cDas Verfolgen von Kopfgeldern ist deaktiviert."
+  track-no-target: "&c{player} hat kein Kopfgeld oder ist nicht online."
+  tracking: "&aDein Kompass zeigt jetzt auf {player}."
+  compass-name: "&6Verfolge {player}"
+  compass-lore: ["&7Zeigt auf das Kopfgeld-Ziel {player}."]
+
+corpses:
+  inventory-title: "&8Leiche von {player}"
+  hologram: "&7Leiche von &f{player} &8({time})"
+  created: "&7Deine Leiche liegt bei &f{x} {y} {z} &7in &f{world}&7."
+  denied-grace: "&cDu kannst während des Schutzes keine Leichen plündern."
+  denied-pvp: "&cDu kannst keine Leichen plündern, solange dein PvP aus ist."
+  denied-protected: "&cDiese Leiche ist geschützt."
+  protected: "&cDiese Leiche ist noch {time} geschützt."
+  shift-hint: "&7Schleichen und klicken, um alles zu nehmen."
+  list-header: "&8&m     &r &7Leichen ({count}) &8&m     "
+  list-entry: "&8- &f{player} &7bei {x} {y} {z} ({world}) &8- {time}"
+  removed: "&a{count} Leiche(n) von {player} entfernt."
+
+custom-tools:
+  triggered: "&b{tool} &7hat &f{victim} &7getroffen!"
+  hit-by: "&7Du wurdest von &f{attacker}s &b{tool} &7getroffen!"
+  unknown: "&cUnbekanntes Werkzeug: {tool}"
+  given: "&a{amount}x {tool} &aan {player} gegeben."
+  none: "&7Es sind keine eigenen Werkzeuge eingerichtet (custom-tools.yml)."
+  list-header: "&8&m     &r &bWerkzeuge ({count}) &8&m     "
+  list-entry: "&8- &f{id} &7({name}&7) &8| &7aktiv: {status} &8| &7{trigger}, {chance}%"
+
+death:
+  location: "&7Du bist bei &f{x} {y} {z} &7in &f{world} &7gestorben."
+  void-rescued: "&aDu wurdest aus der Leere gerettet."
+  deathback-disabled: "&c/deathback ist deaktiviert."
+  deathback-in-combat: "&cDu kannst /deathback im Kampf nicht benutzen."
+  deathback-none: "&7Du hast keinen aktuellen Todesort."
+  deathback-cooldown: "&cDu kannst /deathback in {time} wieder benutzen."
+  deathback-done: "&aZu deinem Todesort teleportiert."
+
+death-messages:
+  toggle-disabled: "&cTodesnachrichten können auf diesem Server nicht ausgeblendet werden."
+  toggled-on: "&aDu siehst wieder Todesnachrichten."
+  toggled-off: "&7Todesnachrichten anderer Spieler sind jetzt ausgeblendet."
+  alert-prefix: "&8[&7versteckt&8] &r"
+  messages:
+    player-melee:
+      - "&c{victim} &7wurde von &c{killer} &7mit &f{weapon} &7getötet"
+      - "&c{killer} &7besiegte &c{victim} &7mit &f{weapon}"
+    player-fist:
+      - "&c{killer} &7besiegte &c{victim} &7mit bloßen Händen"
+    player-projectile:
+      - "&c{victim} &7wurde von &c{killer} &7aus &f{distance} &7Blöcken erschossen"
+    player-explosion:
+      - "&c{victim} &7wurde von &c{killer} &7in die Luft gesprengt"
+    player-fall:
+      - "&c{victim} &7wurde von &c{killer} &7in die Tiefe gestoßen"
+    player-void:
+      - "&c{victim} &7wurde von &c{killer} &7in die Leere gestoßen"
+    player-fire:
+      - "&c{victim} &7verbrannte im Kampf gegen &c{killer}"
+    player-magic:
+      - "&c{victim} &7wurde von &c{killer}s &7Magie getötet"
+    player-other:
+      - "&c{victim} &7wurde von &c{killer} &7getötet"
+    mob:
+      - "&c{victim} &7wurde von &f{mob} &7getötet"
+    mob-projectile:
+      - "&c{victim} &7wurde von &f{mob} &7erschossen"
+    mob-explosion:
+      - "&c{victim} &7wurde von &f{mob} &7in die Luft gesprengt"
+    fall:
+      - "&c{victim} &7ist zu hart aufgeschlagen"
+    void:
+      - "&c{victim} &7fiel aus der Welt"
+    lava:
+      - "&c{victim} &7wollte in Lava schwimmen"
+    fire:
+      - "&c{victim} &7ging in Flammen auf"
+    fire-tick:
+      - "&c{victim} &7verbrannte"
+    drowning:
+      - "&c{victim} &7ertrank"
+    suffocation:
+      - "&c{victim} &7erstickte in einer Wand"
+    starvation:
+      - "&c{victim} &7verhungerte"
+    lightning:
+      - "&c{victim} &7wurde vom Blitz getroffen"
+    magic:
+      - "&c{victim} &7wurde durch Magie getötet"
+    poison:
+      - "&c{victim} &7wurde vergiftet"
+    wither:
+      - "&c{victim} &7verdorrte"
+    block-explosion:
+      - "&c{victim} &7explodierte"
+    contact:
+      - "&c{victim} &7wurde zu Tode gestochen"
+    freeze:
+      - "&c{victim} &7erfror"
+    cramming:
+      - "&c{victim} &7wurde zerquetscht"
+    fly-into-wall:
+      - "&c{victim} &7erlebte kinetische Energie"
+    hot-floor:
+      - "&c{victim} &7merkte, dass der Boden Lava ist"
+    falling-block:
+      - "&c{victim} &7wurde von einem fallenden Block zerquetscht"
+    suicide:
+      - "&c{victim} &7starb"
+    kill:
+      - "&c{victim} &7wurde getötet"
+    default:
+      - "&c{victim} &7starb"
+
+economy:
+  kill-reward: "&a+{amount} &7für den Kill an &f{victim}"
+  penalty-lost: "&cDu hast durch deinen Tod {amount} verloren."
+  penalty-received: "&a+{amount} &7von &f{player} &7erhalten"
+
+enchantments:
+  blocked-use: "&cDieser Gegenstand hat hier nicht erlaubte Verzauberungen."
+  downgraded: "&eEinige Verzauberungen deines Gegenstands wurden auf die Server-Grenzen reduziert."
+  blocked-enchanting: "&cDiese Verzauberung ist auf diesem Server nicht erlaubt."
+  rules-header: "&8&m     &r &dVerzauberungs-Regeln &7(bei Verstoß: {action}, geprüft: {when}) &8&m     "
+  rule-blocked: "&8- &f{enchantment}&7: &cverboten"
+  rule-max: "&8- &f{enchantment}&7: höchstens Stufe &f{level}"
+
+grace:
+  started: "&aDu bist {time} vor PvP geschützt. Wenn du angreifst, endet dein Schutz."
+  warning: "&eDein PvP-Schutz endet in {time}."
+  actionbar: "&aGeschützt: &f{time}"
+  expired: "&eDein PvP-Schutz ist abgelaufen."
+  removed-voluntary: "&eDu hast deinen PvP-Schutz beendet."
+  removed-attack: "&eDu hast einen Spieler angegriffen - dein PvP-Schutz ist beendet."
+  removed-admin: "&eEin Admin hat deinen PvP-Schutz entfernt."
+  cannot-attack: "&cDu bist geschützt - benutze /grace disable, um zu kämpfen."
+  target-protected: "&c{player} ist noch {time} geschützt."
+  command-blocked: "&cDu kannst {command} nicht benutzen, solange du geschützt bist."
+  status-active: "&aDu bist noch {time} geschützt."
+  status-none: "&7Du bist nicht geschützt."
+  removal-disabled: "&cDu kannst deinen Schutz nicht vorzeitig beenden."
+  confirm: "&eSchreibe &f/grace confirm &einnerhalb von {seconds}s, um deinen Schutz zu beenden."
+  nothing-to-confirm: "&7Es gibt nichts zu bestätigen."
+  escape-unavailable: "&cDu kannst gerade nicht fliehen."
+  escape-cooldown: "&cDu kannst in {time} wieder fliehen."
+  escaped: "&aDu wurdest in Sicherheit teleportiert."
+  given: "&a{player} hat {time} PvP-Schutz erhalten."
+  removed: "&aDer PvP-Schutz von {player} wurde entfernt."
+  check-active: "&a{player} ist noch {time} geschützt."
+  check-none: "&7{player} ist nicht geschützt."
+
+heads:
+  item-name: "&eKopf von {victim}"
+  item-lore:
+    - "&7Getötet von &f{killer}"
+    - "&7Wert: &6{value}"
+    - "&8{date}"
+  received: "&aDu hast den Kopf von {victim} erhalten."
+  dropped: "&7Der Kopf von {victim} ist gefallen (Wert: {value})."
+  money-lost: "&cDu hast {amount} verloren - dein Kopf ist jetzt eine Trophäe."
+  sell-disabled: "&cDas Verkaufen von Köpfen ist deaktiviert."
+  sell-unavailable: "&cZum Verkaufen von Köpfen wird ein Economy-Plugin benötigt."
+  not-a-trophy: "&cHalte eine Kopftrophäe in der Haupthand."
+  already-sold: "&cDieser Kopf wurde bereits verkauft."
+  sold: "&aDu hast den Kopf für {value} verkauft."
+
+healthbars:
+  below-name: "&c❤"
+  bossbar: "&f{name} &8| &c{bar} &7{percent}%"
+  actionbar: "&f{name}&7: &c{hearts} ❤"
+
+indicators:
+  normal: "{color}-{damage}"
+  critical: "{color}&l-{damage} ✦"
+  headshot: "{color}&l-{damage} ☠"
+
+intervals:
+  started: "&cPvP ist jetzt in {world} AKTIV!"
+  ended: "&aPvP ist jetzt in {world} deaktiviert."
+  title-start:
+    title: "&c&lPVP AKTIV"
+    subtitle: "&7{world}"
+  title-end:
+    title: "&a&lPVP AUS"
+    subtitle: "&7{world}"
+  warning: "&ePvP in {world} wechselt in {minutes} Minute(n)."
+  pvp-closed: "&cPvP ist hier gerade deaktiviert."
+  status-open: "&cPvP ist in {world} aktiv &7(Wechsel in {time})"
+  status-closed: "&aPvP ist in {world} deaktiviert &7(Wechsel in {time})"
+  entry: "&8- &f{name}&7: {days} {start}-{end}"
+
+killrecaps:
+  notify: "&7Kampfbericht: &f{killer} &7gegen &f{victim}"
+  button: "&e[Bericht ansehen]"
+  button-hover: "&7Klicken, um den Kampfbericht zu öffnen"
+  none: "&7Du hast noch keine Kampfberichte."
+  not-found: "&cDieser Bericht existiert nicht mehr."
+  entry-name: "&f{killer} &7tötete &f{victim}"
+  entry-lore:
+    - "&7{date}"
+    - "&7Ursache: &f{cause}"
+    - "&7Ort: &f{location}"
+    - ""
+    - "&eKlicken &7zum Öffnen"
+  no-snapshot: "&cFür diesen Kampf wurde kein Inventar gespeichert."
+  snapshot-title: "&8Inventar von {player}"
+  back: "&eZurück"
+
+killstreaks:
+  reached: "&6{player} &ehat eine Killserie von &6{streak}&e!"
+  title:
+    title: "&6&l{streak}ER KILLSERIE"
+    subtitle: "&7Weiter so!"
+  ended: "&6{killer} &ehat die Killserie von {player} (&6{streak}&e) beendet!"
+
+leaderboard:
+  boards:
+    kills: "Kills"
+    deaths: "Tode"
+    kdr: "K/D-Verhältnis"
+    points: "Punkte"
+    best-streak: "Beste Killserie"
+    streak: "Aktuelle Killserie"
+    combat-logs: "Combat-Logs"
+    assists: "Assists"
+    mob-kills: "Mob-Kills"
+    bounties-claimed: "Kassierte Kopfgelder"
+    bounty-earnings: "Kopfgeld-Einnahmen"
+    damage-dealt: "Verursachter Schaden"
+  unknown-board: "&cUnbekannte Bestenliste {board}. Verfügbar: &f{boards}"
+  not-ready: "&7Die Bestenlisten werden geladen - versuche es gleich noch einmal."
+  header: "&8&m     &r &6Top {board} &7({page}/{pages}) &8&m     "
+  empty: "&7Auf dieser Bestenliste steht noch niemand."
+  entry: "&6#{position} &f{player} &8- &e{value}"
+  own-position: "&7Deine Position: &f{position}"
+  footer: "&7Nächste Seite: &f/pvptop {board} {next}"
+  menu-item-name: "&6#{position} &f{player}"
+  menu-item-lore: ["&7{board}: &e{value}"]
+  hologram-header: "&6&lTop {board}"
+  hologram-line: "&6#{position} &f{player} &8- &e{value}"
+  hologram-empty: "&6#{position} &8---"
+  hologram-footer: ""
+  sign:
+    - "&6#{position}"
+    - "&f{player}"
+    - "&e{value}"
+    - "&8{board}"
+  sign-empty:
+    - "&6#{position}"
+    - "&8---"
+    - ""
+    - "&8{board}"
+  tablist: "{rank} &f{player}"
+  refreshing: "&aBestenlisten werden aktualisiert..."
+  hologram-list: "&7Bestenlisten-Hologramme: &f{count}"
+  hologram-list-entry: "&8- &f{id} &7({board}) bei {location}"
+  hologram-saved: "&aHologramm {id} gespeichert."
+  hologram-deleted: "&aHologramm {id} gelöscht."
+  hologram-unknown: "&cUnbekanntes Hologramm {id}."
+  sign-look: "&cSchau auf ein Schild (maximal 6 Blöcke entfernt)."
+  sign-created: "&aDieses Schild zeigt jetzt Platz #{position} von {board}."
+  sign-removed: "&aBestenlisten-Schild entfernt."
+  sign-unknown: "&cDas ist kein Bestenlisten-Schild."
+  sign-list: "&7Bestenlisten-Schilder: &f{count}"
+  sign-list-entry: "&8- &f{id} &7({board} #{position}) bei {location}"
+
+loot:
+  protected-actionbar: "&cDiese Beute ist noch {time} geschützt"
+
+potions:
+  names:
+    drink: "Tränke"
+    splash: "Wurftränke"
+    lingering: "Verweiltränke"
+  effect-blocked: "&cDer Effekt {effect} ist hier nicht erlaubt."
+  effect-reduced: "&eDer Effekt {effect} wurde auf Stufe {level} reduziert."
+  invisibility-blocked: "&cUnsichtbarkeit ist im Kampf nicht erlaubt."
+  invisibility-removed: "&eDeine Unsichtbarkeit wurde entfernt, weil du im Kampf bist."
+  stack-disabled: "&cDas Stapeln von Tränken ist deaktiviert."
+  stacked: "&a{count} Trank/Tränke gestapelt."
+  nothing-to-stack: "&7Es gab keine Tränke zum Stapeln."
+
+pvp:
+  enabled: "&cDein PvP ist jetzt AN."
+  disabled: "&aDein PvP ist jetzt AUS."
+  already-enabled: "&7Dein PvP ist bereits an."
+  already-disabled: "&7Dein PvP ist bereits aus."
+  status: "&7Dein PvP: {state}"
+  forced: "&cPvP ist hier festgelegt ({state}) - du kannst es nicht ändern."
+  world-not-allowed: "&cIn dieser Welt kannst du dein PvP nicht ändern."
+  in-combat: "&cIm Kampf kannst du dein PvP nicht ändern."
+  cooldown: "&cDu kannst dein PvP in {time} wieder ändern."
+  recent-combat: "&cDu hast gerade gekämpft - warte {time}, bevor du PvP ausschaltest."
+  confirm: "&eSchreibe &f/togglepvp confirm &einnerhalb von {seconds}s."
+  nothing-to-confirm: "&7Es gibt nichts zu bestätigen."
+  you-disabled: "&cDein PvP ist aus - benutze /togglepvp, um zu kämpfen."
+  target-disabled: "&c{player} hat PvP ausgeschaltet."
+  indirect-blocked: "&c{player} hat PvP ausgeschaltet."
+  admin-status: "&7PvP von {player}: {state}"
+  admin-updated: "&aPvP von {player}: {action}"
+  admin-cancelled: "&c{player} konnte nicht geändert werden (ein anderes Plugin hat es verhindert)."
+  enabled-by-admin: "&cEin Admin hat dein PvP eingeschaltet."
+  disabled-by-admin: "&aEin Admin hat dein PvP ausgeschaltet."
+
+rewards:
+  triggered: "&a{count} Belohnungsregel(n) für {player} ausgeführt ({trigger})."
+
+spawnpoints:
+  created: "&aSpawnpunkt {name} gespeichert."
+  deleted: "&aSpawnpunkt {name} gelöscht."
+  unknown: "&cUnbekannter Spawnpunkt {name}."
+  teleported: "&aZu {name} teleportiert."
+  list-header: "&8&m     &r &aSpawnpunkte ({count}) &8&m     "
+  list-entry: "&8- &f{name} &7{world} {x} {y} {z} &8({permission})"
+  menu-item-name: "&a{name}"
+  menu-item-lore:
+    - "&7{world} {x} {y} {z}"
+    - "&7Berechtigung: &f{permission}"
+    - ""
+    - "&eKlicken &7zum Teleportieren"
+    - "&eShift + Rechtsklick &7zum Löschen"
+  protected: "&aDu bist nach dem Respawn {time} geschützt."
+  protection-ended: "&eDein Respawn-Schutz ist beendet."
+
+stats:
+  view:
+    - "&8&m          &r &cPvP-Statistik: &f{player} &8&m          "
+    - "&7Kills: &f{kills} &8| &7Tode: &f{deaths} &8| &7K/D: &f{kdr}"
+    - "&7Serie: &f{streak} &8| &7Beste: &f{best_streak}"
+    - "&7Punkte: &f{points} &8| &7Rang: {rank}"
+    - "&7Assists: &f{assists} &8| &7Mob-Kills: &f{mob_kills}"
+    - "&7Combat-Logs: &f{combatlogs} &8| &7Kopfgelder kassiert: &f{bounties}"
+    - "&7Schaden verursacht: &f{damage_dealt} &8| &7erhalten: &f{damage_taken}"
+  points-view: "&7{player}: &f{points} Punkte &8| &7Rang: {rank}"
+  points-gained: "&a+{points} Punkte &7für den Kill an {victim} &8(gesamt {total})"
+  points-lost: "&c-{points} Punkte &7(getötet von {killer}) &8(gesamt {total})"
+  no-data: "&cFür {player} wurden keine Statistiken gefunden."
+  reset-confirm: "&eDas setzt die Statistiken von {target} zurück. Wiederhole den Befehl mit &fconfirm &eam Ende."
+  reset-all: "&aStatistiken von {count} Spieler(n) zurückgesetzt."
+  reset-player: "&aStatistiken von {player} zurückgesetzt."
+  exported: "&aStatistiken nach {file} exportiert."
+  export-failed: "&cExport fehlgeschlagen: {error}"
+
+stattrak:
+  lore:
+    - "&6StatTrak™ &7Kills: &f{kills}"
+    - "&8Besitzer: {owner}"
+  kill-actionbar: "&6StatTrak™ &7Kills: &f{kills}"
+  not-allowed: "&cDieser Gegenstand kann kein StatTrak bekommen."
+  already: "&cDieser Gegenstand hat bereits StatTrak."
+  not-enough-money: "&cDafür brauchst du {cost}."
+  registered: "&aStatTrak wurde deinem Gegenstand hinzugefügt."
+  none: "&cDer Gegenstand in deiner Hand hat kein StatTrak."
+  forged: "&cDiese StatTrak-Daten wurden verändert und entfernt."
+  inspect: "&6StatTrak™ &7#{id} &8| &7Kills: &f{kills} &8| &7Besitzer: &f{owner}"
+  unregistered: "&7Diese StatTrak-Waffe ist auf diesem Server nicht registriert."
+  not-owner: "&cNur der Besitzer ({owner}) kann das tun."
+  reset: "&aDer Kill-Zähler wurde zurückgesetzt."
+  transferred: "&aStatTrak-Besitz an {player} übertragen."
+  deleted: "&aStatTrak wurde vom Gegenstand entfernt."
+
+totems:
+  name: "Totem der Unsterblichkeit"
+  on-cooldown: "&cDein Totem hat noch {time} Abklingzeit - es hat dich nicht gerettet!"
+  used: "&eDein Totem hat dich gerettet!"
+
+warmups:
+  started: "&e{command} wird in {time}s ausgeführt - bewege dich nicht."
+  actionbar: "&e{command} &7in &f{time}s"
+  bossbar: "&e{command} &7in &f{time}s"
+  cancelled-move: "&cDu hast dich bewegt - {command} wurde abgebrochen."
+  cancelled-damage: "&cDu hast Schaden erhalten - der Befehl wurde abgebrochen."
+  cancelled-combat: "&cDu bist in einen Kampf geraten - der Befehl wurde abgebrochen."

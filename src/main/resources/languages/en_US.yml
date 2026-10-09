@@ -43,6 +43,8 @@ help:
   header: "&8&m          &r &cUltimateCombat &8- &f/{command} &8&m          "
   # {command} {description}
   entry: "&c/{command} &8- &7{description}"
+  # {command} (sub-commands without a description below)
+  entry-no-description: "&c/{command}"
   descriptions:
     help: "Show this help"
     reload: "Reload configuration files"
@@ -67,7 +69,11 @@ help:
     bounty: "Player bounties"
     stats: "Show PvP statistics"
     points: "Show PvP points"
-    leaderboard: "Show the leaderboard"
+    leaderboard: "Manage leaderboard holograms and signs"
+    top: "Show the leaderboards"
+    editor: "Open the in-game configuration editor"
+    customtools: "List and give custom combat tools"
+    deathmessages: "Hide or show death messages"
     deathback: "Return to your last death location"
     spawnpoint: "Manage spawn points"
     killrecaps: "Show your recent kill recaps"
@@ -76,11 +82,8 @@ help:
     potionstack: "Stack the potions in your inventory"
     pvp-interval: "Show PvP time windows"
     apple: "Golden apple settings"
-    potion: "Potion restrictions"
     enchantment: "Enchantment restrictions"
-    totem: "Totem settings"
     rewards: "Trigger reward rules"
-    menu: "Open the administration menu"
     abuse: "Anti-abuse review"
     resetstats: "Reset statistics"
     exportstats: "Export statistics to a CSV file"
@@ -370,3 +373,608 @@ oldpvp:
   enabled: "&aYou now use classic (1.8) combat."
   disabled: "&aYou now use modern combat."
   toggle-disabled: "&cPlayers cannot choose their combat mode on this server."
+
+admin-menu:
+  # {file}
+  unknown-file: "&cUnknown configuration file: &f{file}"
+  reloaded: "&aAll configuration files were reloaded."
+  file-name: "&e{file}"
+  # {issues} {status} {module}
+  file-lore:
+    - "&7{status}"
+    - "&7Validation issues: &f{issues}"
+    - ""
+    - "&eClick &7to browse"
+  module-file-lore:
+    - "&7{status}"
+    - "&7Validation issues: &f{issues}"
+    - ""
+    - "&eClick &7to browse"
+    - "&eShift-click &7to switch the module on/off"
+  core-file: "Core file"
+  # {module}
+  module-on: "&aModule {module} is ON"
+  module-off: "&cModule {module} is OFF"
+  # {key}
+  entry-name: "&f{key}"
+  # {value} {source}
+  entry-value:
+    - "&7Value: &f{value}"
+    - "&8({source})"
+  source-file: "set in your file"
+  source-default: "default value"
+  # {entry}
+  list-entry: "&8- &f{entry}"
+  # {count}
+  list-more: "&8... and {count} more"
+  # {line}
+  doc-line: "&8{line}"
+  hint-section: ["", "&eClick &7to open"]
+  hint-boolean: ["", "&eClick &7to switch"]
+  hint-number: ["", "&eLeft/right click &7+/- one step", "&eShift-click &7to type a value"]
+  hint-text: ["", "&eClick &7to type a new value"]
+  hint-list: ["", "&eLeft click &7to replace (comma separated)", "&eRight click &7to add one entry", "&eShift + right click &7to clear"]
+  # {path} {value}
+  prompt-value: "&eType the new value for &f{path}&e (current: &f{value}&e):"
+  prompt-list: "&eType the new entries for &f{path}&e separated by commas (current: &f{value}&e). Type &f[]&e for an empty list:"
+  # {path}
+  prompt-list-add: "&eType the entry to add to &f{path}&e:"
+
+anti-abuse:
+  suppressed:
+    # {victim}
+    repeated-kills: "&7You killed &f{victim} &7too often recently - no rewards for this kill."
+    same-ip: "&7Kills of players from the same network give no rewards."
+    alt-account: "&7Kills of your own accounts give no rewards."
+    respawn-kill: "&7Killing a player right after they respawned gives no rewards."
+  # {player} {count} {alts}
+  review-header: "&8&m     &r &cAnti-abuse: &f{player} &8&m     &r\n&7Logged detections: &f{count} &8| &7Accounts sharing a network: &f{alts}"
+  # {date} {victim} {reason}
+  review-entry: "&8- &7{date} &f{victim} &8({reason})"
+
+apples:
+  names:
+    golden: "Golden Apple"
+    enchanted: "Enchanted Golden Apple"
+  # {apple}
+  editor-title: "&8Recipe: {apple}"
+  editor-save: "&aSave recipe"
+  editor-cancel: "&cCancel"
+  editor-empty: "&cThe recipe needs at least one ingredient."
+  editor-saved: "&aRecipe saved to apples.yml and reloaded."
+
+bounties:
+  unavailable: "&cBounties need an economy plugin (Vault) - they are not available right now."
+  no-self: "&cYou cannot place a bounty on yourself."
+  # {player}
+  target-immune: "&c{player} cannot receive bounties."
+  no-anonymous: "&cYou are not allowed to place anonymous bounties."
+  already-has: "&cYou already have a bounty on {player}."
+  # {max}
+  total-limit: "&cThe bounty on this player cannot exceed {max}."
+  setter-limit: "&cYou cannot have more than {max} active bounties."
+  # {time}
+  cooldown: "&cYou can place the next bounty in {time}."
+  # {cost}
+  not-enough-money: "&cYou need {cost} for that."
+  failed: "&cThe payment failed - no bounty was placed."
+  # {player} {amount} {cost}
+  placed: "&aYou placed a bounty of &f{amount} &aon &f{player}&a (you paid {cost})."
+  # {player} {setter} {amount} {total}
+  announce-placed: "&6{setter} &eplaced a bounty of &6{amount} &eon &6{player}&e! Total: &6{total}"
+  announce-placed-anonymous: "&eSomeone placed a bounty of &6{amount} &eon &6{player}&e! Total: &6{total}"
+  # {player} {amount}
+  claimed: "&aYou claimed the bounty on &f{player}&a: &f{amount}"
+  # {player} {killer} {amount}
+  announce-claimed: "&6{killer} &eclaimed the bounty of &6{amount} &eon &6{player}&e!"
+  # {player} {amount}
+  announce-expired: "&7The bounty of {amount} on {player} expired."
+  expired-refund: "&7Your bounty on {player} expired - {amount} was refunded."
+  removed-refund: "&7Your bounty on {player} was removed - {amount} was refunded."
+  # {player} {count}
+  removed: "&aRemoved {count} bounty/bounties on {player}."
+  # {player}
+  none: "&7There is no bounty on {player}."
+  anonymous-name: "Anonymous"
+  # {count}
+  list-header: "&8&m     &r &6Bounties &7({count}) &8&m     "
+  # {player} {amount} {count}
+  list-entry: "&8- &f{player}&7: &6{amount} &8({count})"
+  top-header: "&8&m     &r &6Highest bounties &8&m     "
+  # {rank} {player} {amount}
+  top-entry: "&6#{rank} &f{player}&7: &6{amount}"
+  # {player} {total}
+  info-header: "&6Bounties on {player} &7(total {total}):"
+  # {amount} {setter} {expires}
+  info-entry: "&8- &6{amount} &7by &f{setter} &8(expires {expires})"
+  # {player}
+  menu-item-name: "&6{player}"
+  # {amount} {count} {initiator}
+  menu-item-lore:
+    - "&7Total: &6{amount}"
+    - "&7Bounties: &f{count}"
+    - "&7Placed by: &f{initiator}"
+    - ""
+    - "&eLeft click &7to track"
+    - "&eRight click &7for details"
+  compass-disabled: "&cBounty tracking is disabled."
+  # {player}
+  track-no-target: "&c{player} has no bounty or is not online."
+  tracking: "&aYour compass now points to {player}."
+  compass-name: "&6Tracking {player}"
+  compass-lore: ["&7Points to the bounty target {player}."]
+
+corpses:
+  # {player}
+  inventory-title: "&8Corpse of {player}"
+  # {player} {time}
+  hologram: "&7Corpse of &f{player} &8({time})"
+  # {world} {x} {y} {z}
+  created: "&7Your corpse lies at &f{x} {y} {z} &7in &f{world}&7."
+  denied-grace: "&cYou cannot loot corpses while protected by grace."
+  denied-pvp: "&cYou cannot loot corpses while your PvP is off."
+  denied-protected: "&cThis corpse is protected."
+  # {time}
+  protected: "&cThis corpse is protected for another {time}."
+  shift-hint: "&7Sneak and click to take everything."
+  # {count}
+  list-header: "&8&m     &r &7Corpses ({count}) &8&m     "
+  # {player} {world} {x} {y} {z} {time}
+  list-entry: "&8- &f{player} &7at {x} {y} {z} ({world}) &8- {time}"
+  # {player} {count}
+  removed: "&aRemoved {count} corpse(s) of {player}."
+
+custom-tools:
+  # {tool} {victim}
+  triggered: "&b{tool} &7hit &f{victim}&7!"
+  # {tool} {attacker}
+  hit-by: "&7You were hit by &f{attacker}&7's &b{tool}&7!"
+  # {tool}
+  unknown: "&cUnknown custom tool: {tool}"
+  # {tool} {player} {amount}
+  given: "&aGave {amount}x {tool} &ato {player}."
+  none: "&7No custom tools are configured (custom-tools.yml)."
+  # {count}
+  list-header: "&8&m     &r &bCustom tools ({count}) &8&m     "
+  # {id} {name} {status} {trigger} {chance}
+  list-entry: "&8- &f{id} &7({name}&7) &8| &7enabled: {status} &8| &7{trigger}, {chance}%"
+
+death:
+  # {world} {x} {y} {z}
+  location: "&7You died at &f{x} {y} {z} &7in &f{world}&7."
+  void-rescued: "&aYou were saved from the void."
+  deathback-disabled: "&c/deathback is disabled."
+  deathback-in-combat: "&cYou cannot use /deathback while in combat."
+  deathback-none: "&7You have no recent death location."
+  # {time}
+  deathback-cooldown: "&cYou can use /deathback again in {time}."
+  # {world} {x} {y} {z}
+  deathback-done: "&aTeleported to your death location."
+
+death-messages:
+  toggle-disabled: "&cDeath messages cannot be hidden on this server."
+  toggled-on: "&aYou see death messages again."
+  toggled-off: "&7Death messages of other players are now hidden."
+  alert-prefix: "&8[&7hidden&8] &r"
+  # Random message pools per death category (see death-messages.yml).
+  # Placeholders: {victim} {victim_display} {killer} {killer_display}
+  # {weapon} {mob} {distance} {killer_health} {killer_hearts} {cause}
+  # {world} {x} {y} {z}
+  messages:
+    player-melee:
+      - "&c{victim} &7was slain by &c{killer} &7using &f{weapon}"
+      - "&c{killer} &7defeated &c{victim} &7with &f{weapon}"
+    player-fist:
+      - "&c{killer} &7beat &c{victim} &7with bare hands"
+    player-projectile:
+      - "&c{victim} &7was shot by &c{killer} &7from &f{distance} &7blocks"
+    player-explosion:
+      - "&c{victim} &7was blown up by &c{killer}"
+    player-fall:
+      - "&c{victim} &7was knocked off a ledge by &c{killer}"
+    player-void:
+      - "&c{victim} &7was knocked into the void by &c{killer}"
+    player-fire:
+      - "&c{victim} &7was burnt to a crisp fighting &c{killer}"
+    player-magic:
+      - "&c{victim} &7was killed by &c{killer}&7's magic"
+    player-other:
+      - "&c{victim} &7was killed by &c{killer}"
+    mob:
+      - "&c{victim} &7was slain by &f{mob}"
+    mob-projectile:
+      - "&c{victim} &7was shot by &f{mob}"
+    mob-explosion:
+      - "&c{victim} &7was blown up by &f{mob}"
+    fall:
+      - "&c{victim} &7hit the ground too hard"
+    void:
+      - "&c{victim} &7fell out of the world"
+    lava:
+      - "&c{victim} &7tried to swim in lava"
+    fire:
+      - "&c{victim} &7went up in flames"
+    fire-tick:
+      - "&c{victim} &7burned to death"
+    drowning:
+      - "&c{victim} &7drowned"
+    suffocation:
+      - "&c{victim} &7suffocated in a wall"
+    starvation:
+      - "&c{victim} &7starved to death"
+    lightning:
+      - "&c{victim} &7was struck by lightning"
+    magic:
+      - "&c{victim} &7was killed by magic"
+    poison:
+      - "&c{victim} &7was poisoned"
+    wither:
+      - "&c{victim} &7withered away"
+    block-explosion:
+      - "&c{victim} &7blew up"
+    contact:
+      - "&c{victim} &7was pricked to death"
+    freeze:
+      - "&c{victim} &7froze to death"
+    cramming:
+      - "&c{victim} &7was squished too much"
+    fly-into-wall:
+      - "&c{victim} &7experienced kinetic energy"
+    hot-floor:
+      - "&c{victim} &7discovered the floor was lava"
+    falling-block:
+      - "&c{victim} &7was squashed by a falling block"
+    suicide:
+      - "&c{victim} &7died"
+    kill:
+      - "&c{victim} &7was killed"
+    default:
+      - "&c{victim} &7died"
+
+economy:
+  # {amount} {victim}
+  kill-reward: "&a+{amount} &7for killing &f{victim}"
+  # {amount}
+  penalty-lost: "&cYou lost {amount} for dying."
+  # {amount} {player}
+  penalty-received: "&a+{amount} &7taken from &f{player}"
+
+enchantments:
+  blocked-use: "&cThis item has enchantments that are not allowed here."
+  downgraded: "&eSome enchantments on your item were reduced to the server limits."
+  blocked-enchanting: "&cThat enchantment is not allowed on this server."
+  # {action} {when}
+  rules-header: "&8&m     &r &dEnchantment rules &7(on violation: {action}, checked: {when}) &8&m     "
+  # {enchantment}
+  rule-blocked: "&8- &f{enchantment}&7: &cblocked"
+  # {enchantment} {level}
+  rule-max: "&8- &f{enchantment}&7: max level &f{level}"
+
+grace:
+  # {time}
+  started: "&aYou are protected from PvP for {time}. Attacking someone ends your protection."
+  warning: "&eYour PvP protection ends in {time}."
+  actionbar: "&aProtected: &f{time}"
+  expired: "&eYour PvP protection has ended."
+  removed-voluntary: "&eYou ended your PvP protection."
+  removed-attack: "&eYou attacked a player - your PvP protection has ended."
+  removed-admin: "&eAn administrator removed your PvP protection."
+  cannot-attack: "&cYou are protected - use /grace disable to fight."
+  # {player} {time}
+  target-protected: "&c{player} is protected for another {time}."
+  # {command}
+  command-blocked: "&cYou cannot use {command} while protected."
+  # {time}
+  status-active: "&aYou are protected for another {time}."
+  status-none: "&7You are not protected."
+  removal-disabled: "&cYou cannot end your protection early."
+  # {seconds}
+  confirm: "&eType &f/grace confirm &ewithin {seconds}s to end your protection."
+  nothing-to-confirm: "&7There is nothing to confirm."
+  escape-unavailable: "&cYou cannot escape right now."
+  # {time}
+  escape-cooldown: "&cYou can escape again in {time}."
+  escaped: "&aYou were teleported to safety."
+  # {player} {time}
+  given: "&aGave {player} {time} of PvP protection."
+  # {player}
+  removed: "&aRemoved the PvP protection of {player}."
+  # {player} {time}
+  check-active: "&a{player} is protected for another {time}."
+  check-none: "&7{player} is not protected."
+
+heads:
+  # {victim} {killer} {value} {date}
+  item-name: "&e{victim}'s head"
+  item-lore:
+    - "&7Killed by &f{killer}"
+    - "&7Value: &6{value}"
+    - "&8{date}"
+  # {victim}
+  received: "&aYou received the head of {victim}."
+  # {victim} {killer} {value}
+  dropped: "&7{victim}'s head dropped (worth {value})."
+  # {amount}
+  money-lost: "&cYou lost {amount} - your head is now a trophy."
+  sell-disabled: "&cSelling heads is disabled."
+  sell-unavailable: "&cSelling heads needs an economy plugin."
+  not-a-trophy: "&cHold a head trophy in your main hand."
+  already-sold: "&cThis head was already sold."
+  # {value}
+  sold: "&aYou sold the head for {value}."
+
+healthbars:
+  below-name: "&c❤"
+  # {name} {health} {max} {hearts} {percent} {bar}
+  bossbar: "&f{name} &8| &c{bar} &7{percent}%"
+  actionbar: "&f{name}&7: &c{hearts} ❤"
+
+indicators:
+  # {damage} {color}
+  normal: "{color}-{damage}"
+  critical: "{color}&l-{damage} ✦"
+  headshot: "{color}&l-{damage} ☠"
+
+intervals:
+  # {world}
+  started: "&cPvP is now ENABLED in {world}!"
+  ended: "&aPvP is now disabled in {world}."
+  title-start:
+    title: "&c&lPvP ENABLED"
+    subtitle: "&7{world}"
+  title-end:
+    title: "&a&lPvP DISABLED"
+    subtitle: "&7{world}"
+  # {world} {minutes}
+  warning: "&ePvP in {world} changes in {minutes} minute(s)."
+  pvp-closed: "&cPvP is currently disabled here."
+  # {world} {time}
+  status-open: "&cPvP is enabled in {world} &7(changes in {time})"
+  status-closed: "&aPvP is disabled in {world} &7(changes in {time})"
+  # {name} {days} {start} {end}
+  entry: "&8- &f{name}&7: {days} {start}-{end}"
+
+killrecaps:
+  # {killer} {victim}
+  notify: "&7Fight recap: &f{killer} &7vs &f{victim}"
+  button: "&e[View recap]"
+  button-hover: "&7Click to open the kill recap"
+  none: "&7You have no kill recaps yet."
+  not-found: "&cThis recap no longer exists."
+  # {killer} {victim}
+  entry-name: "&f{killer} &7killed &f{victim}"
+  # {date} {cause} {location}
+  entry-lore:
+    - "&7{date}"
+    - "&7Cause: &f{cause}"
+    - "&7Location: &f{location}"
+    - ""
+    - "&eClick &7to open"
+  no-snapshot: "&cNo inventory snapshot was saved for this fight."
+  # {player}
+  snapshot-title: "&8Inventory of {player}"
+  back: "&eBack"
+
+killstreaks:
+  # {player} {streak}
+  reached: "&6{player} &eis on a killstreak of &6{streak}&e!"
+  title:
+    title: "&6&l{streak} KILLSTREAK"
+    subtitle: "&7Keep going!"
+  # {player} {streak} {killer}
+  ended: "&6{killer} &eended {player}'s killstreak of &6{streak}&e!"
+
+leaderboard:
+  boards:
+    kills: "Kills"
+    deaths: "Deaths"
+    kdr: "K/D ratio"
+    points: "Points"
+    best-streak: "Best killstreak"
+    streak: "Current killstreak"
+    combat-logs: "Combat logs"
+    assists: "Assists"
+    mob-kills: "Mob kills"
+    bounties-claimed: "Bounties claimed"
+    bounty-earnings: "Bounty earnings"
+    damage-dealt: "Damage dealt"
+  # {board} {boards}
+  unknown-board: "&cUnknown leaderboard {board}. Available: &f{boards}"
+  not-ready: "&7The leaderboards are being loaded - try again in a moment."
+  # {board} {page} {pages}
+  header: "&8&m     &r &6Top {board} &7({page}/{pages}) &8&m     "
+  empty: "&7Nobody is on this leaderboard yet."
+  # {position} {player} {value}
+  entry: "&6#{position} &f{player} &8- &e{value}"
+  # {position} {board}
+  own-position: "&7Your position: &f{position}"
+  # {board} {page} {pages} {next}
+  footer: "&7Next page: &f/pvptop {board} {next}"
+  # {position} {player}
+  menu-item-name: "&6#{position} &f{player}"
+  # {position} {player} {value} {board}
+  menu-item-lore: ["&7{board}: &e{value}"]
+  # {board}
+  hologram-header: "&6&lTop {board}"
+  # {position} {player} {value}
+  hologram-line: "&6#{position} &f{player} &8- &e{value}"
+  # {position}
+  hologram-empty: "&6#{position} &8---"
+  # {board}
+  hologram-footer: ""
+  # {position} {player} {value} {board} (4 lines)
+  sign:
+    - "&6#{position}"
+    - "&f{player}"
+    - "&e{value}"
+    - "&8{board}"
+  # {position} {board}
+  sign-empty:
+    - "&6#{position}"
+    - "&8---"
+    - ""
+    - "&8{board}"
+  # {player} {rank} {position}
+  tablist: "{rank} &f{player}"
+  refreshing: "&aRefreshing the leaderboards..."
+  # {count}
+  hologram-list: "&7Leaderboard holograms: &f{count}"
+  # {id} {board} {location}
+  hologram-list-entry: "&8- &f{id} &7({board}) at {location}"
+  # {id}
+  hologram-saved: "&aHologram {id} saved."
+  hologram-deleted: "&aHologram {id} deleted."
+  hologram-unknown: "&cUnknown hologram {id}."
+  sign-look: "&cLook at a sign (within 6 blocks)."
+  # {board} {position}
+  sign-created: "&aThis sign now shows #{position} of {board}."
+  sign-removed: "&aLeaderboard sign removed."
+  sign-unknown: "&cThis is not a leaderboard sign."
+  # {count}
+  sign-list: "&7Leaderboard signs: &f{count}"
+  # {id} {board} {position} {location}
+  sign-list-entry: "&8- &f{id} &7({board} #{position}) at {location}"
+
+loot:
+  # {time}
+  protected-actionbar: "&cThis loot is protected for {time}"
+
+potions:
+  names:
+    drink: "Potions"
+    splash: "Splash potions"
+    lingering: "Lingering potions"
+  # {effect}
+  effect-blocked: "&cThe effect {effect} is not allowed here."
+  # {effect} {level}
+  effect-reduced: "&eThe effect {effect} was reduced to level {level}."
+  invisibility-blocked: "&cInvisibility is not allowed in combat."
+  invisibility-removed: "&eYour invisibility was removed because you are in combat."
+  stack-disabled: "&cPotion stacking is disabled."
+  # {count}
+  stacked: "&aStacked {count} potion(s)."
+  nothing-to-stack: "&7There were no potions to stack."
+
+pvp:
+  enabled: "&cYour PvP is now ON."
+  disabled: "&aYour PvP is now OFF."
+  already-enabled: "&7Your PvP is already on."
+  already-disabled: "&7Your PvP is already off."
+  # {state}
+  status: "&7Your PvP: {state}"
+  forced: "&cPvP is forced here ({state}) - you cannot change it."
+  world-not-allowed: "&cYou cannot change your PvP in this world."
+  in-combat: "&cYou cannot change your PvP while in combat."
+  # {time}
+  cooldown: "&cYou can change your PvP again in {time}."
+  recent-combat: "&cYou fought recently - wait {time} before turning PvP off."
+  # {seconds}
+  confirm: "&eType &f/togglepvp confirm &ewithin {seconds}s."
+  nothing-to-confirm: "&7There is nothing to confirm."
+  you-disabled: "&cYour PvP is off - use /togglepvp to fight."
+  # {player}
+  target-disabled: "&c{player} has PvP turned off."
+  indirect-blocked: "&c{player} has PvP turned off."
+  # {player} {state}
+  admin-status: "&7PvP of {player}: {state}"
+  # {player} {action}
+  admin-updated: "&aPvP of {player}: {action}"
+  admin-cancelled: "&c{player} could not be changed (another plugin cancelled it)."
+  enabled-by-admin: "&cAn administrator turned your PvP on."
+  disabled-by-admin: "&aAn administrator turned your PvP off."
+
+rewards:
+  # {trigger} {player} {count}
+  triggered: "&aRan {count} reward rule(s) for {player} ({trigger})."
+
+spawnpoints:
+  # {name}
+  created: "&aSpawn point {name} saved."
+  deleted: "&aSpawn point {name} deleted."
+  unknown: "&cUnknown spawn point {name}."
+  teleported: "&aTeleported to {name}."
+  # {count}
+  list-header: "&8&m     &r &aSpawn points ({count}) &8&m     "
+  # {name} {world} {x} {y} {z} {permission}
+  list-entry: "&8- &f{name} &7{world} {x} {y} {z} &8({permission})"
+  # {name}
+  menu-item-name: "&a{name}"
+  # {world} {x} {y} {z} {permission}
+  menu-item-lore:
+    - "&7{world} {x} {y} {z}"
+    - "&7Permission: &f{permission}"
+    - ""
+    - "&eClick &7to teleport"
+    - "&eShift + right click &7to delete"
+  # {time}
+  protected: "&aYou are protected after respawning for {time}."
+  protection-ended: "&eYour respawn protection has ended."
+
+stats:
+  # {player} {kills} {deaths} {kdr} {streak} {best_streak} {points} {rank}
+  # {combatlogs} {assists} {mob_kills} {bounties} {damage_dealt} {damage_taken}
+  view:
+    - "&8&m          &r &cPvP stats: &f{player} &8&m          "
+    - "&7Kills: &f{kills} &8| &7Deaths: &f{deaths} &8| &7K/D: &f{kdr}"
+    - "&7Streak: &f{streak} &8| &7Best: &f{best_streak}"
+    - "&7Points: &f{points} &8| &7Rank: {rank}"
+    - "&7Assists: &f{assists} &8| &7Mob kills: &f{mob_kills}"
+    - "&7Combat logs: &f{combatlogs} &8| &7Bounties claimed: &f{bounties}"
+    - "&7Damage dealt: &f{damage_dealt} &8| &7taken: &f{damage_taken}"
+  # {player} {points} {rank}
+  points-view: "&7{player}: &f{points} points &8| &7Rank: {rank}"
+  # {points} {total} {victim}
+  points-gained: "&a+{points} points &7for killing {victim} &8(total {total})"
+  # {points} {total} {killer}
+  points-lost: "&c-{points} points &7(killed by {killer}) &8(total {total})"
+  # {player}
+  no-data: "&cNo statistics found for {player}."
+  # {target}
+  reset-confirm: "&eThis resets the statistics of {target}. Repeat the command with &fconfirm &eat the end."
+  # {count}
+  reset-all: "&aReset the statistics of {count} player(s)."
+  # {player}
+  reset-player: "&aReset the statistics of {player}."
+  # {file}
+  exported: "&aStatistics exported to {file}."
+  # {error}
+  export-failed: "&cExport failed: {error}"
+
+stattrak:
+  # {kills} {owner}
+  lore:
+    - "&6StatTrak™ &7kills: &f{kills}"
+    - "&8Owner: {owner}"
+  # {kills} {victim}
+  kill-actionbar: "&6StatTrak™ &7kills: &f{kills}"
+  not-allowed: "&cThis item cannot get StatTrak."
+  already: "&cThis item already has StatTrak."
+  # {cost}
+  not-enough-money: "&cYou need {cost} for that."
+  registered: "&aStatTrak added to your item."
+  none: "&cThe item in your hand has no StatTrak."
+  forged: "&cThis StatTrak data was edited and has been removed."
+  # {id} {kills} {owner}
+  inspect: "&6StatTrak™ &7#{id} &8| &7kills: &f{kills} &8| &7owner: &f{owner}"
+  unregistered: "&7This StatTrak weapon is not registered on this server."
+  # {owner}
+  not-owner: "&cOnly the owner ({owner}) can do that."
+  reset: "&aThe kill counter was reset."
+  # {player}
+  transferred: "&aStatTrak ownership transferred to {player}."
+  deleted: "&aStatTrak removed from the item."
+
+totems:
+  name: "Totem of Undying"
+  # {time}
+  on-cooldown: "&cYour totem is on cooldown for {time} - it did not save you!"
+  used: "&eYour totem saved you!"
+
+warmups:
+  # {command} {time}
+  started: "&eExecuting {command} in {time}s - do not move."
+  actionbar: "&e{command} &7in &f{time}s"
+  bossbar: "&e{command} &7in &f{time}s"
+  cancelled-move: "&cYou moved - {command} was cancelled."
+  cancelled-damage: "&cYou took damage - the command was cancelled."
+  cancelled-combat: "&cYou entered combat - the command was cancelled."

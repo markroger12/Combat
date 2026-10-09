@@ -1,0 +1,19 @@
+# ============================================================================
+#  UltimateCombat - custom.yml (your message overrides)
+#
+#  Every key you put here wins over the selected language file and is never
+#  touched by plugin updates. Copy only the keys you want to change from
+#  languages/en_US.yml (or de_DE.yml), keeping the same section structure,
+#  and run /uc reload messages.
+#
+#  Example:
+#
+#    general:
+#      no-permission: "&4Nope! You are not allowed to do that."
+#    combat:
+#      actionbar:
+#        pvp: "&4⚔ &c{time}s &8| {bar}"
+#
+#  The placeholders available for each message are listed in en_US.yml.
+#  Set a message to "" to disable it.
+# ============================================================================
