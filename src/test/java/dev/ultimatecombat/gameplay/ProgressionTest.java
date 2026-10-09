@@ -155,6 +155,11 @@ class ProgressionTest extends TestBase {
         assertEquals("true", papi.resolve(best, "in_combat"));
         assertEquals("Second", papi.resolve(best, "combat_opponent"));
         assertEquals(null, papi.resolve(best, "no_such_placeholder"));
+        assertEquals("pvp", papi.resolve(best, "combat_mode"));
+        assertEquals("true", papi.resolve(best, "has_pvp_enabled"));
+        assertEquals("false", papi.resolve(best, "has_protection"));
+        assertEquals("", papi.resolve(best, "bounty_prefix"));
+        assertEquals("0", papi.resolve(best, "cooldown_totem"));
     }
 
     @Test

@@ -29,7 +29,7 @@ import java.util.Locale;
 public final class PlaceholderModule extends Module<PlaceholderModule.Settings> {
 
     public record Settings(String identifier, String trueValue, String falseValue, String emptyValue, String topEmptyName,
-                           String topEmptyValue) {
+                           String topEmptyValue, String bountyPrefix) {
     }
 
     public PlaceholderModule(UltimateCombatPlugin plugin) {
@@ -44,7 +44,8 @@ public final class PlaceholderModule extends Module<PlaceholderModule.Settings> 
             id = "ultimatecombat";
         }
         return new Settings(id, r.string("values.true", "true"), r.string("values.false", "false"), r.string("values.empty", ""),
-                r.string("values.top-empty-name", "---"), r.string("values.top-empty-value", "0"));
+                r.string("values.top-empty-name", "---"), r.string("values.top-empty-value", "0"),
+                r.string("values.bounty-prefix", "&6[Bounty] "));
     }
 
     @Override
@@ -87,7 +88,7 @@ public final class PlaceholderModule extends Module<PlaceholderModule.Settings> 
      * @return the value, or {@code null} for unknown placeholders
      */
     public String resolve(OfflinePlayer offline, String params) {
-        String p = params.toLowerCase(Locale.ROOT);
+        String p = alias(params.toLowerCase(Locale.ROOT));
         Settings s = settings();
         if (p.startsWith("top_")) {
             return top(p.substring(4), s);
@@ -110,16 +111,37 @@ public final class PlaceholderModule extends Module<PlaceholderModule.Settings> 
         if (value != null) {
             return value;
         }
+        if (p.startsWith("cooldown_")) {
+            // %<id>_cooldown_<key>% - seconds left on a cooldown such as totem, potion:splash, custom-tool:<id>
+            long left = player == null ? 0 : plugin.cooldowns().remaining(player, p.substring("cooldown_".length()));
+            return Long.toString((left + 999) / 1000);
+        }
         if (player == null) {
             return isPlayerPlaceholder(p) ? s.emptyValue() : null;
         }
         return playerValue(player, p, s);
     }
 
+    /**
+     * Alternative names for placeholders, so existing scoreboards and tab lists can switch names
+     * easily.
+     */
+    private static String alias(String p) {
+        return switch (p) {
+            case "combat_mode" -> "combat_type";
+            case "has_pvp_enabled" -> "pvp_enabled";
+            case "has_protection", "has_grace" -> "grace_active";
+            case "protection_time_remaining" -> "grace_time";
+            case "protection_time_remaining_formatted" -> "grace_time_formatted";
+            default -> p;
+        };
+    }
+
     private static boolean isPlayerPlaceholder(String p) {
         return switch (p) {
             case "in_combat", "combat_time", "combat_time_formatted", "combat_opponent", "combat_opponents", "combat_type",
-                 "pvp_enabled", "grace_active", "grace_time", "grace_time_formatted", "interval_pvp", "interval_next" -> true;
+                 "pvp_enabled", "grace_active", "grace_time", "grace_time_formatted", "interval_pvp", "interval_next",
+                 "bounty_prefix" -> true;
             default -> false;
         };
     }
@@ -163,6 +185,10 @@ public final class PlaceholderModule extends Module<PlaceholderModule.Settings> 
             case "interval_pvp" -> {
                 PvpIntervalModule intervals = plugin.active(PvpIntervalModule.class);
                 return bool(intervals == null || intervals.pvpAllowed(player.getWorld()));
+            }
+            case "bounty_prefix" -> {
+                BountyModule bounties = plugin.active(BountyModule.class);
+                return bounties != null && bounties.total(player.getUniqueId()) > 0 ? Text.color(s.bountyPrefix()) : "";
             }
             case "interval_next" -> {
                 PvpIntervalModule intervals = plugin.active(PvpIntervalModule.class);

@@ -23,7 +23,14 @@
 #    bounty_earnings, damage_dealt, damage_taken
 #  Bounties:
 #    has_bounty, bounty_value (formatted), bounty_value_raw, bounty_count,
-#    bounty_initiator
+#    bounty_initiator, bounty_prefix (values.bounty-prefix when the player
+#    has a bounty, otherwise empty - for tab lists and name tags)
+#  Cooldowns:
+#    cooldown_<key>  seconds left, e.g. cooldown_totem, cooldown_potion:splash,
+#                    cooldown_custom-tool:frost-blade (0 = ready)
+#  Alternative names: combat_mode (= combat_type), has_pvp_enabled
+#    (= pvp_enabled), has_protection / has_grace (= grace_active),
+#    protection_time_remaining (= grace_time)
 #  Leaderboards (leaderboards.yml; board ids may use - or _):
 #    top_<board>_<position>_name   e.g. %ultimatecombat_top_kills_1_name%
 #    top_<board>_<position>_value  e.g. %ultimatecombat_top_kdr_3_value%
@@ -57,3 +64,6 @@ values:
   top-empty-name: "---"
   # Default: "0"
   top-empty-value: "0"
+  # Shown by %<identifier>_bounty_prefix% for players with a bounty.
+  # Default: "&6[Bounty] "
+  bounty-prefix: "&6[Bounty] "
