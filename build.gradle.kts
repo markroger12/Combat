@@ -16,7 +16,7 @@ repositories {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    // No toolchain: needs JDK 25+ (Paper 26.3 API requires Java 25).
 }
 
 // Runtime libraries resolved by the server from Maven Central through plugin.yml "libraries".
@@ -31,7 +31,7 @@ dependencies {
     compileOnly(project(":stubs"))
     runtimeLibraries.forEach { compileOnly(it) }
 
-    testImplementation("io.papermc.paper:paper-api:${property("paperApiVersion")}")
+    testImplementation("io.papermc.paper:paper-api:${property("testPaperApiVersion")}")
     testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:${property("mockBukkitVersion")}")
     testImplementation(project(":stubs"))
     runtimeLibraries.forEach { testImplementation(it) }
@@ -43,8 +43,8 @@ dependencies {
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
-    options.release.set(21)
-    options.compilerArgs.addAll(listOf("-Xlint:unchecked", "-parameters"))
+    options.release.set(25)
+    options.compilerArgs.addAll(listOf("-Xlint:unchecked", "-Xlint:removal", "-parameters"))
 }
 
 tasks.processResources {

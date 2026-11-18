@@ -216,7 +216,7 @@ public final class AppleModule extends Module<AppleModule.Settings> {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onFoodEffect(EntityPotionEffectEvent event) {
-        if (event.getCause() != EntityPotionEffectEvent.Cause.FOOD || !(event.getEntity() instanceof Player player)) {
+        if (event.getCause() != EntityPotionEffectEvent.Cause.FOOD || !(((org.bukkit.event.entity.EntityEvent) event).getEntity() instanceof Player player)) {
             return;
         }
         Material eaten = eating.get(player.getUniqueId());

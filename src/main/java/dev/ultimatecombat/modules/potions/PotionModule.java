@@ -99,7 +99,7 @@ public final class PotionModule extends Module<PotionModule.Settings> {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEffect(EntityPotionEffectEvent event) {
-        if (!(event.getEntity() instanceof Player player) || event.getNewEffect() == null) {
+        if (!(((org.bukkit.event.entity.EntityEvent) event).getEntity() instanceof Player player) || event.getNewEffect() == null) {
             return;
         }
         Settings s = settings(player.getWorld());

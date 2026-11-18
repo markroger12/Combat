@@ -9,7 +9,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
-java { toolchain.languageVersion.set(JavaLanguageVersion.of(21)) }
+tasks.withType<JavaCompile>().configureEach { options.release.set(25) }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:${property("paperApiVersion")}")
@@ -17,5 +17,5 @@ dependencies {
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
-    options.release.set(21)
+    options.release.set(25)
 }

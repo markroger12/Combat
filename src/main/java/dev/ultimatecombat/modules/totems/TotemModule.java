@@ -122,7 +122,7 @@ public final class TotemModule extends Module<TotemModule.Settings> {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onTotemEffect(EntityPotionEffectEvent event) {
-        if (event.getCause() == EntityPotionEffectEvent.Cause.TOTEM && event.getEntity() instanceof Player player
+        if (event.getCause() == EntityPotionEffectEvent.Cause.TOTEM && ((org.bukkit.event.entity.EntityEvent) event).getEntity() instanceof Player player
                 && resurrecting.contains(player.getUniqueId()) && settings(player.getWorld()).replaceVanilla()) {
             event.setCancelled(true);
         }
